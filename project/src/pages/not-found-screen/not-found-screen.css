@@ -1,0 +1,28 @@
+.not-found {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found__text {
+  font-family: rubik, arial, sans-serif;
+  font-style: oblique;
+  font-size: 40px;
+  font-weight: 700;
+  margin: 10px;
+}
+
+.not-found__return-link {
+  margin-top: 20px;
+  font-size: 19px;
+  font-style: oblique;
+  font-weight: 300;
+  cursor: pointer;
+  transition: text-shadow linear 200ms;
+}
+
+.not-found__return-link:hover {
+  text-shadow: 0.5px 0 0, 0.5px 0 0, -0.5px 0 0;
+}
