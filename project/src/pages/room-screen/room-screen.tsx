@@ -1,4 +1,4 @@
-function RoomScreen(): JSX.Element {
+export default function RoomScreen(): JSX.Element {
   return (
     <div className="page">
       <header className="header">
@@ -344,5 +344,3 @@ function RoomScreen(): JSX.Element {
     </div>
   );
 }
-
-export default RoomScreen;
