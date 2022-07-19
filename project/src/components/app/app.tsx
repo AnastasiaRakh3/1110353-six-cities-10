@@ -39,8 +39,8 @@ export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element 
           }
         />
         <Route
-          path={AppRoute.Room}
-          element={<RoomScreen />}
+          path={`${AppRoute.Room}/:id`}
+          element={<RoomScreen offersList={offersList} />}
         />
         <Route
           path={AppRoute.NotFound}
