@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Anastasiia Rakhmatova](https://up.htmlacademy.ru/react/10/user/1110353).
-* Наставник: [Артур Галимов](https://up.htmlacademy.ru/profile/id1237543).
+* Наставник: [Валерий Махнюк](https://up.htmlacademy.ru/profile/id664763).
 
 ---
 

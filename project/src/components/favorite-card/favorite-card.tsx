@@ -18,8 +18,7 @@ export default function FavoriteCard({ key, offer }: FavoriteCardProps): JSX.Ele
       {isPremium}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="https://www.google.com/">
-          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place" title={offer.title} />
-          {/* <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image"/> */}
+          <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place" title={offer.title} />
         </a>
       </div>
       <div className="favorites__card-info place-card__info">

@@ -1,16 +1,16 @@
-// import { MouseEvent } from 'react';
-import { Offer } from '../../types/offer';
 import FavoriteCard from '../favorite-card/favorite-card';
+import { Offer } from '../../types/offer';
 
 type FavoriteListProps = {
   favoriteOffers: Offer[];
 };
 
-export default function FavoriteList(favoriteOffers: FavoriteListProps): JSX.Element {
+export default function FavoriteList({ favoriteOffers }: FavoriteListProps): JSX.Element {
   const favoriteOffersCities = [...new Set(favoriteOffers.map((offer) => offer.city.name))];
+
   return (
     <ul className="favorites__list">
-      {favoriteOffersCities.map((city: JSX.Element) => (
+      {favoriteOffersCities.map((city): JSX.Element => (
         <li key={city} className="favorites__locations-items">
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">

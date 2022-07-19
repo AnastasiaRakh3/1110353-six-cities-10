@@ -1,12 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import { AppRoute, AuthorizationStatus } from '../../const';
-import { AppRoute } from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
-// import PrivateRoute from '../private-route/private-route';
+import PrivateRoute from '../private-route/private-route';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { Offer } from '../../types/offer';
 
 type AppProps = {
@@ -34,9 +33,9 @@ export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element 
         <Route
           path={AppRoute.Favorites}
           element={
-            // <PrivateRoute authStatus={AuthorizationStatus.NoAuth}>
-            <FavoritesScreen offersList={offersList} />
-            // </PrivateRoute>
+            <PrivateRoute authStatus={AuthorizationStatus.NoAuth}>
+              <FavoritesScreen offersList={offersList} />
+            </PrivateRoute>
           }
         />
         <Route
