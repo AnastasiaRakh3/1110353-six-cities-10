@@ -7,6 +7,7 @@ type MainScreenProps = {
 };
 
 export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps): JSX.Element {
+
   return (
     <div className="page page--gray page--main">
       <header className="header">

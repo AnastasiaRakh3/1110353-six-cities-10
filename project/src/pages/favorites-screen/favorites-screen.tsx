@@ -7,6 +7,7 @@ type FavoritesScreenProps = {
 
 export default function FavoritesScreen({ offersList }: FavoritesScreenProps): JSX.Element {
   const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
+
   const favoritesTitle = favoriteOffers.length ? 'Saved listing' : 'Favorites (empty)';
   const isFavoritesAdded = favoriteOffers.length ? <FavoriteList favoriteOffers={favoriteOffers} /> : (
     <div className="favorites__status-wrapper">

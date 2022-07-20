@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
@@ -14,6 +15,7 @@ type AppProps = {
 };
 
 export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element {
+
   return (
     <BrowserRouter>
       <Routes>

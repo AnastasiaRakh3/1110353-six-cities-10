@@ -1,6 +1,9 @@
 import { useParams } from 'react-router-dom';
+
 import ReviewForm from '../../components/review-form/review-form';
 import { Offer } from '../../types/offer';
+import { commentsList } from '../../mocks/comments';
+import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp } from '../../utils';
 
 type RoomScreenProps = {
   offersList: Offer[];
@@ -8,20 +11,11 @@ type RoomScreenProps = {
 
 export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element {
   const { id } = useParams();
-  const room = offersList.find((offer: Offer) => offer.id === Number(id));
+  // const room = offersList.find((offer) => offer.id === Number(id));
+  const room = offersList.find((offer: Offer) => offer.id === +id!) as Offer;
+  const reviews = commentsList.filter((comment) => comment.id === Number(id));
 
-  const STAR_WIDTH = 20;
-  const ratingStarWidth = `${STAR_WIDTH * Math.round(room.rating)}%`;
-  const isPremium = room.isPremium ? <div className="property__mark"><span>Premium</span></div> : '';
-  const isFavorite = room.isFavorite ? 'property__bookmark-button--active' : '';
-  const makeFistLetterUp = (word: string): string => {
-    const splitted = word.split('');
-    const firstLetter = splitted[0].toUpperCase();
-    const rest = splitted.slice(1);
-    return [firstLetter, ...rest].join('');
-  };
-
-  const roomImages = room.images.map((img) => (
+  const roomImagesElements = room.images.map((img) => (
     <div key="img" className="property__image-wrapper">
       <img className="property__image" src={img} alt={`Room ${room.id}`} />
     </div>
@@ -30,6 +24,32 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
   const goodsElements = room.goods.map(
     (element) => <li key="element" className="property__inside-item">{element}</li>
   );
+
+  const commentElements = reviews.map(
+    (review) => (
+      <li key="review" className="reviews__item">
+        <div className="reviews__user user">
+          <div className="reviews__avatar-wrapper user__avatar-wrapper">
+            <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width="54" height="54" alt={`Reviews avatar ${review.user.name}`} />
+          </div>
+          <span className="reviews__user-name">
+            {review.user.name}
+          </span>
+        </div>
+        <div className="reviews__info">
+          <div className="reviews__rating rating">
+            <div className="reviews__stars rating__stars">
+              <span style={{ width: setRatingStarWidth(review) }} />
+              <span className="visually-hidden">Rating</span>
+            </div>
+          </div>
+          <p className="reviews__text">
+            {review.comment}
+          </p>
+          <time className="reviews__time" dateTime="2019-04-24">{review.date}</time>
+        </div>
+      </li>
+    ));
 
   return (
     <div className="page">
@@ -66,17 +86,17 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {roomImages}
+              {roomImagesElements}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium}
+              {isPremium(room, 'property')}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {room.title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite} button`} type="button">
+                <button className={`property__bookmark-button ${isFavorite(room, 'property')} button`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -85,7 +105,7 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: ratingStarWidth }} />
+                  <span style={{ width: setRatingStarWidth(room) }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{room.rating}</span>
@@ -131,30 +151,9 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{ width: '80%' }} />
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
+                  {commentElements}
                 </ul>
                 <ReviewForm />
               </section>

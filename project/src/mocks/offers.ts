@@ -21,7 +21,7 @@ export const offersList: Offer[] = [
       name: 'Nastya',
     },
     id: 1,
-    images: ['img/apartment-01.jpg, img/apartment-02.jpg'],
+    images: ['img/apartment-03.jpg'],
     isFavorite: false,
     isPremium: false,
     location: {

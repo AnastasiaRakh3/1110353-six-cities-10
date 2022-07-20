@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import App from './components/app/app';
 import { offersList } from './mocks/offers';
 import { Setting } from './const';
