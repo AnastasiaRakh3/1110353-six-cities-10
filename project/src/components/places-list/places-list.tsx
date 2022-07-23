@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import PlaceCard from '../place-card/place-card';
-import { Offer } from '../../types/offer';
+import { OfferType } from '../../types/offer';
 
 type PlacesListProps = {
-  offersList: Offer[];
+  offersList: OfferType[];
 }
 
 export default function PlacesList({ offersList }: PlacesListProps) {
@@ -17,7 +17,7 @@ export default function PlacesList({ offersList }: PlacesListProps) {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handlePlaceCardMouseOver={(evt) => setActiveOffer(offer)}
+          onPlaceCardMouseOver={() => setActiveOffer(offer)}
         />
       ))}
     </div>

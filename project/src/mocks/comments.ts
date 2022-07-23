@@ -1,10 +1,10 @@
-import { Comment } from '../types/comment';
+import { CommentType } from '../types/comment';
 
-export const commentsList: Comment[] = [
+export const commentsList: CommentType[] = [
   {
     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     date: 'Wed Jul 20 2022 11:50:11 GMT+0300 (Москва, стандартное время)',
-    id: 2,
+    id: 1,
     rating: 5,
     user: {
       avatarUrl: 'img/avatar-max.jpg',
@@ -28,7 +28,7 @@ export const commentsList: Comment[] = [
   {
     comment: 'Pretty nice!',
     date: 'Wed Jul 20 2022 11:50:11 GMT+0300 (Москва, стандартное время)',
-    id: 1,
+    id: 3,
     rating: 1.2,
     user: {
       avatarUrl: 'img/avatar-max.jpg',

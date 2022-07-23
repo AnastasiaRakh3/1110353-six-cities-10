@@ -1,18 +1,17 @@
 import { Link } from 'react-router-dom';
 
-import { Offer } from '../../types/offer';
+import { OfferType } from '../../types/offer';
 import { AppRoute } from '../../const';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
 type FavoriteCardProps = {
-  key: number;
-  offer: Offer;
+  offer: OfferType;
 };
 
-export default function FavoriteCard({ key, offer }: FavoriteCardProps): JSX.Element {
+export default function FavoriteCard({ offer }: FavoriteCardProps): JSX.Element {
 
   return (
-    <article key={key} className="favorites__card place-card">
+    <article className="favorites__card place-card">
       {isPremium(offer, 'place-card')}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="https://www.google.com/">
@@ -39,7 +38,7 @@ export default function FavoriteCard({ key, offer }: FavoriteCardProps): JSX.Ele
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}${offer.id}`}>{offer.title}</Link>
+          <Link to={`${AppRoute.Room}/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

@@ -5,15 +5,16 @@ type ratingTitleType = {
   [key: number]: string;
 }
 
+const ratingTitle: ratingTitleType = {
+  1: 'terribly',
+  2: 'badly',
+  3: 'not bad',
+  4: 'good',
+  5: 'perfect',
+};
+
 export default function ReviewForm(): JSX.Element {
   const [review, setReview] = useState({ rating: 0, comment: '' });
-  const ratingTitle: ratingTitleType = {
-    1: 'terribly',
-    2: 'badly',
-    3: 'not bad',
-    4: 'good',
-    5: 'perfect',
-  };
 
   return (
     <form className="reviews__form form" action="#" method="post">

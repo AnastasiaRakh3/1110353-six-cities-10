@@ -1,15 +1,15 @@
 import FavoriteList from '../../components/favorite-list/favorite-list';
-import { Offer } from '../../types/offer';
+import { OfferType } from '../../types/offer';
 
 type FavoritesScreenProps = {
-  offersList: Offer[];
+  offersList: OfferType[];
 };
 
 export default function FavoritesScreen({ offersList }: FavoritesScreenProps): JSX.Element {
   const favoriteOffers = offersList.filter((offer) => offer.isFavorite);
 
   const favoritesTitle = favoriteOffers.length ? 'Saved listing' : 'Favorites (empty)';
-  const isFavoritesAdded = favoriteOffers.length ? <FavoriteList favoriteOffers={favoriteOffers} /> : (
+  const favoritesAddedBlock = favoriteOffers.length ? <FavoriteList favoriteOffers={favoriteOffers} /> : (
     <div className="favorites__status-wrapper">
       <b className="favorites__status">Nothing yet saved.</b>
       <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
@@ -51,7 +51,7 @@ export default function FavoritesScreen({ offersList }: FavoritesScreenProps): J
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">{favoritesTitle}</h1>
-            {isFavoritesAdded}
+            {favoritesAddedBlock}
           </section>
         </div>
       </main>

@@ -1,9 +1,9 @@
 import PlacesList from '../../components/places-list/places-list';
-import { Offer } from '../../types/offer';
+import { OfferType } from '../../types/offer';
 
 type MainScreenProps = {
   cardsOnPage: number;
-  offersList: Offer[];
+  offersList: OfferType[];
 };
 
 export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps): JSX.Element {

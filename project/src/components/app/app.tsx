@@ -7,11 +7,11 @@ import PrivateRoute from '../private-route/private-route';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Offer } from '../../types/offer';
+import { OfferType } from '../../types/offer';
 
 type AppProps = {
   cardsOnPage: number;
-  offersList: Offer[];
+  offersList: OfferType[];
 };
 
 export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element {

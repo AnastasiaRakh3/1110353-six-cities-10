@@ -2,19 +2,18 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
-import { Offer } from '../../types/offer';
+import { OfferType } from '../../types/offer';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
 type PlaceCardProps = {
-  key: number;
-  offer: Offer;
-  handlePlaceCardMouseOver: (evt: MouseEvent<HTMLElement>) => void;
+  offer: OfferType;
+  onPlaceCardMouseOver: (evt: MouseEvent<HTMLElement>) => void;
 };
 
-export default function PlaceCard({ key, offer, handlePlaceCardMouseOver }: PlaceCardProps): JSX.Element {
+export default function PlaceCard({ offer, onPlaceCardMouseOver }: PlaceCardProps): JSX.Element {
 
   return (
-    <article key={key} className="cities__card place-card" onMouseOver={handlePlaceCardMouseOver}>
+    <article className="cities__card place-card" onMouseOver={onPlaceCardMouseOver}>
       {isPremium(offer, 'place-card')}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="https://www.google.com/">
@@ -41,7 +40,7 @@ export default function PlaceCard({ key, offer, handlePlaceCardMouseOver }: Plac
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}${offer.id}`}>{offer.title}</Link>
+          <Link to={`${AppRoute.Room}/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
