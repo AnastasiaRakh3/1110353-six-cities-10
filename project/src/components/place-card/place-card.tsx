@@ -7,13 +7,13 @@ import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
 type PlaceCardProps = {
   offer: OfferType;
-  onPlaceCardMouseOver: (evt: MouseEvent<HTMLElement>) => void;
+  setActiveOffer: (evt: MouseEvent<HTMLElement>) => void;
 };
 
-export default function PlaceCard({ offer, onPlaceCardMouseOver }: PlaceCardProps): JSX.Element {
+export default function PlaceCard({ offer, setActiveOffer }: PlaceCardProps): JSX.Element {
 
   return (
-    <article className="cities__card place-card" onMouseOver={onPlaceCardMouseOver}>
+    <article className="cities__card place-card" onMouseOver={setActiveOffer}>
       {isPremium(offer, 'place-card')}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="https://www.google.com/">

@@ -20,7 +20,7 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const reviews = commentsList.filter((comment) => comment.id === Number(id));
+  const reviews = commentsList.filter((comment) => comment.idOffer === Number(id));
 
   const roomImagesElements = room.images.map((img) => (
     <div key={img} className="property__image-wrapper">
@@ -33,7 +33,7 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
   );
 
   const commentElements = reviews.map(
-    (review) => <Comment key={review.id.toString()} review={review} />);
+    (review) => <Comment key={review.id} review={review} />);
 
   return (
     <div className="page">

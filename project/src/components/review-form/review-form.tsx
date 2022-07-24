@@ -16,6 +16,8 @@ const ratingTitle: ratingTitleType = {
 export default function ReviewForm(): JSX.Element {
   const [review, setReview] = useState({ rating: 0, comment: '' });
 
+  const handleRatingSelect = (evt: ChangeEvent<HTMLInputElement>) => setReview({...review, rating: Number(evt.target.value)});
+
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
@@ -33,7 +35,7 @@ export default function ReviewForm(): JSX.Element {
                   value={starNumber}
                   id={`${starNumber}-stars`}
                   type="radio"
-                  onClick={() => setReview({ ...review, rating: starNumber })}
+                  onChange={handleRatingSelect}
                 />
                 <label
                   htmlFor={`${starNumber}-stars`}

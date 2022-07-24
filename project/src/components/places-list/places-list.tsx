@@ -17,7 +17,7 @@ export default function PlacesList({ offersList }: PlacesListProps) {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          onPlaceCardMouseOver={() => setActiveOffer(offer)}
+          setActiveOffer={() => setActiveOffer(offer)}
         />
       ))}
     </div>
