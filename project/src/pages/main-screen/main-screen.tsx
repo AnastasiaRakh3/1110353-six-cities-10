@@ -1,10 +1,13 @@
-import PlaceCard from '../../components/place-card/place-card';
+import PlacesList from '../../components/places-list/places-list';
+import { OfferType } from '../../types/offer';
 
 type MainScreenProps = {
   cardsOnPage: number;
+  offersList: OfferType[];
 };
 
-function MainScreen({cardsOnPage}: MainScreenProps): JSX.Element {
+export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps): JSX.Element {
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -12,7 +15,7 @@ function MainScreen({cardsOnPage}: MainScreenProps): JSX.Element {
           <div className="header__wrapper">
             <div className="header__left">
               <a className="header__logo-link header__logo-link--active" href='https://www.google.com/'>
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
             <nav className="header__nav">
@@ -94,13 +97,7 @@ function MainScreen({cardsOnPage}: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-              </div>
+              <PlacesList offersList={offersList} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -111,5 +108,3 @@ function MainScreen({cardsOnPage}: MainScreenProps): JSX.Element {
     </div>
   );
 }
-
-export default MainScreen;

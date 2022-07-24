@@ -1,6 +1,7 @@
 import './not-found-screen.css';
 
-function NotFoundScreen(): JSX.Element {
+export default function NotFoundScreen(): JSX.Element {
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -14,6 +15,7 @@ function NotFoundScreen(): JSX.Element {
           </div>
         </div>
       </header>
+
       <main className="page__main">
         <section className="not-found">
           <p className="not-found__text">404</p>
@@ -24,5 +26,3 @@ function NotFoundScreen(): JSX.Element {
     </div>
   );
 }
-
-export default NotFoundScreen;

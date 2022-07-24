@@ -1,26 +1,24 @@
-import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../const';
 import { OfferType } from '../../types/offer';
+import { AppRoute } from '../../const';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
-type PlaceCardProps = {
+type FavoriteCardProps = {
   offer: OfferType;
-  setActiveOffer: (evt: MouseEvent<HTMLElement>) => void;
 };
 
-export default function PlaceCard({ offer, setActiveOffer }: PlaceCardProps): JSX.Element {
+export default function FavoriteCard({ offer }: FavoriteCardProps): JSX.Element {
 
   return (
-    <article className="cities__card place-card" onMouseOver={setActiveOffer}>
+    <article className="favorites__card place-card">
       {isPremium(offer, 'place-card')}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="https://www.google.com/">
-          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place" title={offer.title} />
+          <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place" title={offer.title} />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.price}</b>
@@ -30,7 +28,7 @@ export default function PlaceCard({ offer, setActiveOffer }: PlaceCardProps): JS
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -44,7 +42,5 @@ export default function PlaceCard({ offer, setActiveOffer }: PlaceCardProps): JS
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
-    </article>
-  );
+    </article>);
 }
-
