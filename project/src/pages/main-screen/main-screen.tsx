@@ -1,6 +1,7 @@
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import PlacesList from '../../components/places-list/places-list';
+import Map from '../../components/map/map';
 import { OfferType } from '../../types/offer';
 
 type MainScreenProps = {
@@ -81,7 +82,7 @@ export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps)
               <PlacesList offersList={offersList} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={offersList[0].city} offers={offersList} />
             </div>
           </div>
         </div>
