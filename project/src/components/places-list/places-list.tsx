@@ -17,7 +17,7 @@ export default function PlacesList({ offersList }: PlacesListProps) {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          setActiveOffer={() => setActiveOffer(offer)}
+          setActiveOffer={setActiveOffer}
         />
       ))}
     </div>
