@@ -1,3 +1,7 @@
+type Dictionary = {
+  [key: string]: string;
+};
+
 enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -11,9 +15,14 @@ enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
- enum Setting {
+enum Setting {
   CARDS_ON_PAGE = 4,
   MAX_RATING = 5,
- }
+}
 
-export { AppRoute, AuthorizationStatus, Setting };
+const PLACES_LIST_CLASSES: Dictionary = {
+  'cities': 'cities__places-list tabs__content',
+  'near-places': 'near-places__list',
+};
+
+export { AppRoute, AuthorizationStatus, Setting, PLACES_LIST_CLASSES };

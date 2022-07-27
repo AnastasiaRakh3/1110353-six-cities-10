@@ -2,12 +2,12 @@ import { OfferType } from '../types/offer';
 
 export const offersList: OfferType[] = [
   {
-    bedrooms: 3,
+    bedrooms: 1,
     city: {
       location: {
         latitude: 52.371807,
         longitude: 4.896029,
-        zoom: 10,
+        zoom: 13,
       },
       name: 'Amsterdam',
     },

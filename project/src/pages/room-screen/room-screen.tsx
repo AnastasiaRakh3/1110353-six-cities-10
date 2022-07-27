@@ -3,15 +3,20 @@ import { useParams, Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import ReviewForm from '../../components/review-form/review-form';
-import Comment from '../../components/comment/comment';
+import CommentsList from '../../components/comments-list/comments-list';
+import Map from '../../components/map/map';
+import PlacesList from '../../components/places-list/places-list';
 import { OfferType } from '../../types/offer';
 import { commentsList } from '../../mocks/comments';
 import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp } from '../../utils';
-import {AppRoute} from '../../const';
+import { AppRoute } from '../../const';
 
 type RoomScreenProps = {
   offersList: OfferType[];
 };
+
+const additionalMapClass = 'property__map';
+const placeType = 'near-places';
 
 export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element {
   const { id } = useParams();
@@ -33,9 +38,6 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
   const goodsElements = room.goods.map(
     (element) => <li key={element} className="property__inside-item">{element}</li>
   );
-
-  const commentElements = reviews.map(
-    (review) => <Comment key={review.id} review={review} />);
 
   return (
     <div className="page">
@@ -80,10 +82,10 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
                   {makeFistLetterUp(room.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {`${room.bedrooms} Bedrooms`}
+                  {room.bedrooms} Bedroom{room.bedrooms > 1 && 's'}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {`Max ${room.maxAdults} adults`}
+                  Max {room.maxAdults} adult{room.maxAdults > 1 && 's'}
                 </li>
               </ul>
               <div className="property__price">
@@ -117,118 +119,17 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ul className="reviews__list">
-                  {commentElements}
-                </ul>
+                <CommentsList commentsList={reviews} />
                 <ReviewForm />
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map city={offersList[0].city} offers={offersList.slice(0, 3)} additionalClass={additionalMapClass} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="https://www.google.com/">
-                    <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;80</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">In bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{ width: '80%' }} />
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="https://www.google.com/">Wood and stone place</a>
-                  </h2>
-                  <p className="place-card__type">Private room</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="https://www.google.com/">
-                    <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;132</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{ width: '80%' }} />
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="https://www.google.com/">Canal View Prinsengracht</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="place-card__mark">
-                  <span>Premium</span>
-                </div>
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="https://www.google.com/">
-                    <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;180</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{ width: '100%' }} />
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="https://www.google.com/">Nice, cozy, warm big bed apartment</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
-            </div>
+            <PlacesList offersList={offersList.slice(0, 3)} placeType={placeType} />
           </section>
         </div>
       </main>
