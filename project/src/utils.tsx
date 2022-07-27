@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
 
@@ -21,4 +23,6 @@ const makeFistLetterUp = (word: string): string => {
   return [firstLetter, ...rest].join('');
 };
 
-export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp };
+const humanizeCommentDate = (date: string) => dayjs(date).format('MMMM YYYY');
+
+export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, humanizeCommentDate };
