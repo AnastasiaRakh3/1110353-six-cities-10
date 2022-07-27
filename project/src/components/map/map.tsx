@@ -40,8 +40,18 @@ export default function Map({ city, offers }: MapProps): JSX.Element {
     }
   }, [map, offers]);
 
-  // useRef вязываем с HTML-элементом через аттрибут ref
+  // useRef вязываем с HTML-элементом через аттрибут ref, mapRef.current уже не null
   return (
     <section className="cities__map map" ref={mapRef}></section>
   );
 }
+
+// Порядок:
+// 1. Инициализируем useRef со значением null и привязываем с HTML-элементом через аттрибут ref
+// 2. Инициализируем наш хук useMap и передаем ему mapRef и city
+// 3. Сначала useRef был null, затем после того как связали с HTML-элементом, элемент с этим ref уже есть в реальном доме, а значит сработает useEffect, так как mapRef есть среди зависимостей
+// 4. Там в хуке useMap прежде чем применится эффект, идет условие:
+// mapRef.current !== null - првоеряет что ты в хук передан mapRef и что элемент с этим рефом уже есть в реальном DOM (а мы связали mapRef с HTML-элементом и значит он есть)
+// !isRenderedRef.current - срабатывает 1 раз и в самый первый раз
+// 5. Отрисовывается карта и isRenderedRef.current становится true, а значит пока сама карта не изменится, сам html элемент, или город, то больше эффект не сработает
+
