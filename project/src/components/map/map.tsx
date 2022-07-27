@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   city: City;
   offers: OfferType[];
-  additionalClass: string;
+  mapType: string;
 };
 
 // new Icon принимает набор параметров для создания альтер. иконки маркера
@@ -18,7 +18,7 @@ const defaultIcon = new Icon({
   iconAnchor: [13.5, 39], // координаты кончика хвоста метки высчитываются от левого верхнего угла иконки
 });
 
-export default function Map({ city, offers, additionalClass }: MapProps): JSX.Element {
+export default function Map({ city, offers, mapType }: MapProps): JSX.Element {
   // useRef инициализируем
   const mapRef = useRef(null);
   // useMap будет срабатывать только когда в компоненте useMap будут обновлены значения переменных mapRef, map и city
@@ -43,7 +43,12 @@ export default function Map({ city, offers, additionalClass }: MapProps): JSX.El
 
   // useRef вязываем с HTML-элементом через аттрибут ref, mapRef.current уже не null
   return (
-    <section className={`map ${additionalClass}`} ref={mapRef}></section>
+    <section
+      className={`map ${mapType}__map`}
+      style={mapType === 'property' ? { height: '579px' } : { height: 'auto' }}
+      ref={mapRef}
+    >
+    </section>
   );
 }
 

@@ -15,7 +15,7 @@ type RoomScreenProps = {
   offersList: OfferType[];
 };
 
-const additionalMapClass = 'property__map';
+const mapType = 'property';
 const placeType = 'near-places';
 
 export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element {
@@ -124,9 +124,9 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
               </section>
             </div>
           </div>
-          <Map city={offersList[0].city} offers={offersList.slice(0, 3)} additionalClass={additionalMapClass} />
         </section>
         <div className="container">
+          <Map city={offersList[0].city} offers={offersList.slice(0, 3)} mapType={mapType} />
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <PlacesList offersList={offersList.slice(0, 3)} placeType={placeType} />

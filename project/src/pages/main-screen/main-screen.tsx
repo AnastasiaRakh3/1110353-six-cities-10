@@ -9,7 +9,7 @@ type MainScreenProps = {
   offersList: OfferType[];
 };
 
-const additionalMapClass = 'cities__map';
+const mapType = 'cities';
 const placeType = 'cities';
 
 export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps): JSX.Element {
@@ -85,7 +85,7 @@ export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps)
               <PlacesList offersList={offersList} placeType={placeType} />
             </section>
             <div className="cities__right-section">
-              <Map city={offersList[0].city} offers={offersList} additionalClass={additionalMapClass} />
+              <Map city={offersList[0].city} offers={offersList} mapType={mapType} />
             </div>
           </div>
         </div>
