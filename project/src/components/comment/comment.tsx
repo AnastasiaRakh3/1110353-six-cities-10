@@ -1,11 +1,11 @@
 import { CommentType } from '../../types/comment';
-import { setRatingStarWidth } from '../../utils';
+import { setRatingStarWidth, humanizeCommentDate } from '../../utils';
 
 type CommentProps = {
   review: CommentType;
 }
 
-export default function Comment({review}: CommentProps ): JSX.Element {
+export default function Comment({ review }: CommentProps): JSX.Element {
 
   return (
     <li className="reviews__item">
@@ -27,7 +27,7 @@ export default function Comment({review}: CommentProps ): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{review.date}</time>
+        <time className="reviews__time" dateTime={review.date}>{humanizeCommentDate(review.date)}</time>
       </div>
     </li>
   );
