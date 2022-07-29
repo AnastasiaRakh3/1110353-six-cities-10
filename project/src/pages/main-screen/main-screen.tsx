@@ -3,14 +3,12 @@ import Nav from '../../components/nav/nav';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import { OfferType } from '../../types/offer';
+import { MapType, PlaceType } from '../../const';
 
 type MainScreenProps = {
   cardsOnPage: number;
   offersList: OfferType[];
 };
-
-const mapType = 'cities';
-const placeType = 'cities';
 
 export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps): JSX.Element {
 
@@ -82,10 +80,10 @@ export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps)
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <PlacesList offersList={offersList} placeType={placeType} />
+              <PlacesList offersList={offersList} placeType={PlaceType.Cities} />
             </section>
             <div className="cities__right-section">
-              <Map city={offersList[0].city} offers={offersList} mapType={mapType} />
+              <Map city={offersList[0].city} offers={offersList} mapType={MapType.Cities} />
             </div>
           </div>
         </div>

@@ -23,6 +23,8 @@ const makeFistLetterUp = (word: string): string => {
   return [firstLetter, ...rest].join('');
 };
 
+const checkEnding = (quantity: number) => quantity > 1 ? 's' : '';
+
 const humanizeCommentDate = (date: string) => dayjs(date).format('MMMM YYYY');
 
-export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, humanizeCommentDate };
+export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding, humanizeCommentDate };

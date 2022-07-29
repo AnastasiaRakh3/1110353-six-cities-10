@@ -20,9 +20,19 @@ enum Setting {
   MAX_RATING = 5,
 }
 
+enum MapType {
+  Cities = 'cities',
+  Property = 'property',
+}
+
+enum PlaceType {
+  Cities = 'cities',
+  NearPlaces = 'near-places',
+}
+
 const PLACES_LIST_CLASSES: Dictionary = {
   'cities': 'cities__places-list tabs__content',
   'near-places': 'near-places__list',
 };
 
-export { AppRoute, AuthorizationStatus, Setting, PLACES_LIST_CLASSES };
+export { AppRoute, AuthorizationStatus, Setting, MapType, PlaceType, PLACES_LIST_CLASSES };

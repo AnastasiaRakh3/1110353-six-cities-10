@@ -2,21 +2,17 @@ import { useParams, Navigate } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
-import ReviewForm from '../../components/review-form/review-form';
-import CommentsList from '../../components/comments-list/comments-list';
+import Reviews from '../../components/reviews/reviews';
 import Map from '../../components/map/map';
-import PlacesList from '../../components/places-list/places-list';
+import NearPlaces from '../../components/near-places/near-places';
 import { OfferType } from '../../types/offer';
 import { commentsList } from '../../mocks/comments';
-import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp } from '../../utils';
-import { AppRoute } from '../../const';
+import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
+import { AppRoute, MapType, PlaceType } from '../../const';
 
 type RoomScreenProps = {
   offersList: OfferType[];
 };
-
-const mapType = 'property';
-const placeType = 'near-places';
 
 export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element {
   const { id } = useParams();
@@ -82,10 +78,10 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
                   {makeFistLetterUp(room.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {room.bedrooms} Bedroom{room.bedrooms > 1 && 's'}
+                  {room.bedrooms} Bedroom{checkEnding(room.bedrooms)}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {room.maxAdults} adult{room.maxAdults > 1 && 's'}
+                  Max {room.maxAdults} adult{checkEnding(room.maxAdults)}
                 </li>
               </ul>
               <div className="property__price">
@@ -117,20 +113,13 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <CommentsList commentsList={reviews} />
-                <ReviewForm />
-              </section>
+              <Reviews reviews={reviews} />
             </div>
           </div>
         </section>
         <div className="container">
-          <Map city={offersList[0].city} offers={offersList.slice(0, 3)} mapType={mapType} />
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <PlacesList offersList={offersList.slice(0, 3)} placeType={placeType} />
-          </section>
+          <Map city={offersList[0].city} offers={offersList.slice(0, 3)} mapType={MapType.Property} />
+          <NearPlaces offersList={offersList.slice(0, 3)} placeType={PlaceType.NearPlaces} />
         </div>
       </main>
     </div>
