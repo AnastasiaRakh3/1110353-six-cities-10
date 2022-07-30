@@ -1,13 +1,13 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../const';
+import { AppRoute, PlaceType } from '../../const';
 import { OfferType } from '../../types/offer';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
 type PlaceCardProps = {
   offer: OfferType;
-  placeType: string;
+  placeType: PlaceType;
   setActiveOffer: (offer: OfferType) => void;
 };
 
