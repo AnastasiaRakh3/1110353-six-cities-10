@@ -6,6 +6,6 @@ import { OfferType } from '../types/offer';
 // ex. { type : "loadOffers", payload : {cityOffers : "[{}, {}...]"}} )
 
 const changeCity = createAction<{ city: string }>('changeCity');
-const loadOffers = createAction<{ cityOffers: OfferType[] }>('loadOffers');
+const loadOffers = createAction<{ offers: OfferType[] }>('loadOffers');
 
 export { changeCity, loadOffers };

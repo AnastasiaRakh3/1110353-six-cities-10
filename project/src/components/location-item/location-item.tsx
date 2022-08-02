@@ -12,7 +12,7 @@ export default function LocationItem({ city, selectedCity, onSelectCity }: Locat
     <li className="locations__item" onClick={() => onSelectCity(city)}>
       <a
         className={`locations__item-link tabs__item ${isSelected}`}
-        href="https://www.google.com/"
+        href="?#"
       >
         <span>{city}</span>
       </a>

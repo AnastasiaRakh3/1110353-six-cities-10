@@ -6,7 +6,7 @@ import { DEFAULT_CITY_NAME } from '../const';
 
 const initialState = {
   city: DEFAULT_CITY_NAME,
-  cityOffers: offersList,
+  offers: offersList,
 };
 
 // reducer — чистая функция которая будет отвечать за обновление состояния, обновление полей store.
@@ -31,8 +31,8 @@ const reducer = createReducer(initialState, (builder) => {
       state.city = city;
     })
     .addCase(loadOffers, (state, action) => {
-      const { cityOffers } = action.payload;
-      state.cityOffers = cityOffers;
+      const { offers } = action.payload;
+      state.offers = offers;
     });
 });
 
