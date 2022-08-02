@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-// Для использование store в компоненте вам необходимо передавать его в пропсы:
+// Через props в Provider передали ссылку на созданное хранилище
 // И после использовать в компоненте: this.props.state. Для этого react-redux предостовляет метод Provider:
 // Нужно обернуть в Provider все приложение
 

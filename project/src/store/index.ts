@@ -11,4 +11,6 @@ import { reducer } from './reducer';
 // Передаем вconfigureStore() наш корневой редуктор в качестве аргумента reducer
 // {reducer: rootReducer}. У нас получается - {reducer: reducer}
 
+// Инициализация нового хранилища
+
 export const store = configureStore({ reducer });

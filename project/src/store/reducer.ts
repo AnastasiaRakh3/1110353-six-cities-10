@@ -19,6 +19,9 @@ const initialState = {
 // initialState - нач. состояние, используемое при 1м вызове редуктора
 // builderCallback - колбек, принимающий объект builder для определения редуктора случая путем builder.addCase
 
+// Для именования функций-редьюсеров применяются существительные (у нас reducer)
+// Результатом выполнения редьюсера станет новое состояние
+
 const reducer = createReducer(initialState, (builder) => {
   builder
     // Здесь будет автоматически вызван `changeCity.toString()`(доп.функционал от Redux)
