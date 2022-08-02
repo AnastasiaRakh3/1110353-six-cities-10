@@ -15,6 +15,7 @@ type AppProps = {
 
 export default function App({ cities }: AppProps): JSX.Element {
 
+  // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
   const { offers, city } = useAppSelector((state) => state);
 
   return (

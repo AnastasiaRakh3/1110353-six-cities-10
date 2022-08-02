@@ -8,7 +8,7 @@ type LocationListProps = {
 
 export default function LocationList({ cities }: LocationListProps): JSX.Element {
 
-  //Наш useSelector - хук, принимающия на вход селектор - метод, который принимает redux state и возвращает из него необходимые данные.
+  //Наш useSelector - хук, принимающая на вход селектор - метод, который принимает redux state и возвращает из него необходимые данные.
   //Наш useDispatch - хук, возвращающий dispatch метод из редакса, с помощью которого можно диспатчить экшены(отправлять). changeCity - наш экшн
   const selectedCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();

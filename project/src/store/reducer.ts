@@ -25,9 +25,15 @@ const initialState = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     // Здесь будет автоматически вызван `changeCity.toString()`(доп.функционал от Redux)
-    // При использовании TypeScript, будет правильно предложен (предположен) тип операции
+    // При использовании TypeScript, будет правильно предложен тип операции
     .addCase(changeCity, (state, action) => {
+      // здесь action - { type : "changeCity", payload : {city : "..."}}, а в payload объект, который мы передаем при клике на элемент локации, и в списке локаций этот город прописываем в поле city
+      // const handleSelectCity = (name: string) => {
+      //   dispatch(changeCity({ city: name }));
+      // };
       const { city } = action.payload;
+      // "мутируем" объект, перезаписывая его поле `city`
+      // state.city = action.payload.city;
       state.city = city;
     })
     .addCase(loadOffers, (state, action) => {
