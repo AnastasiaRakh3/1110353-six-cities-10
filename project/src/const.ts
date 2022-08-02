@@ -35,4 +35,6 @@ const PLACES_LIST_CLASSES: Dictionary = {
   'near-places': 'near-places__list',
 };
 
-export { AppRoute, AuthorizationStatus, Setting, MapType, PlaceType, PLACES_LIST_CLASSES };
+const DEFAULT_CITY_NAME = 'Paris';
+
+export { AppRoute, AuthorizationStatus, Setting, MapType, PlaceType, PLACES_LIST_CLASSES, DEFAULT_CITY_NAME };
