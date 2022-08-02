@@ -1,9 +1,10 @@
 import PlacesList from '../../components/places-list/places-list';
 import { OfferType } from '../../types/offer';
+import { PlaceType } from '../../const';
 
 type NearPlacesProps = {
   offersList: OfferType[];
-  placeType: string,
+  placeType: PlaceType,
 };
 
 export default function NearPlaces({ offersList, placeType }: NearPlacesProps): JSX.Element {

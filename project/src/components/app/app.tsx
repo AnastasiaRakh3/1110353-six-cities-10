@@ -7,14 +7,16 @@ import PrivateRoute from '../private-route/private-route';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { OfferType } from '../../types/offer';
+import { useAppSelector } from '../../hooks/index';
 
 type AppProps = {
-  cardsOnPage: number;
-  offersList: OfferType[];
+  cities: string[];
 };
 
-export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element {
+export default function App({ cities }: AppProps): JSX.Element {
+
+  // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
+  const { offers, city } = useAppSelector((state) => state);
 
   return (
     <BrowserRouter>
@@ -23,8 +25,9 @@ export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element 
           path={AppRoute.Main}
           element={
             <MainScreen
-              cardsOnPage={cardsOnPage}
-              offersList={offersList}
+              offersList={offers}
+              city={city}
+              cities={cities}
             />
           }
         />
@@ -36,13 +39,13 @@ export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element 
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesScreen offersList={offersList} />
+              <FavoritesScreen offersList={offers} />
             </PrivateRoute>
           }
         />
         <Route
           path={`${AppRoute.Room}/:id`}
-          element={<RoomScreen offersList={offersList} />}
+          element={<RoomScreen offersList={offers} />}
         />
         <Route
           path={AppRoute.NotFound}

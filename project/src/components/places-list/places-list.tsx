@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import PlaceCard from '../place-card/place-card';
-import { PLACES_LIST_CLASSES } from '../../const';
+import { PLACES_LIST_CLASSES, PlaceType } from '../../const';
 import { OfferType } from '../../types/offer';
 
 type PlacesListProps = {
   offersList: OfferType[];
-  placeType: string;
+  placeType: PlaceType;
 }
 
 export default function PlacesList({ offersList, placeType }: PlacesListProps) {

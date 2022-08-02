@@ -16,7 +16,6 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 enum Setting {
-  CARDS_ON_PAGE = 4,
   MAX_RATING = 5,
 }
 
@@ -35,4 +34,24 @@ const PLACES_LIST_CLASSES: Dictionary = {
   'near-places': 'near-places__list',
 };
 
-export { AppRoute, AuthorizationStatus, Setting, MapType, PlaceType, PLACES_LIST_CLASSES };
+const DEFAULT_CITY_NAME = 'Paris';
+
+const cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export {
+  AppRoute,
+  AuthorizationStatus,
+  Setting,
+  MapType,
+  PlaceType,
+  PLACES_LIST_CLASSES,
+  DEFAULT_CITY_NAME,
+  cities,
+};

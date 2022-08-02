@@ -3,12 +3,13 @@ import { Icon, Marker } from 'leaflet';
 
 import useMap from '../../hooks/useMap';
 import { City, OfferType } from '../../types/offer';
+import { MapType } from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: City;
   offers: OfferType[];
-  mapType: string;
+  mapType: MapType;
 };
 
 // new Icon принимает набор параметров для создания альтер. иконки маркера
