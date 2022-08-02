@@ -16,7 +16,6 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 enum Setting {
-  CARDS_ON_PAGE = 4,
   MAX_RATING = 5,
 }
 
