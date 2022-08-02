@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import App from './components/app/app';
 import { offersList } from './mocks/offers';
-import { Setting } from './const';
+import { Setting, cities } from './const';
 import { store } from './store';
 
 const root = ReactDOM.createRoot(
@@ -21,6 +21,7 @@ root.render(
       <App
         cardsOnPage={Setting.CARDS_ON_PAGE}
         offersList={offersList}
+        cities={cities}
       />
     </Provider>
   </React.StrictMode>,

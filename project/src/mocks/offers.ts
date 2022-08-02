@@ -138,4 +138,38 @@ export const offersList: OfferType[] = [
     title: 'Luxurious apartment at great place',
     type: 'apartment',
   },
+  {
+    bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.371807,
+        longitude: 4.896029,
+        zoom: 10,
+      },
+      name: 'Paris',
+    },
+    description: 'Calm beautiful place for your stay',
+    goods: ['Heating'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 6,
+      isPro: false,
+      name: 'Alexey',
+    },
+    id: 5,
+    images: ['img/apartment-01.jpg', 'img/apartment-03.jpg'],
+    isFavorite: true,
+    isPremium: false,
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 8,
+    },
+    maxAdults: 2,
+    previewImage: 'img/apartment-02.jpg',
+    price: 410,
+    rating: 3.1,
+    title: 'Luxurious apartment at great place',
+    type: 'apartment',
+  },
 ];

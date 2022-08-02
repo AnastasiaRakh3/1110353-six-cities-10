@@ -37,4 +37,22 @@ const PLACES_LIST_CLASSES: Dictionary = {
 
 const DEFAULT_CITY_NAME = 'Paris';
 
-export { AppRoute, AuthorizationStatus, Setting, MapType, PlaceType, PLACES_LIST_CLASSES, DEFAULT_CITY_NAME };
+const cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export {
+  AppRoute,
+  AuthorizationStatus,
+  Setting,
+  MapType,
+  PlaceType,
+  PLACES_LIST_CLASSES,
+  DEFAULT_CITY_NAME,
+  cities,
+};

@@ -1,5 +1,6 @@
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
+import LocationList from '../../components/location-list/location-list';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import { OfferType } from '../../types/offer';
@@ -8,9 +9,10 @@ import { MapType, PlaceType } from '../../const';
 type MainScreenProps = {
   cardsOnPage: number;
   offersList: OfferType[];
+  cities: string[];
 };
 
-export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps): JSX.Element {
+export default function MainScreen({ cardsOnPage, offersList, cities }: MainScreenProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -26,38 +28,7 @@ export default function MainScreen({ cardsOnPage, offersList }: MainScreenProps)
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="https://www.google.com/">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="https://www.google.com/">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="https://www.google.com/">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href='https://www.google.com/'>
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="https://www.google.com/">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="https://www.google.com/">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <LocationList cities={cities} />
           </section>
         </div>
         <div className="cities">

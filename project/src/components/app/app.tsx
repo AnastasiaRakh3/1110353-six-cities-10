@@ -12,9 +12,10 @@ import { OfferType } from '../../types/offer';
 type AppProps = {
   cardsOnPage: number;
   offersList: OfferType[];
+  cities: string[];
 };
 
-export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element {
+export default function App({ cardsOnPage, offersList, cities }: AppProps): JSX.Element {
 
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ export default function App({ cardsOnPage, offersList }: AppProps): JSX.Element 
             <MainScreen
               cardsOnPage={cardsOnPage}
               offersList={offersList}
+              cities={cities}
             />
           }
         />
