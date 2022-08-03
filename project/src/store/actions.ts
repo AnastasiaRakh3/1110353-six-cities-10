@@ -5,6 +5,8 @@ import { OfferType } from '../types/offer';
 // ex. { type : "changeCity", payload : {city : "..."}} )
 // ex. { type : "loadOffers", payload : {offers : "[{}, {}...]"}} )
 
+// функция createAction принимает Generic тип, описывающий, какой тип данных можеть принимать функция, которую она возвращает
+
 const changeCity = createAction<{ city: string }>('changeCity');
 const loadOffers = createAction<{ offers: OfferType[] }>('loadOffers');
 
