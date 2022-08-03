@@ -45,6 +45,13 @@ const cities = [
   'Dusseldorf',
 ];
 
+const SortType = {
+  Popular: 'Popular',
+  PriceLowToHigh: 'Price: low to high',
+  PriceHighToLow: 'Price: high to low',
+  TopRatedFirst: 'Top rated first',
+};
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -54,4 +61,5 @@ export {
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
   cities,
+  SortType,
 };
