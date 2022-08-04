@@ -3,18 +3,17 @@ import { useParams, Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import Reviews from '../../components/reviews/reviews';
-import Map from '../../components/map/map';
-import NearPlaces from '../../components/near-places/near-places';
 import { OfferType } from '../../types/offer';
 import { commentsList } from '../../mocks/comments';
 import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
 import { AppRoute, MapType, PlaceType } from '../../const';
+import { MapHocProps } from '../../hocs/with-map';
 
 type RoomScreenProps = {
   offersList: OfferType[];
 };
 
-export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element {
+export default function RoomScreen({ offersList, renderMap, renderOffersList }: RoomScreenProps & MapHocProps): JSX.Element {
   const { id } = useParams();
 
   const room = offersList.find((offer) => offer.id === Number(id));
@@ -118,10 +117,11 @@ export default function RoomScreen({ offersList }: RoomScreenProps): JSX.Element
           </div>
         </section>
         <div className="container">
-          <Map city={offersList[0].city} offers={offersList.slice(0, 3)} mapType={MapType.Property} />
-          <NearPlaces offersList={offersList.slice(0, 3)} placeType={PlaceType.NearPlaces} />
+          {renderMap(offersList.slice(0, 3), offersList[0].city, MapType.Property)}
+          {renderOffersList(offersList.slice(0, 3), PlaceType.NearPlaces)}
         </div>
       </main>
     </div>
   );
 }
+

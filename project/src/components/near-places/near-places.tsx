@@ -3,15 +3,16 @@ import { OfferType } from '../../types/offer';
 import { PlaceType } from '../../const';
 
 type NearPlacesProps = {
-  offersList: OfferType[];
+  offers: OfferType[];
   placeType: PlaceType,
+  onHoverCard: (id: number | null) => void;
 };
 
-export default function NearPlaces({ offersList, placeType }: NearPlacesProps): JSX.Element {
+export default function NearPlaces({ offers, placeType, onHoverCard }: NearPlacesProps): JSX.Element {
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <PlacesList offersList={offersList} placeType={placeType} />
+      <PlacesList offers={offers} placeType={placeType} onHoverCard={onHoverCard} />
     </section>
   );
 }

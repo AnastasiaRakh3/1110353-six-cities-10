@@ -8,11 +8,11 @@ import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 type PlaceCardProps = {
   offer: OfferType;
   placeType: PlaceType;
-  setActiveOffer: (offer: OfferType) => void;
+  onHoverCard: (id: number | null) => void;
 };
 
-export default function PlaceCard({ offer, placeType, setActiveOffer }: PlaceCardProps): JSX.Element {
-  const handleMouseOver = (evt: MouseEvent<HTMLElement>) => setActiveOffer(offer);
+export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardProps): JSX.Element {
+  const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard(offer.id);
 
   return (
     <article className={`${placeType}__card place-card`} onMouseOver={handleMouseOver}>

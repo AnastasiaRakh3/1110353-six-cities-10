@@ -3,23 +3,30 @@ import { Icon, Marker } from 'leaflet';
 
 import useMap from '../../hooks/useMap';
 import { City, OfferType } from '../../types/offer';
-import { MapType } from '../../const';
+import { MapType, iconUrl } from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: City;
   offers: OfferType[];
   mapType: MapType;
+  activeCardId: number | null;
 };
 
 // new Icon принимает набор параметров для создания альтер. иконки маркера
-const defaultIcon = new Icon({
-  iconUrl: 'img/pin.svg',
+const DEFAULT_ICON = new Icon({
+  iconUrl: iconUrl.Default,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39], // координаты кончика хвоста метки высчитываются от левого верхнего угла иконки
 });
 
-export default function Map({ city, offers, mapType }: MapProps): JSX.Element {
+const ACTIVE_ICON = new Icon({
+  iconUrl: iconUrl.Active,
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39], // координаты кончика хвоста метки высчитываются от левого верхнего угла иконки
+});
+
+export default function Map({ city, offers, mapType, activeCardId }: MapProps): JSX.Element {
   // useRef инициализируем
   const mapRef = useRef(null);
   // useMap будет срабатывать только когда в компоненте useMap будут обновлены значения переменных mapRef, map и city
@@ -37,10 +44,10 @@ export default function Map({ city, offers, mapType }: MapProps): JSX.Element {
         // Если не использовать setIcon - маркер на карте будет отмечен стандарной иконкой из пакета leaflet
         // setIcon для указания альтернативного вида иконки маркера
         // addTo - указывает на какую карту добавить маркер
-        marker.setIcon(defaultIcon).addTo(map);
+        marker.setIcon(offer.id === activeCardId ? ACTIVE_ICON : DEFAULT_ICON).addTo(map);
       });
     }
-  }, [map, offers]);
+  }, [map, offers, activeCardId]);
 
   // useRef вязываем с HTML-элементом через аттрибут ref, mapRef.current уже не null
   return (

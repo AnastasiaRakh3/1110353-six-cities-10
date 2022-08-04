@@ -52,6 +52,11 @@ const SortType = {
   TopRatedFirst: 'Top rated first',
 };
 
+const iconUrl = {
+  Default: 'img/pin.svg',
+  Active: 'img/pin-active.svg',
+};
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -62,4 +67,5 @@ export {
   DEFAULT_CITY_NAME,
   cities,
   SortType,
+  iconUrl,
 };
