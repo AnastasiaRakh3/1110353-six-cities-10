@@ -45,6 +45,18 @@ const cities = [
   'Dusseldorf',
 ];
 
+const SortType = {
+  Popular: 'Popular',
+  PriceLowToHigh: 'Price: low to high',
+  PriceHighToLow: 'Price: high to low',
+  TopRatedFirst: 'Top rated first',
+};
+
+const iconUrl = {
+  Default: 'img/pin.svg',
+  Active: 'img/pin-active.svg',
+};
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -54,4 +66,6 @@ export {
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
   cities,
+  SortType,
+  iconUrl,
 };

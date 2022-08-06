@@ -6,12 +6,16 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import PrivateRoute from '../private-route/private-route';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import { withMap } from '../../hocs/with-map';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 
 type AppProps = {
   cities: string[];
 };
+
+const MainScreenWithMap = withMap(MainScreen);
+const RoomScreenWithMap = withMap(RoomScreen);
 
 export default function App({ cities }: AppProps): JSX.Element {
 
@@ -24,7 +28,7 @@ export default function App({ cities }: AppProps): JSX.Element {
         <Route
           path={AppRoute.Main}
           element={
-            <MainScreen
+            <MainScreenWithMap
               offersList={offers}
               city={city}
               cities={cities}
@@ -45,7 +49,7 @@ export default function App({ cities }: AppProps): JSX.Element {
         />
         <Route
           path={`${AppRoute.Room}/:id`}
-          element={<RoomScreen offersList={offers} />}
+          element={<RoomScreenWithMap offersList={offers} />}
         />
         <Route
           path={AppRoute.NotFound}

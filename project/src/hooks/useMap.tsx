@@ -42,7 +42,7 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, cit
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, map, city]);
+  }, [mapRef, city]);
 
   return map;
 }
