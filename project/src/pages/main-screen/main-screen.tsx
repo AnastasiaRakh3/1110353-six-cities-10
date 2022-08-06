@@ -20,8 +20,8 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
   const [activeSortType, setActiveSortType] = useState(SortType.Popular);
 
   const locationOffers = offersList.filter((offer) => offer.city.name === city);
-  const renderingOffers = getSortedOffers(activeSortType, [...locationOffers]);
-  const currentCity = renderingOffers[0].city;
+  const sortedOffers = getSortedOffers(activeSortType, [...locationOffers]);
+  const currentCity = sortedOffers[0].city;
 
   const handleSortType = (type: string) => {
     setActiveSortType(type);
@@ -50,7 +50,7 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{locationOffers.length} places to stay in {city}</b>
               <SortForm onChangeSortType={handleSortType} />
-              {renderOffersList(renderingOffers, PlaceType.Cities)}
+              {renderOffersList(sortedOffers, PlaceType.Cities)}
             </section>
             <div className="cities__right-section">
               {renderMap(locationOffers, currentCity, MapType.Cities)}

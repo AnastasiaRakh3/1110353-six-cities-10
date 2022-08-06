@@ -7,7 +7,7 @@ export const offersList: OfferType[] = [
       location: {
         latitude: 52.371807,
         longitude: 4.896029,
-        zoom: 13,
+        zoom: 10,
       },
       name: 'Amsterdam',
     },
@@ -142,8 +142,8 @@ export const offersList: OfferType[] = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 52.371807,
-        longitude: 4.896029,
+        latitude: 48.8534,
+        longitude: 2.3488,
         zoom: 10,
       },
       name: 'Paris',
@@ -161,8 +161,8 @@ export const offersList: OfferType[] = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
+      latitude: 48.743511,
+      longitude: 2.347711,
       zoom: 8,
     },
     maxAdults: 2,

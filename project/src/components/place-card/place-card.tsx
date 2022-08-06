@@ -13,9 +13,14 @@ type PlaceCardProps = {
 
 export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardProps): JSX.Element {
   const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard(offer.id);
+  const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => onHoverCard(null);
 
   return (
-    <article className={`${placeType}__card place-card`} onMouseOver={handleMouseOver}>
+    <article
+      className={`${placeType}__card place-card`}
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+    >
       {isPremium(offer, 'place-card')}
       <div className={`${placeType}__image-wrapper place-card__image-wrapper`}>
         <a href="https://www.google.com/">

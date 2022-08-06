@@ -11,10 +11,16 @@ export type MapHocProps = {
   renderOffersList: (offers: OfferType[], placeType: PlaceType) => JSX.Element;
 };
 
-export function withMap<T>(Component: ComponentType<T>): ComponentType<Omit<T, keyof MapHocProps>> {
+// ComponentType - специальные тип, когда возникает необходимость использовать тип компонента
+// Тип React.ComponentType имеет generic-параметр. Этот generic описывает тип props-ов. По умолчанию он равен {}
+
+export function withMap<T>(Component: ComponentType<T & MapHocProps>)
+  : ComponentType<Omit<T, keyof MapHocProps>> {
+
   type ComponentProps = Omit<T, keyof MapHocProps>;
 
   function WithMap(props: ComponentProps): JSX.Element {
+
     const [activeCardId, setActiveCardId] = useState<number | null>(null);
     const handleCardHover = (id: number | null): void => setActiveCardId(id);
 
@@ -29,7 +35,7 @@ export function withMap<T>(Component: ComponentType<T>): ComponentType<Omit<T, k
             mapType={mapType}
           />
         )}
-        renderOffersList={(offers: OfferType[], placeType: PlaceType) => {
+        renderOffersList={(offers: OfferType[], placeType: PlaceType) => (
           placeType === PlaceType.NearPlaces
             ?
             <NearPlaces
@@ -42,8 +48,8 @@ export function withMap<T>(Component: ComponentType<T>): ComponentType<Omit<T, k
               offers={offers}
               placeType={placeType}
               onHoverCard={handleCardHover}
-            />;
-        }}
+            />
+        )}
       />
     );
   }
