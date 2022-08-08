@@ -35,6 +35,10 @@ const PLACES_LIST_CLASSES: Dictionary = {
 };
 
 const DEFAULT_CITY_NAME = 'Paris';
+// основной адрес сервера (URL). Он будет использоваться для всех относительных адресов
+const BACKEND_URL = 'https://10.react.pages.academy/guess-melody';
+// Если ответ не будет получен в течение 5 сек, то соединение с сервером закроется
+const REQUEST_TIMEOUT = 5000;
 
 const cities = [
   'Paris',
@@ -65,6 +69,8 @@ export {
   PlaceType,
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
+  BACKEND_URL,
+  REQUEST_TIMEOUT,
   cities,
   SortType,
   iconUrl,
