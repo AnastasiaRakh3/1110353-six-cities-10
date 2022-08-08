@@ -14,8 +14,9 @@ export type MapHocProps = {
 // ComponentType - специальные тип, когда возникает необходимость использовать тип компонента
 // Тип React.ComponentType имеет generic-параметр. Этот generic описывает тип props-ов. По умолчанию он равен {}
 
+// Хок withMap будет принимать компонент(MainScreen), являющийся типом ComponentType(обычно для хоков), и у этого типа могут быть пропсы Т и MapHocProps (MainScreen({ offersList, city, cities, renderMap, renderOffersList }: MainScreenProps & MapHocProps)), но на выходе мы получаем компонент такого же типа ComponentType, где у него пропсы как Т без MapHocProps - (<MainScreenWithMap offersList={offers} city={city} cities={cities}/>)
 export function withMap<T>(Component: ComponentType<T & MapHocProps>)
-  : ComponentType<Omit<T, keyof MapHocProps>> {
+  : ComponentType<T> {
 
   type ComponentProps = Omit<T, keyof MapHocProps>;
 
