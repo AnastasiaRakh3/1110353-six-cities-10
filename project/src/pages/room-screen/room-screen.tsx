@@ -22,6 +22,10 @@ export default function RoomScreen({ offersList, renderMap, renderOffersList }: 
     return <Navigate to={AppRoute.NotFound} />;
   }
 
+  // Временно, чтобы карта рендерила с этого же города
+  const currentCity = room.city;
+  const nearPlaces = offersList.filter((offer) => offer.city.name === currentCity.name);
+
   const reviews = commentsList.filter((comment) => comment.idOffer === Number(id));
 
   const roomImagesElements = room.images.map((img) => (
@@ -117,8 +121,8 @@ export default function RoomScreen({ offersList, renderMap, renderOffersList }: 
           </div>
         </section>
         <div className="container">
-          {renderMap(offersList.slice(0, 3), offersList[0].city, MapType.Property)}
-          {renderOffersList(offersList.slice(0, 3), PlaceType.NearPlaces)}
+          {renderMap(nearPlaces.slice(0, 3), currentCity, MapType.Property)}
+          {renderOffersList(nearPlaces.slice(0, 3), PlaceType.NearPlaces)}
         </div>
       </main>
     </div>
