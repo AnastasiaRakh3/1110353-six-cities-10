@@ -8,6 +8,7 @@ import { OfferType } from '../types/offer';
 // функция createAction принимает Generic тип, описывающий, какой тип данных можеть принимать функция, которую она возвращает
 
 const changeCity = createAction<{ city: string }>('changeCity');
-const loadOffers = createAction<{ offers: OfferType[] }>('loadOffers');
+const loadOffers = createAction<OfferType[]>('loadOffers');
+const setLoadOffersStatus = createAction<boolean>('loadStatus');
 
-export { changeCity, loadOffers };
+export { changeCity, loadOffers, setLoadOffersStatus };
