@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { ApiRoute } from '../const';
+import { ApiRoute, StateAction } from '../const';
 import { OfferType } from '../types/offer';
 import { State, AppDispatch } from '../types/state';
 import { loadOffers, setLoadOffersStatus } from './actions';
@@ -24,7 +24,7 @@ export const fetchOffersAction = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->('loadOffers', async (_arg, { dispatch, extra: api }) => {
+>(StateAction.LoadOffers, async (_arg, { dispatch, extra: api }) => {
   // api добавляли при создании хранилища
   const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
   dispatch(loadOffers(data));
