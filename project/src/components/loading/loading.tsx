@@ -1,6 +1,6 @@
-import './loading-screen.css';
+import './loading.css';
 
-export default function LoadingScreen(): JSX.Element {
+export default function Loading(): JSX.Element {
   return (
     <div className='lds-container'>
       <div className="lds-hourglass"></div>

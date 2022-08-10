@@ -33,12 +33,6 @@ enum PlaceType {
   NearPlaces = 'near-places',
 }
 
-const StateAction = {
-  ChangeCity: 'city/changeCity',
-  LoadOffers: 'offers/loadOffers',
-  LoadStatus: 'offers/loadStatus',
-};
-
 const PLACES_LIST_CLASSES: Dictionary = {
   'cities': 'cities__places-list tabs__content',
   'near-places': 'near-places__list',
@@ -78,7 +72,6 @@ export {
   Setting,
   MapType,
   PlaceType,
-  StateAction,
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
   BACKEND_URL,

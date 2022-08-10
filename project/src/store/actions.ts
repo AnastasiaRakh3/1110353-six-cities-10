@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { OfferType } from '../types/offer';
 
-import { StateAction } from '../const';
+import { StateAction } from './action-types';
 
 // createAction() генерирует создателя операции с указанным типом операции и преобразует переданные аргументы в поле payload:
 // ex. { type : "changeCity", payload : {city : "..."}} )

@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { ApiRoute, StateAction } from '../const';
+import { ApiRoute } from '../const';
 import { OfferType } from '../types/offer';
 import { State, AppDispatch } from '../types/state';
 import { loadOffers, setLoadOffersStatus } from './actions';
+import { StateAction } from './action-types';
 
 // Модуль в котором опишем асинхронные действия. В этих действиях будем выполнять запросы к серверу
 
@@ -27,6 +28,7 @@ export const fetchOffersAction = createAsyncThunk<
 >(StateAction.LoadOffers, async (_arg, { dispatch, extra: api }) => {
   // api добавляли при создании хранилища
   const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
+  dispatch(setLoadOffersStatus(true));
   dispatch(loadOffers(data));
   dispatch(setLoadOffersStatus(false));
 });
