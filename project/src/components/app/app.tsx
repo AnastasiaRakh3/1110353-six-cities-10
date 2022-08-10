@@ -6,6 +6,7 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import PrivateRoute from '../private-route/private-route';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import Loading from '../loading/loading';
 import { withMap } from '../../hocs/with-map';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/index';
@@ -20,7 +21,13 @@ const RoomScreenWithMap = withMap(RoomScreen);
 export default function App({ cities }: AppProps): JSX.Element {
 
   // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
-  const { offers, city } = useAppSelector((state) => state);
+  const { isDataLoaded, offers, city } = useAppSelector((state) => state);
+
+  if (!isDataLoaded) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <BrowserRouter>
