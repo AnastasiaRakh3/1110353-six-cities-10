@@ -28,7 +28,6 @@ export const fetchOffersAction = createAsyncThunk<
 >(StateAction.LoadOffers, async (_arg, { dispatch, extra: api }) => {
   // api добавляли при создании хранилища
   const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
-  dispatch(setLoadOffersStatus(true));
   dispatch(loadOffers(data));
-  dispatch(setLoadOffersStatus(false));
+  dispatch(setLoadOffersStatus(true));
 });

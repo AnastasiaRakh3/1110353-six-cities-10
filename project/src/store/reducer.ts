@@ -7,13 +7,13 @@ import { DEFAULT_CITY_NAME } from '../const';
 type initialStateType = {
   city: string;
   offers: OfferType[];
-  isDataLoading: boolean;
+  isDataLoaded: boolean;
 };
 
 const initialState: initialStateType = {
   city: DEFAULT_CITY_NAME,
   offers: [],
-  isDataLoading: true,
+  isDataLoaded: false,
 };
 
 // reducer — чистая функция которая будет отвечать за обновление состояния, обновление полей store.
@@ -42,7 +42,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
     })
     .addCase(setLoadOffersStatus, (state, action) => {
-      state.isDataLoading = action.payload;
+      state.isDataLoaded = action.payload;
     });
 });
 

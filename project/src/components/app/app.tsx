@@ -21,9 +21,9 @@ const RoomScreenWithMap = withMap(RoomScreen);
 export default function App({ cities }: AppProps): JSX.Element {
 
   // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
-  const { isDataLoading, offers, city } = useAppSelector((state) => state);
+  const { isDataLoaded, offers, city } = useAppSelector((state) => state);
 
-  if (isDataLoading) {
+  if (!isDataLoaded) {
     return (
       <Loading />
     );
