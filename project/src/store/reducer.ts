@@ -1,19 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { changeCity, loadOffers, setLoadOffersStatus } from './actions';
+import { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization } from './actions';
 import { OfferType } from '../types/offer';
-import { DEFAULT_CITY_NAME } from '../const';
+import { DEFAULT_CITY_NAME, AuthorizationStatus } from '../const';
 
 type initialStateType = {
   city: string;
   offers: OfferType[];
   isDataLoaded: boolean;
+  authorizationStatus: AuthorizationStatus;
 };
 
 const initialState: initialStateType = {
   city: DEFAULT_CITY_NAME,
   offers: [],
   isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.Unknown
 };
 
 // reducer — чистая функция которая будет отвечать за обновление состояния, обновление полей store.
@@ -43,6 +45,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setLoadOffersStatus, (state, action) => {
       state.isDataLoaded = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 

@@ -1,7 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { OfferType } from '../types/offer';
 
+import { OfferType } from '../types/offer';
 import { StateAction } from './action-types';
+import { AuthorizationStatus } from '../const';
 
 // createAction() генерирует создателя операции с указанным типом операции и преобразует переданные аргументы в поле payload:
 // ex. { type : "changeCity", payload : {city : "..."}} )
@@ -12,5 +13,6 @@ import { StateAction } from './action-types';
 const changeCity = createAction<{ city: string }>(StateAction.ChangeCity);
 const loadOffers = createAction<OfferType[]>(StateAction.LoadOffers);
 const setLoadOffersStatus = createAction<boolean>(StateAction.LoadStatus);
+const requireAuthorization = createAction<AuthorizationStatus>(StateAction.RequireAuthorization);
 
-export { changeCity, loadOffers, setLoadOffersStatus };
+export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization };
