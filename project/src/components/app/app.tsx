@@ -10,6 +10,7 @@ import Loading from '../loading/loading';
 import { withMap } from '../../hocs/with-map';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/index';
+// import { isUserAuthorized } from '../../utils';
 import React from 'react';
 
 type AppProps = {
