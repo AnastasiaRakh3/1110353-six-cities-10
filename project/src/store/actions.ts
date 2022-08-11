@@ -13,6 +13,6 @@ import { AuthorizationStatus } from '../const';
 const changeCity = createAction<{ city: string }>(StateAction.ChangeCity);
 const loadOffers = createAction<OfferType[]>(StateAction.LoadOffers);
 const setLoadOffersStatus = createAction<boolean>(StateAction.LoadStatus);
-const requireAuthorization = createAction<AuthorizationStatus>(StateAction.RequireAuthorization);
+const requireAuthorization = createAction<AuthorizationStatus>(StateAction.RequireAuth);
 
 export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization };

@@ -4,6 +4,8 @@ type Dictionary = {
 
 enum ApiRoute {
   Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 enum AppRoute {
@@ -43,6 +45,7 @@ const DEFAULT_CITY_NAME = 'Paris';
 const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 // Если ответ не будет получен в течение 5 сек, то соединение с сервером закроется
 const REQUEST_TIMEOUT = 5000;
+const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
 const cities = [
   'Paris',
@@ -76,6 +79,7 @@ export {
   DEFAULT_CITY_NAME,
   BACKEND_URL,
   REQUEST_TIMEOUT,
+  AUTH_TOKEN_KEY_NAME,
   cities,
   SortType,
   iconUrl,
