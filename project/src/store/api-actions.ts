@@ -17,6 +17,13 @@ import { StateAction } from './action-types';
 // thunkAPI: объект, содержащий все параметры, обычно передаваемый в thunk, а также дополнительные опции:например:
 // dispatch: метод dispatch хранилища Redux
 
+// Сигнатура типов createAsyncThunk:
+// function createAsyncThunk<Returned, ThunkArg = void, ThunkApiConfig extends AsyncThunkConfig = {}>
+
+// 1й аргумент дженерика Returned - это то что будет возвращать fetchOffersAction
+// 2й аргумент дженерика ThunkArg = void - это тип аргумента(ты его назвала _arg`), так как он на не важен мы ему пишем `void, потому что не будем использовать.
+// 3й аргумент дженерика ThunkApiConfig extends AsyncThunkConfig = {} - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого ты достаешь extra назвав его api и протипизировав в дженерике как AxiosInstance
+
 export const fetchOffersAction = createAsyncThunk<
   void,
   undefined,
