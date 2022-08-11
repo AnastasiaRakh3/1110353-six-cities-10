@@ -45,6 +45,7 @@ const DEFAULT_CITY_NAME = 'Paris';
 const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 // Если ответ не будет получен в течение 5 сек, то соединение с сервером закроется
 const REQUEST_TIMEOUT = 5000;
+const SHOW_ERROR_TIMEOUT = 2000;
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
 const cities = [
@@ -79,6 +80,7 @@ export {
   DEFAULT_CITY_NAME,
   BACKEND_URL,
   REQUEST_TIMEOUT,
+  SHOW_ERROR_TIMEOUT,
   AUTH_TOKEN_KEY_NAME,
   cities,
   SortType,

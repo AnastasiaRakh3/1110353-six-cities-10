@@ -14,5 +14,6 @@ const changeCity = createAction<{ city: string }>(StateAction.ChangeCity);
 const loadOffers = createAction<OfferType[]>(StateAction.LoadOffers);
 const setLoadOffersStatus = createAction<boolean>(StateAction.LoadStatus);
 const requireAuthorization = createAction<AuthorizationStatus>(StateAction.RequireAuth);
+const setServerError = createAction<string | null>(StateAction.SetServerError);
 
-export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization };
+export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError };

@@ -1,13 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { ApiRoute, AuthorizationStatus } from '../const';
+import { ApiRoute, AuthorizationStatus, SHOW_ERROR_TIMEOUT } from '../const';
+import { store } from './index';
+import { saveToken, dropToken } from '../services/token';
 import {
   loadOffers,
   setLoadOffersStatus,
   requireAuthorization,
+  setServerError,
 } from './actions';
-import { saveToken, dropToken } from '../services/token';
 import { StateAction } from './action-types';
 import { OfferType } from '../types/offer';
 import { State, AppDispatch } from '../types/state';
@@ -32,7 +34,7 @@ import { UserData } from '../types/user-data';
 // 3й аргумент дженерика ThunkApiConfig extends AsyncThunkConfig = {} - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого ты достаешь extra назвав его api и протипизировав в дженерике как AxiosInstance
 
 // Для загрузки офферов
-export const fetchOffersAction = createAsyncThunk<
+const fetchOffersAction = createAsyncThunk<
   void,
   undefined,
   {
@@ -48,7 +50,7 @@ export const fetchOffersAction = createAsyncThunk<
 });
 
 // Проверки наличия авторизации
-export const checkAuthAction = createAsyncThunk<
+const checkAuthAction = createAsyncThunk<
   void,
   undefined,
   {
@@ -66,7 +68,7 @@ export const checkAuthAction = createAsyncThunk<
 });
 
 // Отправка данных для прохождения аутентификации
-export const loginAction = createAsyncThunk<
+const loginAction = createAsyncThunk<
   void,
   AuthData,
   {
@@ -86,7 +88,7 @@ export const loginAction = createAsyncThunk<
 );
 
 // Отправка запроса на выход из приложения.
-export const logoutAction = createAsyncThunk<
+const logoutAction = createAsyncThunk<
   void,
   undefined,
   {
@@ -99,3 +101,18 @@ export const logoutAction = createAsyncThunk<
   dropToken();
   dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
 });
+
+const clearServerErrorAction = createAsyncThunk(
+  StateAction.ClearServerError,
+  () => {
+    setTimeout(() => store.dispatch(setServerError(null)), SHOW_ERROR_TIMEOUT);
+  }
+);
+
+export {
+  fetchOffersAction,
+  checkAuthAction,
+  loginAction,
+  logoutAction,
+  clearServerErrorAction,
+};
