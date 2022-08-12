@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/app/app';
 import { cities } from './const';
@@ -21,6 +23,7 @@ store.dispatch(fetchOffersAction());
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer />
       <App
         cities={cities}
       />

@@ -1,24 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import { toast } from 'react-toastify';
 
 import { StateAction } from './action-types';
 import { OfferType } from '../types/offer';
 import { State, AppDispatch } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { store } from './index';
 import { saveToken, dropToken } from '../services/token';
 import {
   ApiRoute,
   AuthorizationStatus,
-  SHOW_ERROR_TIMEOUT,
   AppRoute,
 } from '../const';
 import {
   loadOffers,
   setLoadOffersStatus,
   requireAuthorization,
-  setServerError,
   redirectToRoute,
 } from './actions';
 
@@ -91,6 +89,7 @@ const loginAction = createAsyncThunk<
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
+    toast.success('You successfully login');
   }
 );
 
@@ -109,17 +108,9 @@ const logoutAction = createAsyncThunk<
   dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
 });
 
-const clearServerErrorAction = createAsyncThunk(
-  StateAction.ClearServerError,
-  () => {
-    setTimeout(() => store.dispatch(setServerError(null)), SHOW_ERROR_TIMEOUT);
-  }
-);
-
 export {
   fetchOffersAction,
   checkAuthAction,
   loginAction,
   logoutAction,
-  clearServerErrorAction,
 };

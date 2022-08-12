@@ -5,10 +5,10 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 import { StatusCodes } from 'http-status-codes';
+import { toast } from 'react-toastify';
 
 import { BACKEND_URL, REQUEST_TIMEOUT } from '../const';
 import { getToken } from './token';
-import { handleServerError } from './handle-server-error';
 
 const errorStatusCodeSet = new Set([
   StatusCodes.BAD_REQUEST,
@@ -47,7 +47,7 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
-        handleServerError(error.response.data.error);
+        toast.error(error.response.data.error);
       }
       throw error;
     }
