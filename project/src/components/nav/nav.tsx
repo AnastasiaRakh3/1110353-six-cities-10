@@ -1,11 +1,19 @@
+import { SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
 
 export default function Nav(): JSX.Element {
 
   const { authorizationStatus } = useAppSelector((state) => state);
+
+  const dispatch = useAppDispatch();
+  const handleLogOutClick = (evt: SyntheticEvent) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  };
 
   return (
     <nav className="header__nav">
@@ -21,9 +29,9 @@ export default function Nav(): JSX.Element {
               </Link>
             </li>
             <li className="header__nav-item">
-              <a className="header__nav-link" href="https://www.google.com/">
+              <Link className="header__nav-link" to={AppRoute.Main} onClick={handleLogOutClick}>
                 <span className="header__signout">Sign out</span>
-              </a>
+              </Link>
             </li>
           </ul>
           :

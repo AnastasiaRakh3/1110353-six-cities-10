@@ -24,8 +24,11 @@ function HistoryRouter({ history, basename, children }: HistoryRouterProps): JSX
   useLayoutEffect(() => history.listen(setState), [history]);
 
   return (
-    // Для того чтобы можно было использовать историю в роутере нам понадобиться <Router/>
-    // Router будет храниться вся логика нашего роутинга
+  // Для того чтобы можно было использовать историю в роутере нам понадобиться <Router/>
+  // Router будет храниться вся логика нашего роутинга
+
+  // basename: string - базовый URL для всех локаций
+  // location: object - объект локации вида { pathname, search, hash, state }
     <Router
       basename={basename}
       location={state.location}
