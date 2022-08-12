@@ -6,6 +6,7 @@ export const StateAction = {
   CheckAuth: 'user/checkAuth',
   Login: 'user/login',
   Logout: 'user/logout',
+  RedirectToRoute: 'user/redirectToRoute',
   SetServerError: 'error/setServerError',
   ClearServerError: 'error/clearServerError',
 };

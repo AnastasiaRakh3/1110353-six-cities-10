@@ -1,20 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { ApiRoute, AuthorizationStatus, SHOW_ERROR_TIMEOUT } from '../const';
-import { store } from './index';
-import { saveToken, dropToken } from '../services/token';
-import {
-  loadOffers,
-  setLoadOffersStatus,
-  requireAuthorization,
-  setServerError,
-} from './actions';
 import { StateAction } from './action-types';
 import { OfferType } from '../types/offer';
 import { State, AppDispatch } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { store } from './index';
+import { saveToken, dropToken } from '../services/token';
+import {
+  ApiRoute,
+  AuthorizationStatus,
+  SHOW_ERROR_TIMEOUT,
+  AppRoute,
+} from '../const';
+import {
+  loadOffers,
+  setLoadOffersStatus,
+  requireAuthorization,
+  setServerError,
+  redirectToRoute,
+} from './actions';
 
 // Модуль в котором опишем асинхронные действия. В этих действиях будем выполнять запросы к серверу
 
@@ -84,6 +90,7 @@ const loginAction = createAsyncThunk<
     } = await api.post<UserData>(ApiRoute.Login, { email, password });
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
 
