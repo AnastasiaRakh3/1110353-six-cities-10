@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { reducer } from './reducer';
 import { createAPI } from '../services/api';
+import { redirect } from './middlewares/redirect';
 
 // configureStore(): обертка для createStore(), упрощающая настройку хранилища с настройками по умол. Позволяет автоматически комбинировать отдельные частичные редукторы (slice reducers), добавлять промежуточные слои или посредников (middlewares), по умолчанию включает redux-thunk (преобразователя), позволяет использовать расширение Redux DevTools (инструменты разработчика Redux)
 
@@ -23,10 +24,13 @@ export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      // Санки позволяют нам писать в виде дейсвий, какие то функции, и в них уще писать нужный код
       thunk: {
+        // чтобы наши экшены могли получить доступ, передаем наш экземпляр через extraArgument
         extraArgument: api,
       },
-    }),
+    }).concat(redirect),
+  // Поскольку результатом должен быть массив, мы можем добавить список собственных middleware с помощью concat
 });
 
 // Когда мы будем описывать ассинхронные действия (в api-actions), у нас у action 3м параметром extraArgument передаем настроенный экзампляр axios (api), соответсвенно actions смогут обращаться к axios  и выполнять какие-то действия

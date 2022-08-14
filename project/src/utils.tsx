@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
-import { SortType } from './const';
+import { SortType, AuthorizationStatus } from './const';
 
 const STAR_WIDTH = 20;
 
@@ -41,4 +41,7 @@ const getSortedOffers = (type: string, offers: OfferType[]) => {
   }
 };
 
-export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers };
+const isUserAuthorized = ( authStatus: AuthorizationStatus ): boolean =>
+  authStatus === AuthorizationStatus.Auth;
+
+export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized };
