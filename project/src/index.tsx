@@ -13,6 +13,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+// проверка на наличие авторизации
 store.dispatch(checkAuthAction());
 // Вызов действия для загрузки офферов
 store.dispatch(fetchOffersAction());

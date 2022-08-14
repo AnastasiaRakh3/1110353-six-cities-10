@@ -24,7 +24,9 @@ export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      // Санки позволяют нам писать в виде дейсвий, какие то функции, и в них уще писать нужный код
       thunk: {
+        // чтобы наши экшены могли получить доступ, передаем наш экземпляр через extraArgument
         extraArgument: api,
       },
     }).concat(redirect),
