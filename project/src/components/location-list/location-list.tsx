@@ -1,9 +1,10 @@
 import LocationItem from '../location-item/location-item';
 import { changeCity } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
+import { CITIES } from '../../const';
 
 type LocationListProps = {
-  cities: string[];
+  cities: typeof CITIES;
 };
 
 export default function LocationList({ cities }: LocationListProps): JSX.Element {

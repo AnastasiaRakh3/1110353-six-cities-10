@@ -47,14 +47,14 @@ const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
-const cities = [
+const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
   'Amsterdam',
   'Hamburg',
   'Dusseldorf',
-];
+] as const;
 
 const SortType = {
   Popular: 'Popular',
@@ -80,7 +80,7 @@ export {
   BACKEND_URL,
   REQUEST_TIMEOUT,
   AUTH_TOKEN_KEY_NAME,
-  cities,
+  CITIES,
   SortType,
   iconUrl,
 };

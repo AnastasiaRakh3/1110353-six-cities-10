@@ -85,6 +85,7 @@ const loginAction = createAsyncThunk<
   }
 >(
   StateAction.Login,
+  // Присваиваем таким синтаксисом значение из поля login переменной email, так как сервер ждет объект с полями email и password
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // В качестве данных передаем { email, password }
     const {

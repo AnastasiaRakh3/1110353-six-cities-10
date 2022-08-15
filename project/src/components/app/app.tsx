@@ -9,14 +9,14 @@ import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Loading from '../loading/loading';
 import { withMap } from '../../hocs/with-map';
-import { AppRoute } from '../../const';
+import { AppRoute, CITIES } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 // import { isUserAuthorized } from '../../utils';
 import { browserHistory } from '../../browser-history';
 import React from 'react';
 
 type AppProps = {
-  cities: string[];
+  cities: typeof CITIES;
 };
 
 const MainScreenWithMap = withMap(MainScreen);
