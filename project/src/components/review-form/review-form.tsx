@@ -1,9 +1,16 @@
-import { useState, ChangeEvent, Fragment } from 'react';
+import { useState, ChangeEvent, Fragment, FormEvent } from 'react';
+
 import { Setting } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { sendNewPost } from '../../store/api-actions';
 
 type ratingTitleType = {
   [key: number]: string;
 }
+
+type ReviewFormProps = {
+  roomId: number;
+};
 
 const ratingTitle: ratingTitleType = {
   1: 'terribly',
@@ -13,13 +20,28 @@ const ratingTitle: ratingTitleType = {
   5: 'perfect',
 };
 
-export default function ReviewForm(): JSX.Element {
+export default function ReviewForm({ roomId }: ReviewFormProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
   const [review, setReview] = useState({ rating: 0, comment: '' });
 
-  const handleRatingSelect = (evt: ChangeEvent<HTMLInputElement>) => setReview({...review, rating: Number(evt.target.value)});
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>): void => setReview({ ...review, rating: Number(evt.target.value) });
+
+  const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>): void => setReview({ ...review, comment: evt.target.value });
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>): void => {
+    evt.preventDefault();
+    dispatch(sendNewPost({ roomId, comment: review.comment, rating: review.rating }));
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleFormSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -35,7 +57,7 @@ export default function ReviewForm(): JSX.Element {
                   value={starNumber}
                   id={`${starNumber}-stars`}
                   type="radio"
-                  onChange={handleRatingSelect}
+                  onChange={handleRatingChange}
                 />
                 <label
                   htmlFor={`${starNumber}-stars`}
@@ -58,7 +80,7 @@ export default function ReviewForm(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review.comment}
-        onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => setReview({ ...review, comment: evt.target.value })}
+        onChange={handleTextChange}
       >
       </textarea>
 

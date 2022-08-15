@@ -108,7 +108,7 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                   </p>
                 </div>
               </div>
-              <Reviews reviews={comments} />
+              <Reviews reviews={comments} roomId={room.id}/>
             </div>
           </div>
         </section>

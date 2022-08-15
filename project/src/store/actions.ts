@@ -25,4 +25,4 @@ const redirectToRoute = createAction<AppRoute>(StateAction.User.RedirectToRoute)
 
 const setServerError = createAction<string | null>(StateAction.Error.SetServerError);
 
-export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer };
+export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer};

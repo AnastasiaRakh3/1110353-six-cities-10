@@ -10,6 +10,7 @@ export const StateAction = {
   },
   Comment: {
     LoadComments: 'comment/loadComments',
+    SendNewComment: 'comment/sendNewComment',
   },
   User: {
     RequireAuth: 'user/requireAuth',

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { StateAction } from './action-types';
 import { OfferType } from '../types/offer';
-import { CommentType } from '../types/comment';
+import { CommentType, CommentData } from '../types/comment';
 import { State, AppDispatch } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
@@ -69,7 +69,9 @@ const fetchNearbyOffersAction = createAsyncThunk<
   number,
   ThunkApiConfigType
 >(StateAction.Offer.LoadNearbyOffers, async (id, { dispatch, extra: api }) => {
-  const { data } = await api.get<OfferType[]>(`${ApiRoute.Offers}/${id}/nearby`);
+  const { data } = await api.get<OfferType[]>(
+    `${ApiRoute.Offers}/${id}/nearby`
+  );
   dispatch(loadNearbyOffers(data));
 });
 
@@ -77,6 +79,17 @@ const fetchCommentsAction = createAsyncThunk<void, number, ThunkApiConfigType>(
   StateAction.Comment.LoadComments,
   async (id, { dispatch, extra: api }) => {
     const { data } = await api.get<CommentType[]>(`${ApiRoute.Comments}/${id}`);
+    dispatch(loadComments(data));
+  }
+);
+
+const sendNewPost = createAsyncThunk<void, CommentData, ThunkApiConfigType>(
+  StateAction.Comment.SendNewComment,
+  async ({ roomId, comment, rating }, { dispatch, extra: api }) => {
+    const { data } = await api.post(`${ApiRoute.Comments}/${roomId}`, {
+      comment,
+      rating,
+    });
     dispatch(loadComments(data));
   }
 );
@@ -135,4 +148,5 @@ export {
   fetchOneOfferAction,
   fetchNearbyOffersAction,
   fetchCommentsAction,
+  sendNewPost,
 };

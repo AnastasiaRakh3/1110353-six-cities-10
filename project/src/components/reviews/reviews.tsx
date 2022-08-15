@@ -6,9 +6,10 @@ import { useAppSelector } from '../../hooks';
 
 type ReviewsProps = {
   reviews: CommentType[],
+  roomId: number,
 };
 
-export default function Reviews({ reviews }: ReviewsProps): JSX.Element {
+export default function Reviews({ reviews, roomId }: ReviewsProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -18,7 +19,7 @@ export default function Reviews({ reviews }: ReviewsProps): JSX.Element {
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <CommentsList commentsList={reviews} />
-      {isCommentsFormAvailable && <ReviewForm />}
+      {isCommentsFormAvailable && <ReviewForm roomId={roomId}/>}
     </section>
   );
 }
