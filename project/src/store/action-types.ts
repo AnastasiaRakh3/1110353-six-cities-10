@@ -15,6 +15,7 @@ export const StateAction = {
   User: {
     RequireAuth: 'user/requireAuth',
     CheckAuth: 'user/checkAuth',
+    SetUserName: 'user/setUtherName',
     Login: 'user/login',
     Logout: 'user/logout',
     RedirectToRoute: 'user/redirectToRoute',

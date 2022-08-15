@@ -12,6 +12,7 @@ import {
   loadOffer,
   loadNearbyOffers,
   loadComments,
+  setUserName,
 } from './actions';
 
 type initialStateType = {
@@ -23,6 +24,7 @@ type initialStateType = {
   isDataLoaded: boolean;
   authorizationStatus: AuthorizationStatus;
   serverError: string | null;
+  userName: string;
 };
 
 const initialState: initialStateType = {
@@ -34,6 +36,7 @@ const initialState: initialStateType = {
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   serverError: null,
+  userName: '',
 };
 
 // reducer — чистая функция которая будет отвечать за обновление состояния, обновление полей store.
@@ -78,6 +81,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(setUserName, (state, action) => {
+      state.userName = action.payload;
     });
 });
 

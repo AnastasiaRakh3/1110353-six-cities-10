@@ -21,8 +21,9 @@ const loadNearbyOffers = createAction<OfferType[]>(StateAction.Offer.LoadNearbyO
 const loadComments = createAction<CommentType[]>(StateAction.Comment.LoadComments);
 
 const requireAuthorization = createAction<AuthorizationStatus>(StateAction.User.RequireAuth);
+const setUserName = createAction<string>(StateAction.User.SetUserName);
 const redirectToRoute = createAction<AppRoute>(StateAction.User.RedirectToRoute);
 
 const setServerError = createAction<string | null>(StateAction.Error.SetServerError);
 
-export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer};
+export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer, setUserName};

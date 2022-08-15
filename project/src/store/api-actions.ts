@@ -18,6 +18,7 @@ import {
   loadComments,
   loadNearbyOffers,
   loadOffer,
+  setUserName,
 } from './actions';
 
 type ThunkApiConfigType = {
@@ -99,8 +100,11 @@ const checkAuthAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
   StateAction.User.CheckAuth,
   async (_arg, { dispatch, extra: api }) => {
     try {
-      // по этому адресу /login проверяется статус авторизации (по тех заданию), дает ответ либо 200 либо 401
-      await api.get(ApiRoute.Login);
+      const {
+        data: { email: userName },
+      } = await api.get(ApiRoute.Login);
+
+      dispatch(setUserName(userName));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
@@ -116,13 +120,14 @@ const loginAction = createAsyncThunk<void, AuthData, ThunkApiConfigType>(
     // В качестве данных передаем { email, password }
     const {
       // сохранили токен в переменную
-      data: { token },
+      data: { token, email: userName },
       // когда мы передаем запрос мы передаем параметр типа, у нас UserData, UserData -это тот тип объекта, который нам должен вернуть сервер. Мы это делаем для того, чтобы могли использовать преимущества TS
     } = await api.post<UserData>(ApiRoute.Login, { email, password });
     // сохарнили токен в хранилище
     saveToken(token);
     // диспатчим, что мы авторизованы
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setUserName(userName));
     dispatch(redirectToRoute(AppRoute.Main));
     toast.success('You successfully login');
   }
