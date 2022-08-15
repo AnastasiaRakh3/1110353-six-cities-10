@@ -4,21 +4,27 @@ import { toast } from 'react-toastify';
 
 import { StateAction } from './action-types';
 import { OfferType } from '../types/offer';
+import { CommentType } from '../types/comment';
 import { State, AppDispatch } from '../types/state';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { saveToken, dropToken } from '../services/token';
-import {
-  ApiRoute,
-  AuthorizationStatus,
-  AppRoute,
-} from '../const';
+import { ApiRoute, AuthorizationStatus, AppRoute } from '../const';
 import {
   loadOffers,
   setLoadOffersStatus,
   requireAuthorization,
   redirectToRoute,
+  loadComments,
+  loadNearbyOffers,
+  loadOffer,
 } from './actions';
+
+type ThunkApiConfigType = {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+};
 
 // Модуль в котором опишем асинхронные действия. В этих действиях будем выполнять запросы к серверу
 
@@ -38,53 +44,60 @@ import {
 // 3й аргумент дженерика ThunkApiConfig extends AsyncThunkConfig = {} - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого ты достаешь extra назвав его api и протипизировав в дженерике как AxiosInstance
 
 // Для загрузки офферов
-const fetchOffersAction = createAsyncThunk<
-  void,
-  undefined,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
+const fetchOffersAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
+  StateAction.Offer.LoadOffers,
+  async (_arg, { dispatch, extra: api }) => {
+    // api добавляли при создании хранилища
+    // делаем запрос к серверу, у axios есть метод get, который равносилен методу GET, и указываем куда этот запрос нужно отправить
+    const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
+    // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.Offer.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
+    dispatch(loadOffers(data));
+    dispatch(setLoadOffersStatus(true));
   }
->(StateAction.LoadOffers, async (_arg, { dispatch, extra: api }) => {
-  // api добавляли при создании хранилища
-  // делаем запрос к серверу, у axios есть метод get, который равносилен методу GET, и указываем куда этот запрос нужно отправить
-  const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
-  // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
-  dispatch(loadOffers(data));
-  dispatch(setLoadOffersStatus(true));
+);
+
+const fetchOneOfferAction = createAsyncThunk<void, number, ThunkApiConfigType>(
+  StateAction.Offer.LoadOffer,
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<OfferType>(`${ApiRoute.Offers}/${id}`);
+    dispatch(loadOffer(data));
+  }
+);
+
+const fetchNearbyOffersAction = createAsyncThunk<
+  void,
+  number,
+  ThunkApiConfigType
+>(StateAction.Offer.LoadNearbyOffers, async (id, { dispatch, extra: api }) => {
+  const { data } = await api.get<OfferType[]>(`${ApiRoute.Offers}/${id}/nearby`);
+  dispatch(loadNearbyOffers(data));
 });
+
+const fetchCommentsAction = createAsyncThunk<void, number, ThunkApiConfigType>(
+  StateAction.Comment.LoadComments,
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<CommentType[]>(`${ApiRoute.Comments}/${id}`);
+    dispatch(loadComments(data));
+  }
+);
 
 // Проверки наличия авторизации
-const checkAuthAction = createAsyncThunk<
-  void,
-  undefined,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
+const checkAuthAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
+  StateAction.User.CheckAuth,
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      // по этому адресу /login проверяется статус авторизации (по тех заданию), дает ответ либо 200 либо 401
+      await api.get(ApiRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
   }
->(StateAction.CheckAuth, async (_arg, { dispatch, extra: api }) => {
-  try {
-    // по этому адресу /login проверяется статус авторизации (по тех заданию), дает ответ либо 200 либо 401
-    await api.get(ApiRoute.Login);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-  } catch {
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-  }
-});
+);
 
 // Отправка данных для прохождения аутентификации
-const loginAction = createAsyncThunk<
-  void,
-  AuthData,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }
->(
-  StateAction.Login,
+const loginAction = createAsyncThunk<void, AuthData, ThunkApiConfigType>(
+  StateAction.User.Login,
   // Присваиваем таким синтаксисом значение из поля login переменной email, так как сервер ждет объект с полями email и password
   async ({ login: email, password }, { dispatch, extra: api }) => {
     // В качестве данных передаем { email, password }
@@ -103,25 +116,23 @@ const loginAction = createAsyncThunk<
 );
 
 // Отправка запроса на выход из приложения.
-const logoutAction = createAsyncThunk<
-  void,
-  undefined,
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
+const logoutAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
+  StateAction.User.Logout,
+  async (_arg, { dispatch, extra: api }) => {
+    await api.delete(ApiRoute.Logout);
+    // удаляем токен из локал сторидж
+    dropToken();
+    // диспатчим, что мы не авторизованы
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
->(StateAction.Logout, async (_arg, { dispatch, extra: api }) => {
-  await api.delete(ApiRoute.Logout);
-  // удаляем токен из локал сторидж
-  dropToken();
-  // диспатчим, что мы не авторизованы
-  dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-});
+);
 
 export {
   fetchOffersAction,
   checkAuthAction,
   loginAction,
   logoutAction,
+  fetchOneOfferAction,
+  fetchNearbyOffersAction,
+  fetchCommentsAction,
 };

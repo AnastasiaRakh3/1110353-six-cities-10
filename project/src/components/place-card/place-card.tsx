@@ -2,6 +2,8 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, PlaceType } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { fetchOneOfferAction, fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
@@ -12,8 +14,16 @@ type PlaceCardProps = {
 };
 
 export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
   const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard(offer.id);
   const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => onHoverCard(null);
+  const handleLinkClick = (evt: MouseEvent<HTMLElement>) => {
+    dispatch(fetchOneOfferAction(offer.id));
+    dispatch(fetchCommentsAction(offer.id));
+    dispatch(fetchNearbyOffersAction(offer.id));
+  };
 
   return (
     <article
@@ -23,9 +33,12 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
     >
       {isPremium(offer, 'place-card')}
       <div className={`${placeType}__image-wrapper place-card__image-wrapper`}>
-        <a href="https://www.google.com/">
+        <Link
+          to={`${AppRoute.Room}/${offer.id}`}
+          onClick={handleLinkClick}
+        >
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place" title={offer.title} />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -51,7 +64,7 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
-    </article>
+    </article >
   );
 }
 

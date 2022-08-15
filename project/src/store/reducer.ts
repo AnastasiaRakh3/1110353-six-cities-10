@@ -1,12 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError } from './actions';
 import { OfferType } from '../types/offer';
+import { CommentType } from '../types/comment';
 import { DEFAULT_CITY_NAME, AuthorizationStatus } from '../const';
+import {
+  changeCity,
+  loadOffers,
+  setLoadOffersStatus,
+  requireAuthorization,
+  setServerError,
+  loadOffer,
+  loadNearbyOffers,
+  loadComments,
+} from './actions';
 
 type initialStateType = {
   city: string;
   offers: OfferType[];
+  activeOffer: OfferType | null;
+  comments: CommentType[];
+  nearbyOffers: OfferType[];
   isDataLoaded: boolean;
   authorizationStatus: AuthorizationStatus;
   serverError: string | null;
@@ -15,6 +28,9 @@ type initialStateType = {
 const initialState: initialStateType = {
   city: DEFAULT_CITY_NAME,
   offers: [],
+  activeOffer: null,
+  comments: [],
+  nearbyOffers: [],
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   serverError: null,
@@ -53,6 +69,15 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setServerError, (state, action) => {
       state.serverError = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.activeOffer = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
     });
 });
 

@@ -1,32 +1,24 @@
-import { useParams, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import Reviews from '../../components/reviews/reviews';
-import { OfferType } from '../../types/offer';
-import { commentsList } from '../../mocks/comments';
 import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
 import { AppRoute, MapType, PlaceType } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
+import { useAppSelector } from '../../hooks';
 
-type RoomScreenProps = {
-  offersList: OfferType[];
-};
+export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
 
-export default function RoomScreen({ offersList, renderMap, renderOffersList }: RoomScreenProps & MapHocProps): JSX.Element {
-  const { id } = useParams();
-
-  const room = offersList.find((offer) => offer.id === Number(id));
+  const room = useAppSelector((state) => state.activeOffer);
+  const comments = useAppSelector((state) => state.comments);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
 
   if (!room) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  // Временно, чтобы карта рендерила с этого же города
   const currentCity = room.city;
-  const nearPlaces = offersList.filter((offer) => offer.city.name === currentCity.name);
-
-  const reviews = commentsList.filter((comment) => comment.idOffer === Number(id));
 
   const roomImagesElements = room.images.map((img) => (
     <div key={img} className="property__image-wrapper">
@@ -116,13 +108,13 @@ export default function RoomScreen({ offersList, renderMap, renderOffersList }: 
                   </p>
                 </div>
               </div>
-              <Reviews reviews={reviews} />
+              <Reviews reviews={comments} />
             </div>
           </div>
         </section>
         <div className="container">
-          {renderMap(nearPlaces.slice(0, 3), currentCity, MapType.Property)}
-          {renderOffersList(nearPlaces.slice(0, 3), PlaceType.NearPlaces)}
+          {renderMap(nearbyOffers, currentCity, MapType.Property)}
+          {renderOffersList(nearbyOffers, PlaceType.NearPlaces)}
         </div>
       </main>
     </div>

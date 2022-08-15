@@ -12,7 +12,7 @@ type Reducer = ReturnType<typeof reducer>;
 // параметр next - обычно его так называют, он выполняет действие и передаёт результат дальше, следующему middleware
 export const redirect: Middleware<unknown, Reducer> =
   (_store) => (next) => (action) => {
-    if (action.type === StateAction.RedirectToRoute) {
+    if (action.type === StateAction.User.RedirectToRoute) {
       browserHistory.push(action.payload);
     }
     return next(action);

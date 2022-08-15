@@ -6,6 +6,7 @@ enum ApiRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
 
 enum AppRoute {

@@ -1,12 +1,24 @@
 export const StateAction = {
-  ChangeCity: 'city/changeCity',
-  LoadOffers: 'offers/loadOffers',
-  LoadStatus: 'offers/loadStatus',
-  RequireAuth: 'user/requireAuth',
-  CheckAuth: 'user/checkAuth',
-  Login: 'user/login',
-  Logout: 'user/logout',
-  RedirectToRoute: 'user/redirectToRoute',
-  SetServerError: 'error/setServerError',
-  ClearServerError: 'error/clearServerError',
+  City: {
+    ChangeCity: 'city/changeCity',
+  },
+  Offer: {
+    LoadOffers: 'offer/loadOffers',
+    LoadStatus: 'offer/loadStatus',
+    LoadOffer: 'offer/loadOffer',
+    LoadNearbyOffers: 'offer/loadNearbyOffers',
+  },
+  Comment: {
+    LoadComments: 'comment/loadComments',
+  },
+  User: {
+    RequireAuth: 'user/requireAuth',
+    CheckAuth: 'user/checkAuth',
+    Login: 'user/login',
+    Logout: 'user/logout',
+    RedirectToRoute: 'user/redirectToRoute',
+  },
+  Error: {
+    SetServerError: 'error/setServerError',
+  },
 };
