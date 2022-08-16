@@ -12,7 +12,7 @@ import { saveToken, dropToken } from '../services/token';
 import { ApiRoute, AuthorizationStatus, AppRoute } from '../const';
 import {
   loadOffers,
-  setLoadOffersStatus,
+  setLoadDataStatus,
   requireAuthorization,
   redirectToRoute,
   loadComments,
@@ -53,34 +53,27 @@ const fetchOffersAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
     const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
     // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.Offer.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
     dispatch(loadOffers(data));
-    dispatch(setLoadOffersStatus(true));
+    dispatch(setLoadDataStatus(true));
   }
 );
 
 const fetchOneOfferAction = createAsyncThunk<void, number, ThunkApiConfigType>(
   StateAction.Offer.LoadOffer,
   async (id, { dispatch, extra: api }) => {
-    const { data } = await api.get<OfferType>(`${ApiRoute.Offers}/${id}`);
-    dispatch(loadOffer(data));
-  }
-);
-
-const fetchNearbyOffersAction = createAsyncThunk<
-  void,
-  number,
-  ThunkApiConfigType
->(StateAction.Offer.LoadNearbyOffers, async (id, { dispatch, extra: api }) => {
-  const { data } = await api.get<OfferType[]>(
-    `${ApiRoute.Offers}/${id}/nearby`
-  );
-  dispatch(loadNearbyOffers(data));
-});
-
-const fetchCommentsAction = createAsyncThunk<void, number, ThunkApiConfigType>(
-  StateAction.Comment.LoadComments,
-  async (id, { dispatch, extra: api }) => {
-    const { data } = await api.get<CommentType[]>(`${ApiRoute.Comments}/${id}`);
-    dispatch(loadComments(data));
+    dispatch(setLoadDataStatus(true));
+    const { data: offer } = await api.get<OfferType>(
+      `${ApiRoute.Offers}/${id}`
+    );
+    const { data: nearbyOffers } = await api.get<OfferType[]>(
+      `${ApiRoute.Offers}/${id}/nearby`
+    );
+    const { data: comments } = await api.get<CommentType[]>(
+      `${ApiRoute.Comments}/${id}`
+    );
+    dispatch(loadOffer(offer));
+    dispatch(loadNearbyOffers(nearbyOffers));
+    dispatch(loadComments(comments));
+    dispatch(setLoadDataStatus(false));
   }
 );
 
@@ -151,7 +144,5 @@ export {
   loginAction,
   logoutAction,
   fetchOneOfferAction,
-  fetchNearbyOffersAction,
-  fetchCommentsAction,
   sendNewPost,
 };

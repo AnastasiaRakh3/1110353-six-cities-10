@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import Reviews from '../../components/reviews/reviews';
+import Loading from '../../components/loading/loading';
 import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
 import { AppRoute, MapType, PlaceType } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
@@ -10,23 +11,25 @@ import { useAppSelector } from '../../hooks';
 
 export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
 
-  const room = useAppSelector((state) => state.activeOffer);
-  const comments = useAppSelector((state) => state.comments);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const { activeOffer, comments, nearbyOffers, isDataLoaded } = useAppSelector((state) => state);
 
-  if (!room) {
+  if (!activeOffer) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const currentCity = room.city;
+  if (isDataLoaded) {
+    return <Loading />;
+  }
 
-  const roomImagesElements = room.images.map((img) => (
+  const currentCity = activeOffer.city;
+
+  const roomImagesElements = activeOffer.images.map((img) => (
     <div key={img} className="property__image-wrapper">
-      <img className="property__image" src={img} alt={`Room ${room.id}`} />
+      <img className="property__image" src={img} alt={`Room ${activeOffer.id}`} />
     </div>
   ));
 
-  const goodsElements = room.goods.map(
+  const goodsElements = activeOffer.goods.map(
     (element) => <li key={element} className="property__inside-item">{element}</li>
   );
 
@@ -49,12 +52,12 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium(room, 'property')}
+              {isPremium(activeOffer, 'property')}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {room.title}
+                  {activeOffer.title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite(room, 'property')} button`} type="button">
+                <button className={`property__bookmark-button ${isFavorite(activeOffer, 'property')} button`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -63,24 +66,24 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: setRatingStarWidth(room) }} />
+                  <span style={{ width: setRatingStarWidth(activeOffer) }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{room.rating}</span>
+                <span className="property__rating-value rating__value">{activeOffer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {makeFistLetterUp(room.type)}
+                  {makeFistLetterUp(activeOffer.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {room.bedrooms} Bedroom{checkEnding(room.bedrooms)}
+                  {activeOffer.bedrooms} Bedroom{checkEnding(activeOffer.bedrooms)}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {room.maxAdults} adult{checkEnding(room.maxAdults)}
+                  Max {activeOffer.maxAdults} adult{checkEnding(activeOffer.maxAdults)}
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{room.price}</b>
+                <b className="property__price-value">&euro;{activeOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -93,10 +96,10 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={room.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={activeOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {room.host.name}
+                    {activeOffer.host.name}
                   </span>
                   <span className="property__user-status">
                     Pro
@@ -104,11 +107,11 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {room.description}
+                    {activeOffer.description}
                   </p>
                 </div>
               </div>
-              <Reviews reviews={comments} roomId={room.id}/>
+              <Reviews reviews={comments} roomId={activeOffer.id} />
             </div>
           </div>
         </section>

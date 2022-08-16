@@ -14,7 +14,7 @@ import { AuthorizationStatus, AppRoute } from '../const';
 const changeCity = createAction<{ city: string }>(StateAction.City.ChangeCity);
 
 const loadOffers = createAction<OfferType[]>(StateAction.Offer.LoadOffers);
-const setLoadOffersStatus = createAction<boolean>(StateAction.Offer.LoadStatus);
+const setLoadDataStatus = createAction<boolean>(StateAction.Offer.LoadStatus);
 const loadOffer = createAction<OfferType>(StateAction.Offer.LoadOffer);
 const loadNearbyOffers = createAction<OfferType[]>(StateAction.Offer.LoadNearbyOffers);
 
@@ -26,4 +26,4 @@ const redirectToRoute = createAction<AppRoute>(StateAction.User.RedirectToRoute)
 
 const setServerError = createAction<string | null>(StateAction.Error.SetServerError);
 
-export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer, setUserName};
+export { changeCity, loadOffers, setLoadDataStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer, setUserName};

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute, PlaceType } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { fetchOneOfferAction, fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
@@ -21,8 +21,6 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
   const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => onHoverCard(null);
   const handleLinkClick = (evt: MouseEvent<HTMLElement>) => {
     dispatch(fetchOneOfferAction(offer.id));
-    dispatch(fetchCommentsAction(offer.id));
-    dispatch(fetchNearbyOffersAction(offer.id));
   };
 
   return (

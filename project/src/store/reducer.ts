@@ -6,7 +6,7 @@ import { DEFAULT_CITY_NAME, AuthorizationStatus } from '../const';
 import {
   changeCity,
   loadOffers,
-  setLoadOffersStatus,
+  setLoadDataStatus,
   requireAuthorization,
   setServerError,
   loadOffer,
@@ -64,7 +64,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(setLoadOffersStatus, (state, action) => {
+    .addCase(setLoadDataStatus, (state, action) => {
       state.isDataLoaded = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
