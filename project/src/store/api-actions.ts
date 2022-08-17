@@ -12,13 +12,14 @@ import { saveToken, dropToken } from '../services/token';
 import { ApiRoute, AuthorizationStatus, AppRoute } from '../const';
 import {
   loadOffers,
-  setLoadDataStatus,
+  setLoadOffersStatus,
   requireAuthorization,
   redirectToRoute,
   loadComments,
   loadNearbyOffers,
   loadOffer,
   setUserName,
+  setLoadActiveOfferStatus,
 } from './actions';
 
 type ThunkApiConfigType = {
@@ -53,14 +54,14 @@ const fetchOffersAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
     const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
     // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.Offer.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
     dispatch(loadOffers(data));
-    dispatch(setLoadDataStatus(true));
+    dispatch(setLoadOffersStatus(true));
   }
 );
 
-const fetchOneOfferAction = createAsyncThunk<void, number, ThunkApiConfigType>(
+const fetchOneOfferAction = createAsyncThunk<void, string, ThunkApiConfigType>(
   StateAction.Offer.LoadOffer,
   async (id, { dispatch, extra: api }) => {
-    dispatch(setLoadDataStatus(true));
+    dispatch(setLoadActiveOfferStatus(false));
     const { data: offer } = await api.get<OfferType>(
       `${ApiRoute.Offers}/${id}`
     );
@@ -73,7 +74,7 @@ const fetchOneOfferAction = createAsyncThunk<void, number, ThunkApiConfigType>(
     dispatch(loadOffer(offer));
     dispatch(loadNearbyOffers(nearbyOffers));
     dispatch(loadComments(comments));
-    dispatch(setLoadDataStatus(false));
+    dispatch(setLoadActiveOfferStatus(true));
   }
 );
 

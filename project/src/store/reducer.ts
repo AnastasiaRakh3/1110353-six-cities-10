@@ -6,13 +6,14 @@ import { DEFAULT_CITY_NAME, AuthorizationStatus } from '../const';
 import {
   changeCity,
   loadOffers,
-  setLoadDataStatus,
+  setLoadOffersStatus,
   requireAuthorization,
   setServerError,
   loadOffer,
   loadNearbyOffers,
   loadComments,
   setUserName,
+  setLoadActiveOfferStatus,
 } from './actions';
 
 type initialStateType = {
@@ -22,6 +23,7 @@ type initialStateType = {
   comments: CommentType[];
   nearbyOffers: OfferType[];
   isDataLoaded: boolean;
+  isActiveOfferLoaded: boolean;
   authorizationStatus: AuthorizationStatus;
   serverError: string | null;
   userName: string;
@@ -34,6 +36,7 @@ const initialState: initialStateType = {
   comments: [],
   nearbyOffers: [],
   isDataLoaded: false,
+  isActiveOfferLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   serverError: null,
   userName: '',
@@ -64,7 +67,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(setLoadDataStatus, (state, action) => {
+    .addCase(setLoadOffersStatus, (state, action) => {
       state.isDataLoaded = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
@@ -84,6 +87,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserName, (state, action) => {
       state.userName = action.payload;
+    })
+    .addCase(setLoadActiveOfferStatus, (state, action) => {
+      state.isActiveOfferLoaded = action.payload;
     });
 });
 

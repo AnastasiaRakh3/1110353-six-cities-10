@@ -4,8 +4,9 @@ export const StateAction = {
   },
   Offer: {
     LoadOffers: 'offer/loadOffers',
-    LoadStatus: 'offer/loadStatus',
+    LoadOffersStatus: 'offer/loadOffersStatus',
     LoadOffer: 'offer/loadOffer',
+    LoadActiveOfferStatus: 'offer/loadActiveOfferStatus',
     LoadNearbyOffers: 'offer/loadNearbyOffers',
   },
   Comment: {

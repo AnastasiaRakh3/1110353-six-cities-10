@@ -1,23 +1,32 @@
-import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import Reviews from '../../components/reviews/reviews';
 import Loading from '../../components/loading/loading';
 import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
-import { AppRoute, MapType, PlaceType } from '../../const';
+import { MapType, PlaceType } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { fetchOneOfferAction } from '../../store/api-actions';
+import { OfferType } from '../../types/offer';
 
 export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
 
-  const { activeOffer, comments, nearbyOffers, isDataLoaded } = useAppSelector((state) => state);
+  const { comments, nearbyOffers, isActiveOfferLoaded } = useAppSelector((state) => state);
+  const activeOffer = useAppSelector((state) => state.activeOffer) as OfferType;
 
-  if (!activeOffer) {
-    return <Navigate to={AppRoute.NotFound} />;
-  }
+  const dispatch = useAppDispatch();
 
-  if (isDataLoaded) {
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchOneOfferAction(id as string));
+  }, [dispatch, id]);
+
+  // activeOffer === null иначе ошибка что не читаются свойства activeOffer
+  if (!isActiveOfferLoaded || activeOffer === null) {
     return <Loading />;
   }
 

@@ -14,16 +14,41 @@ import { AuthorizationStatus, AppRoute } from '../const';
 const changeCity = createAction<{ city: string }>(StateAction.City.ChangeCity);
 
 const loadOffers = createAction<OfferType[]>(StateAction.Offer.LoadOffers);
-const setLoadDataStatus = createAction<boolean>(StateAction.Offer.LoadStatus);
+const setLoadOffersStatus = createAction<boolean>(StateAction.Offer.LoadOffersStatus);
 const loadOffer = createAction<OfferType>(StateAction.Offer.LoadOffer);
-const loadNearbyOffers = createAction<OfferType[]>(StateAction.Offer.LoadNearbyOffers);
+const setLoadActiveOfferStatus = createAction<boolean>(
+  StateAction.Offer.LoadActiveOfferStatus
+);
+const loadNearbyOffers = createAction<OfferType[]>(
+  StateAction.Offer.LoadNearbyOffers
+);
 
-const loadComments = createAction<CommentType[]>(StateAction.Comment.LoadComments);
+const loadComments = createAction<CommentType[]>(
+  StateAction.Comment.LoadComments
+);
 
-const requireAuthorization = createAction<AuthorizationStatus>(StateAction.User.RequireAuth);
+const requireAuthorization = createAction<AuthorizationStatus>(
+  StateAction.User.RequireAuth
+);
 const setUserName = createAction<string>(StateAction.User.SetUserName);
-const redirectToRoute = createAction<AppRoute>(StateAction.User.RedirectToRoute);
+const redirectToRoute = createAction<AppRoute>(
+  StateAction.User.RedirectToRoute
+);
 
-const setServerError = createAction<string | null>(StateAction.Error.SetServerError);
+const setServerError = createAction<string | null>(
+  StateAction.Error.SetServerError
+);
 
-export { changeCity, loadOffers, setLoadDataStatus, requireAuthorization, setServerError, redirectToRoute, loadComments, loadNearbyOffers, loadOffer, setUserName};
+export {
+  changeCity,
+  loadOffers,
+  setLoadOffersStatus,
+  requireAuthorization,
+  setServerError,
+  redirectToRoute,
+  loadComments,
+  loadNearbyOffers,
+  loadOffer,
+  setUserName,
+  setLoadActiveOfferStatus,
+};

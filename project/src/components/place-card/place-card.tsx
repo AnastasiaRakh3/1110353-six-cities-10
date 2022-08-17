@@ -2,8 +2,6 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, PlaceType } from '../../const';
-import { useAppDispatch } from '../../hooks';
-import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
 
@@ -15,13 +13,8 @@ type PlaceCardProps = {
 
 export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardProps): JSX.Element {
 
-  const dispatch = useAppDispatch();
-
   const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard(offer.id);
   const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => onHoverCard(null);
-  const handleLinkClick = (evt: MouseEvent<HTMLElement>) => {
-    dispatch(fetchOneOfferAction(offer.id));
-  };
 
   return (
     <article
@@ -33,7 +26,6 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
       <div className={`${placeType}__image-wrapper place-card__image-wrapper`}>
         <Link
           to={`${AppRoute.Room}/${offer.id}`}
-          onClick={handleLinkClick}
         >
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place" title={offer.title} />
         </Link>
@@ -62,7 +54,7 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
-    </article >
+    </article>
   );
 }
 
