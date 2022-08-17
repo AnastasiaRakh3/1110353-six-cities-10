@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/app/app';
-import { CITIES } from './const';
+import { DEFAULT_CITIES } from './const';
 import { store } from './store';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 
@@ -26,7 +26,7 @@ root.render(
     <Provider store={store}>
       <ToastContainer />
       <App
-        cities={CITIES}
+        cities={DEFAULT_CITIES}
       />
     </Provider>
   </React.StrictMode>,

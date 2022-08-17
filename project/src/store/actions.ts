@@ -13,8 +13,11 @@ import { AuthorizationStatus, AppRoute } from '../const';
 
 const changeCity = createAction<{ city: string }>(StateAction.City.ChangeCity);
 
+// offer
 const loadOffers = createAction<OfferType[]>(StateAction.Offer.LoadOffers);
-const setLoadOffersStatus = createAction<boolean>(StateAction.Offer.LoadOffersStatus);
+const setLoadOffersStatus = createAction<boolean>(
+  StateAction.Offer.SetLoadOffersStatus
+);
 const loadOffer = createAction<OfferType>(StateAction.Offer.LoadOffer);
 const setLoadActiveOfferStatus = createAction<boolean>(
   StateAction.Offer.LoadActiveOfferStatus
@@ -23,10 +26,15 @@ const loadNearbyOffers = createAction<OfferType[]>(
   StateAction.Offer.LoadNearbyOffers
 );
 
+// comment
 const loadComments = createAction<CommentType[]>(
   StateAction.Comment.LoadComments
 );
+const setSendNewCommentStatus = createAction<boolean>(
+  StateAction.Comment.SetSendNewCommentStatus
+);
 
+// user
 const requireAuthorization = createAction<AuthorizationStatus>(
   StateAction.User.RequireAuth
 );
@@ -35,6 +43,7 @@ const redirectToRoute = createAction<AppRoute>(
   StateAction.User.RedirectToRoute
 );
 
+// server
 const setServerError = createAction<string | null>(
   StateAction.Error.SetServerError
 );
@@ -51,4 +60,5 @@ export {
   loadOffer,
   setUserName,
   setLoadActiveOfferStatus,
+  setSendNewCommentStatus,
 };

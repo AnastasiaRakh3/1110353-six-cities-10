@@ -14,7 +14,7 @@ import { OfferType } from '../../types/offer';
 
 export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
 
-  const { comments, nearbyOffers, isActiveOfferLoaded } = useAppSelector((state) => state);
+  const { comments, nearbyOffers, isActiveOfferLoading } = useAppSelector((state) => state);
   const activeOffer = useAppSelector((state) => state.activeOffer) as OfferType;
 
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
   }, [dispatch, id]);
 
   // activeOffer === null иначе ошибка что не читаются свойства activeOffer
-  if (!isActiveOfferLoaded || activeOffer === null) {
+  if (isActiveOfferLoading || activeOffer === null) {
     return <Loading />;
   }
 

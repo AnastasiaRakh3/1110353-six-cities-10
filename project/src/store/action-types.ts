@@ -4,7 +4,7 @@ export const StateAction = {
   },
   Offer: {
     LoadOffers: 'offer/loadOffers',
-    LoadOffersStatus: 'offer/loadOffersStatus',
+    SetLoadOffersStatus: 'offer/setLoadOffersStatus',
     LoadOffer: 'offer/loadOffer',
     LoadActiveOfferStatus: 'offer/loadActiveOfferStatus',
     LoadNearbyOffers: 'offer/loadNearbyOffers',
@@ -12,6 +12,7 @@ export const StateAction = {
   Comment: {
     LoadComments: 'comment/loadComments',
     SendNewComment: 'comment/sendNewComment',
+    SetSendNewCommentStatus: 'comment/setNewCommentStatus',
   },
   User: {
     RequireAuth: 'user/requireAuth',

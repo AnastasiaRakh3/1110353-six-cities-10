@@ -20,6 +20,7 @@ import {
   loadOffer,
   setUserName,
   setLoadActiveOfferStatus,
+  setSendNewCommentStatus,
 } from './actions';
 
 type ThunkApiConfigType = {
@@ -49,43 +50,61 @@ type ThunkApiConfigType = {
 const fetchOffersAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
   StateAction.Offer.LoadOffers,
   async (_arg, { dispatch, extra: api }) => {
-    // api добавляли при создании хранилища
-    // делаем запрос к серверу, у axios есть метод get, который равносилен методу GET, и указываем куда этот запрос нужно отправить
-    const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
-    // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.Offer.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
-    dispatch(loadOffers(data));
-    dispatch(setLoadOffersStatus(true));
+    try {
+      dispatch(setLoadOffersStatus(true));
+      // api добавляли при создании хранилища
+      // делаем запрос к серверу, у axios есть метод get, который равносилен методу GET, и указываем куда этот запрос нужно отправить
+      const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
+      // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.Offer.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
+      dispatch(loadOffers(data));
+      dispatch(setLoadOffersStatus(false));
+    } catch (err) {
+      // условие для типизации ошибки, иначе ругается
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    }
   }
 );
 
 const fetchOneOfferAction = createAsyncThunk<void, string, ThunkApiConfigType>(
   StateAction.Offer.LoadOffer,
   async (id, { dispatch, extra: api }) => {
-    dispatch(setLoadActiveOfferStatus(false));
-    const { data: offer } = await api.get<OfferType>(
-      `${ApiRoute.Offers}/${id}`
-    );
-    const { data: nearbyOffers } = await api.get<OfferType[]>(
-      `${ApiRoute.Offers}/${id}/nearby`
-    );
-    const { data: comments } = await api.get<CommentType[]>(
-      `${ApiRoute.Comments}/${id}`
-    );
-    dispatch(loadOffer(offer));
-    dispatch(loadNearbyOffers(nearbyOffers));
-    dispatch(loadComments(comments));
-    dispatch(setLoadActiveOfferStatus(true));
+    try {
+      dispatch(setLoadActiveOfferStatus(true));
+      const { data: offer } = await api.get<OfferType>(
+        `${ApiRoute.Offers}/${id}`
+      );
+      const { data: nearbyOffers } = await api.get<OfferType[]>(
+        `${ApiRoute.Offers}/${id}/nearby`
+      );
+      const { data: comments } = await api.get<CommentType[]>(
+        `${ApiRoute.Comments}/${id}`
+      );
+      dispatch(loadOffer(offer));
+      dispatch(loadNearbyOffers(nearbyOffers));
+      dispatch(loadComments(comments));
+      dispatch(setLoadActiveOfferStatus(false));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   }
 );
 
-const sendNewPost = createAsyncThunk<void, CommentData, ThunkApiConfigType>(
+const sendNewComment = createAsyncThunk<void, CommentData, ThunkApiConfigType>(
   StateAction.Comment.SendNewComment,
   async ({ roomId, comment, rating }, { dispatch, extra: api }) => {
-    const { data } = await api.post(`${ApiRoute.Comments}/${roomId}`, {
-      comment,
-      rating,
-    });
-    dispatch(loadComments(data));
+    try {
+      setSendNewCommentStatus(true);
+      const { data } = await api.post(`${ApiRoute.Comments}/${roomId}`, {
+        comment,
+        rating,
+      });
+      dispatch(loadComments(data));
+      setSendNewCommentStatus(false);
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   }
 );
 
@@ -111,19 +130,26 @@ const loginAction = createAsyncThunk<void, AuthData, ThunkApiConfigType>(
   StateAction.User.Login,
   // Присваиваем таким синтаксисом значение из поля login переменной email, так как сервер ждет объект с полями email и password
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    // В качестве данных передаем { email, password }
-    const {
-      // сохранили токен в переменную
-      data: { token, email: userName },
-      // когда мы передаем запрос мы передаем параметр типа, у нас UserData, UserData -это тот тип объекта, который нам должен вернуть сервер. Мы это делаем для того, чтобы могли использовать преимущества TS
-    } = await api.post<UserData>(ApiRoute.Login, { email, password });
-    // сохарнили токен в хранилище
-    saveToken(token);
-    // диспатчим, что мы авторизованы
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(setUserName(userName));
-    dispatch(redirectToRoute(AppRoute.Main));
-    toast.success('You successfully login');
+    try {
+      // В качестве данных передаем { email, password }
+      const {
+        // сохранили токен в переменную
+        data: { token, email: userName },
+        // когда мы передаем запрос мы передаем параметр типа, у нас UserData, UserData -это тот тип объекта, который нам должен вернуть сервер. Мы это делаем для того, чтобы могли использовать преимущества TS
+      } = await api.post<UserData>(ApiRoute.Login, { email, password });
+      // сохарнили токен в хранилище
+      saveToken(token);
+      // диспатчим, что мы авторизованы
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setUserName(userName));
+      dispatch(redirectToRoute(AppRoute.Main));
+      toast.success('You successfully login');
+    } catch (err) {
+      // условие для типизации ошибки, иначе ругается
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    }
   }
 );
 
@@ -131,11 +157,18 @@ const loginAction = createAsyncThunk<void, AuthData, ThunkApiConfigType>(
 const logoutAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
   StateAction.User.Logout,
   async (_arg, { dispatch, extra: api }) => {
-    await api.delete(ApiRoute.Logout);
-    // удаляем токен из локал сторидж
-    dropToken();
-    // диспатчим, что мы не авторизованы
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    try {
+      await api.delete(ApiRoute.Logout);
+      // удаляем токен из локал сторидж
+      dropToken();
+      // диспатчим, что мы не авторизованы
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    } catch (err) {
+      // условие для типизации ошибки, иначе ругается
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    }
   }
 );
 
@@ -145,5 +178,5 @@ export {
   loginAction,
   logoutAction,
   fetchOneOfferAction,
-  sendNewPost,
+  sendNewComment,
 };

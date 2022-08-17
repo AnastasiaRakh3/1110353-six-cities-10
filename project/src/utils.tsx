@@ -2,9 +2,7 @@ import dayjs from 'dayjs';
 
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
-import { SortType, AuthorizationStatus } from './const';
-
-const STAR_WIDTH = 20;
+import { SortType, AuthorizationStatus, STAR_WIDTH } from './const';
 
 const setRatingStarWidth = (element: OfferType | CommentType) =>
   `${STAR_WIDTH * Math.round(element.rating)}%`;

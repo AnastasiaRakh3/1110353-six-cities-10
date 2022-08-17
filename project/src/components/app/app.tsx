@@ -9,12 +9,12 @@ import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Loading from '../loading/loading';
 import { withMap } from '../../hocs/with-map';
-import { AppRoute, CITIES } from '../../const';
+import { AppRoute, DEFAULT_CITIES } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 import { browserHistory } from '../../browser-history';
 
 type AppProps = {
-  cities: typeof CITIES;
+  cities: typeof DEFAULT_CITIES;
 };
 
 const MainScreenWithMap = withMap(MainScreen);
@@ -23,9 +23,9 @@ const RoomScreenWithMap = withMap(RoomScreen);
 export default function App({ cities }: AppProps): JSX.Element {
 
   // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
-  const { isDataLoaded, offers, city, authorizationStatus } = useAppSelector((state) => state);
+  const { isOffersListLoading, offers, city, authorizationStatus } = useAppSelector((state) => state);
 
-  if (!isDataLoaded) {
+  if (isOffersListLoading) {
     return (
       <Loading />
     );

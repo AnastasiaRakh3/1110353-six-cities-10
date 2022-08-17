@@ -1,4 +1,4 @@
-import ReviewForm from '../review-form/review-form';
+import CommentForm from '../comment-form/comment-form';
 import CommentsList from '../comments-list/comments-list';
 import { CommentType } from '../../types/comment';
 import { AuthorizationStatus } from '../../const';
@@ -19,7 +19,7 @@ export default function Reviews({ reviews, roomId }: ReviewsProps): JSX.Element 
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <CommentsList commentsList={reviews} />
-      {isCommentsFormAvailable && <ReviewForm roomId={roomId}/>}
+      {isCommentsFormAvailable && <CommentForm roomId={roomId} />}
     </section>
   );
 }

@@ -14,6 +14,7 @@ import {
   loadComments,
   setUserName,
   setLoadActiveOfferStatus,
+  setSendNewCommentStatus,
 } from './actions';
 
 type initialStateType = {
@@ -22,8 +23,9 @@ type initialStateType = {
   activeOffer: OfferType | null;
   comments: CommentType[];
   nearbyOffers: OfferType[];
-  isDataLoaded: boolean;
-  isActiveOfferLoaded: boolean;
+  isOffersListLoading: boolean;
+  isActiveOfferLoading: boolean;
+  isNewCommentSending: boolean;
   authorizationStatus: AuthorizationStatus;
   serverError: string | null;
   userName: string;
@@ -35,8 +37,9 @@ const initialState: initialStateType = {
   activeOffer: null,
   comments: [],
   nearbyOffers: [],
-  isDataLoaded: false,
-  isActiveOfferLoaded: false,
+  isOffersListLoading: false,
+  isActiveOfferLoading: false,
+  isNewCommentSending: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   serverError: null,
   userName: '',
@@ -64,32 +67,43 @@ const reducer = createReducer(initialState, (builder) => {
       // "мутируем" объект состояния, перезаписывая его поле `city`
       state.city = action.payload.city;
     })
+
+    // offer
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(setLoadOffersStatus, (state, action) => {
-      state.isDataLoaded = action.payload;
-    })
-    .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
-    })
-    .addCase(setServerError, (state, action) => {
-      state.serverError = action.payload;
+      state.isOffersListLoading = action.payload;
     })
     .addCase(loadOffer, (state, action) => {
       state.activeOffer = action.payload;
     })
+    .addCase(setLoadActiveOfferStatus, (state, action) => {
+      state.isActiveOfferLoading = action.payload;
+    })
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
     })
+
+    // comment
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(setSendNewCommentStatus, (state, action) => {
+      state.isNewCommentSending = action.payload;
+    })
+
+    // user
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     })
     .addCase(setUserName, (state, action) => {
       state.userName = action.payload;
     })
-    .addCase(setLoadActiveOfferStatus, (state, action) => {
-      state.isActiveOfferLoaded = action.payload;
+
+    // server
+    .addCase(setServerError, (state, action) => {
+      state.serverError = action.payload;
     });
 });
 
