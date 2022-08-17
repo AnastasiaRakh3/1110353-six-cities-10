@@ -4,6 +4,8 @@ import { Setting } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { sendNewPost } from '../../store/api-actions';
 
+const MAX_COMMENT_LENGTH = 50;
+
 type ratingTitleType = {
   [key: number]: string;
 }
@@ -80,6 +82,7 @@ export default function ReviewForm({ roomId }: ReviewFormProps): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review.comment}
+        maxLength={MAX_COMMENT_LENGTH}
         onChange={handleTextChange}
       >
       </textarea>
@@ -88,7 +91,7 @@ export default function ReviewForm({ roomId }: ReviewFormProps): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe your stay
-          with at least <b className="reviews__text-amount">50 characters</b>.
+          with at least <b className="reviews__text-amount">{MAX_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
