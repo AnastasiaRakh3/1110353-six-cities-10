@@ -12,6 +12,7 @@ type PlaceCardProps = {
 };
 
 export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardProps): JSX.Element {
+
   const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard(offer.id);
   const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => onHoverCard(null);
 
@@ -23,9 +24,11 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
     >
       {isPremium(offer, 'place-card')}
       <div className={`${placeType}__image-wrapper place-card__image-wrapper`}>
-        <a href="https://www.google.com/">
+        <Link
+          to={`${AppRoute.Room}/${offer.id}`}
+        >
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place" title={offer.title} />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

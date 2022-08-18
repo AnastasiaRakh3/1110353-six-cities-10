@@ -13,3 +13,9 @@ export type CommentType = {
   rating: number;
   user: User;
 };
+
+export type CommentData = {
+  roomId: number;
+  comment: string;
+  rating: number;
+};

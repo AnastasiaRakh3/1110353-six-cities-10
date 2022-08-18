@@ -6,6 +6,7 @@ enum ApiRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
 
 enum AppRoute {
@@ -21,9 +22,9 @@ enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
-enum Setting {
-  MAX_RATING = 5,
-}
+
+const MAX_RATING = 5;
+const STAR_WIDTH = 20;
 
 enum MapType {
   Cities = 'cities',
@@ -33,6 +34,11 @@ enum MapType {
 enum PlaceType {
   Cities = 'cities',
   NearPlaces = 'near-places',
+}
+
+enum NewCommentLength {
+  Max = 300,
+  Min = 50,
 }
 
 const PLACES_LIST_CLASSES: Dictionary = {
@@ -47,14 +53,14 @@ const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
-const cities = [
+const DEFAULT_CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
   'Amsterdam',
   'Hamburg',
   'Dusseldorf',
-];
+] as const;
 
 const SortType = {
   Popular: 'Popular',
@@ -72,7 +78,9 @@ export {
   AppRoute,
   ApiRoute,
   AuthorizationStatus,
-  Setting,
+  MAX_RATING,
+  NewCommentLength,
+  STAR_WIDTH,
   MapType,
   PlaceType,
   PLACES_LIST_CLASSES,
@@ -80,7 +88,7 @@ export {
   BACKEND_URL,
   REQUEST_TIMEOUT,
   AUTH_TOKEN_KEY_NAME,
-  cities,
+  DEFAULT_CITIES,
   SortType,
   iconUrl,
 };

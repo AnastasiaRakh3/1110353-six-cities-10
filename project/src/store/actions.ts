@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { OfferType } from '../types/offer';
+import { CommentType } from '../types/comment';
 import { StateAction } from './action-types';
 import { AuthorizationStatus, AppRoute } from '../const';
 
@@ -10,11 +11,54 @@ import { AuthorizationStatus, AppRoute } from '../const';
 
 // функция createAction принимает Generic тип, описывающий, какой тип данных можеть принимать функция, которую она возвращает
 
-const changeCity = createAction<{ city: string }>(StateAction.ChangeCity);
-const loadOffers = createAction<OfferType[]>(StateAction.LoadOffers);
-const setLoadOffersStatus = createAction<boolean>(StateAction.LoadStatus);
-const requireAuthorization = createAction<AuthorizationStatus>(StateAction.RequireAuth);
-const setServerError = createAction<string | null>(StateAction.SetServerError);
-const redirectToRoute = createAction<AppRoute>(StateAction.RedirectToRoute);
+const changeCity = createAction<{ city: string }>(StateAction.City.ChangeCity);
 
-export { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError, redirectToRoute };
+// offer
+const loadOffers = createAction<OfferType[]>(StateAction.Offer.LoadOffers);
+const setLoadOffersStatus = createAction<boolean>(
+  StateAction.Offer.SetLoadOffersStatus
+);
+const loadOffer = createAction<OfferType>(StateAction.Offer.LoadOffer);
+const setLoadActiveOfferStatus = createAction<boolean>(
+  StateAction.Offer.LoadActiveOfferStatus
+);
+const loadNearbyOffers = createAction<OfferType[]>(
+  StateAction.Offer.LoadNearbyOffers
+);
+
+// comment
+const loadComments = createAction<CommentType[]>(
+  StateAction.Comment.LoadComments
+);
+const setSendNewCommentStatus = createAction<boolean>(
+  StateAction.Comment.SetSendNewCommentStatus
+);
+
+// user
+const requireAuthorization = createAction<AuthorizationStatus>(
+  StateAction.User.RequireAuth
+);
+const setUserName = createAction<string>(StateAction.User.SetUserName);
+const redirectToRoute = createAction<AppRoute>(
+  StateAction.User.RedirectToRoute
+);
+
+// server
+const setServerError = createAction<string | null>(
+  StateAction.Error.SetServerError
+);
+
+export {
+  changeCity,
+  loadOffers,
+  setLoadOffersStatus,
+  requireAuthorization,
+  setServerError,
+  redirectToRoute,
+  loadComments,
+  loadNearbyOffers,
+  loadOffer,
+  setUserName,
+  setLoadActiveOfferStatus,
+  setSendNewCommentStatus,
+};

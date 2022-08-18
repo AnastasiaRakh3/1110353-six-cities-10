@@ -5,14 +5,14 @@ import Nav from '../../components/nav/nav';
 import LocationList from '../../components/location-list/location-list';
 import SortForm from '../../components/sort-form/sort-form';
 import { OfferType } from '../../types/offer';
-import { MapType, PlaceType, SortType } from '../../const';
+import { MapType, PlaceType, SortType, DEFAULT_CITIES } from '../../const';
 import { getSortedOffers } from '../../utils';
 import { MapHocProps } from '../../hocs/with-map';
 
 type MainScreenProps = {
   offersList: OfferType[];
   city: string;
-  cities: string[];
+  cities: typeof DEFAULT_CITIES;
 };
 
 export default function MainScreen({ offersList, city, cities, renderMap, renderOffersList }: MainScreenProps & MapHocProps): JSX.Element {

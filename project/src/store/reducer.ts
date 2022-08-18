@@ -1,23 +1,48 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { changeCity, loadOffers, setLoadOffersStatus, requireAuthorization, setServerError } from './actions';
 import { OfferType } from '../types/offer';
+import { CommentType } from '../types/comment';
 import { DEFAULT_CITY_NAME, AuthorizationStatus } from '../const';
+import {
+  changeCity,
+  loadOffers,
+  setLoadOffersStatus,
+  requireAuthorization,
+  setServerError,
+  loadOffer,
+  loadNearbyOffers,
+  loadComments,
+  setUserName,
+  setLoadActiveOfferStatus,
+  setSendNewCommentStatus,
+} from './actions';
 
 type initialStateType = {
   city: string;
   offers: OfferType[];
-  isDataLoaded: boolean;
+  activeOffer: OfferType | null;
+  comments: CommentType[];
+  nearbyOffers: OfferType[];
+  isOffersListLoading: boolean;
+  isActiveOfferLoading: boolean;
+  isNewCommentSending: boolean;
   authorizationStatus: AuthorizationStatus;
   serverError: string | null;
+  userName: string;
 };
 
 const initialState: initialStateType = {
   city: DEFAULT_CITY_NAME,
   offers: [],
-  isDataLoaded: false,
+  activeOffer: null,
+  comments: [],
+  nearbyOffers: [],
+  isOffersListLoading: false,
+  isActiveOfferLoading: false,
+  isNewCommentSending: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   serverError: null,
+  userName: '',
 };
 
 // reducer — чистая функция которая будет отвечать за обновление состояния, обновление полей store.
@@ -42,15 +67,41 @@ const reducer = createReducer(initialState, (builder) => {
       // "мутируем" объект состояния, перезаписывая его поле `city`
       state.city = action.payload.city;
     })
+
+    // offer
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(setLoadOffersStatus, (state, action) => {
-      state.isDataLoaded = action.payload;
+      state.isOffersListLoading = action.payload;
     })
+    .addCase(loadOffer, (state, action) => {
+      state.activeOffer = action.payload;
+    })
+    .addCase(setLoadActiveOfferStatus, (state, action) => {
+      state.isActiveOfferLoading = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+
+    // comment
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(setSendNewCommentStatus, (state, action) => {
+      state.isNewCommentSending = action.payload;
+    })
+
+    // user
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
+    .addCase(setUserName, (state, action) => {
+      state.userName = action.payload;
+    })
+
+    // server
     .addCase(setServerError, (state, action) => {
       state.serverError = action.payload;
     });

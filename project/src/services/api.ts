@@ -62,7 +62,7 @@ export const createAPI = (): AxiosInstance => {
     (error: AxiosError) => {
       // Если у нас есть иошибка и если нужно показать инфу об этой ошибке
       if (error.response && shouldDisplayError(error.response)) {
-        toast.error(error.response.data.error);
+        toast.warn(error.response.data.error);
       }
       // эту ошибку опрокидываем, чтобы можно было ее поймать и нужном месте обработать
       throw error;
