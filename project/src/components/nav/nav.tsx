@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getAuthorizationStatus, getUserName } from '../../store/selectors';
 import { logoutAction } from '../../store/api-actions';
 
-export default function Nav(): JSX.Element {
+function Nav(): JSX.Element {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userName = useAppSelector(getUserName);
@@ -51,3 +51,5 @@ export default function Nav(): JSX.Element {
     </nav>
   );
 }
+
+export default memo(Nav);

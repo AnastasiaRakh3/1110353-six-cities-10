@@ -102,8 +102,11 @@ const sendNewComment = createAsyncThunk<void, CommentData, ThunkApiConfigType>(
       });
       dispatch(loadComments(data));
       setSendNewCommentStatus(false);
-    } catch {
-      dispatch(redirectToRoute(AppRoute.NotFound));
+    } catch (err) {
+      // условие для типизации ошибки, иначе ругается
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
     }
   }
 );

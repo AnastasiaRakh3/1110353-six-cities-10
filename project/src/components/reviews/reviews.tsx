@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import CommentForm from '../comment-form/comment-form';
 import CommentsList from '../comments-list/comments-list';
 import { CommentType } from '../../types/comment';
@@ -10,7 +12,7 @@ type ReviewsProps = {
   roomId: number,
 };
 
-export default function Reviews({ reviews, roomId }: ReviewsProps): JSX.Element {
+function Reviews({ reviews, roomId }: ReviewsProps): JSX.Element {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
@@ -24,3 +26,5 @@ export default function Reviews({ reviews, roomId }: ReviewsProps): JSX.Element 
     </section>
   );
 }
+
+export default memo(Reviews);

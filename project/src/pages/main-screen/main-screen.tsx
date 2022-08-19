@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
@@ -23,9 +23,11 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
   const sortedOffers = getSortedOffers(activeSortType, [...locationOffers]);
   const currentCity = sortedOffers[0].city;
 
-  const handleSortType = (type: string) => {
+  // useCallback возвращает мемоизированный колбэк
+  // useCallback создан специально для случаев, когда требуется передать колбэк дочерним оптимизированным компонентам, чтобы не приходилось только ради этого определять функцию сравнения изменения пропсов.
+  const handleSortType = useCallback((type: string) => {
     setActiveSortType(type);
-  };
+  }, []);
 
   return (
     <div className="page page--gray page--main">
@@ -49,7 +51,10 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{locationOffers.length} places to stay in {city}</b>
-              <SortForm onChangeSortType={handleSortType} />
+              <SortForm
+                activeSortType={activeSortType}
+                onChangeSortType={handleSortType}
+              />
               {renderOffersList(sortedOffers, PlaceType.Cities)}
             </section>
             <div className="cities__right-section">
