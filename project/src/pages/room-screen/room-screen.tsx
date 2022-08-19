@@ -9,13 +9,16 @@ import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEndin
 import { MapType, PlaceType } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 
 export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
 
-  const { comments, nearbyOffers, isActiveOfferLoading } = useAppSelector((state) => state);
-  const activeOffer = useAppSelector((state) => state.activeOffer) as OfferType;
+  const activeOffer = useAppSelector(getActiveOffer) as OfferType;
+  const isActiveOfferLoading = useAppSelector(getIsActiveOfferLoading);
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   const dispatch = useAppDispatch();
 

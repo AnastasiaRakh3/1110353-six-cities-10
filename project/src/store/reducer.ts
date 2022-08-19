@@ -8,7 +8,6 @@ import {
   loadOffers,
   setLoadOffersStatus,
   requireAuthorization,
-  setServerError,
   loadOffer,
   loadNearbyOffers,
   loadComments,
@@ -27,7 +26,6 @@ type initialStateType = {
   isActiveOfferLoading: boolean;
   isNewCommentSending: boolean;
   authorizationStatus: AuthorizationStatus;
-  serverError: string | null;
   userName: string;
 };
 
@@ -41,7 +39,6 @@ const initialState: initialStateType = {
   isActiveOfferLoading: false,
   isNewCommentSending: false,
   authorizationStatus: AuthorizationStatus.Unknown,
-  serverError: null,
   userName: '',
 };
 
@@ -99,11 +96,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserName, (state, action) => {
       state.userName = action.payload;
-    })
-
-    // server
-    .addCase(setServerError, (state, action) => {
-      state.serverError = action.payload;
     });
 });
 

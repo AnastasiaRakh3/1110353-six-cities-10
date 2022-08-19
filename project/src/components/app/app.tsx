@@ -11,6 +11,7 @@ import Loading from '../loading/loading';
 import { withMap } from '../../hocs/with-map';
 import { AppRoute, DEFAULT_CITIES } from '../../const';
 import { useAppSelector } from '../../hooks/index';
+import { getIsOffersListLoading, getOffers, getCity, getAuthorizationStatus } from '../../store/selectors';
 import { browserHistory } from '../../browser-history';
 
 type AppProps = {
@@ -23,7 +24,10 @@ const RoomScreenWithMap = withMap(RoomScreen);
 export default function App({ cities }: AppProps): JSX.Element {
 
   // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
-  const { isOffersListLoading, offers, city, authorizationStatus } = useAppSelector((state) => state);
+  const isOffersListLoading = useAppSelector(getIsOffersListLoading);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isOffersListLoading) {
     return (

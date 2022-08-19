@@ -2,6 +2,7 @@ import CommentForm from '../comment-form/comment-form';
 import CommentsList from '../comments-list/comments-list';
 import { CommentType } from '../../types/comment';
 import { AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus } from '../../store/selectors';
 import { useAppSelector } from '../../hooks';
 
 type ReviewsProps = {
@@ -11,7 +12,7 @@ type ReviewsProps = {
 
 export default function Reviews({ reviews, roomId }: ReviewsProps): JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const isCommentsFormAvailable = authorizationStatus === AuthorizationStatus.Auth;
 

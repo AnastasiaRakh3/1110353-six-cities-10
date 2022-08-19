@@ -22,7 +22,4 @@ export const StateAction = {
     Logout: 'user/logout',
     RedirectToRoute: 'user/redirectToRoute',
   },
-  Error: {
-    SetServerError: 'error/setServerError',
-  },
 };
