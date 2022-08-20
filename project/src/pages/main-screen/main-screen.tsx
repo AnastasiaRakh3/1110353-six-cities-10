@@ -3,11 +3,12 @@ import { useState, useCallback } from 'react';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import LocationList from '../../components/location-list/location-list';
+import Map from '../../components/map/map';
+import PlacesList from '../../components/places-list/places-list';
 import SortForm from '../../components/sort-form/sort-form';
 import { OfferType } from '../../types/offer';
 import { MapType, PlaceType, SortType, DEFAULT_CITIES } from '../../const';
 import { getSortedOffers } from '../../utils';
-import { MapHocProps } from '../../hocs/with-map';
 
 type MainScreenProps = {
   offersList: OfferType[];
@@ -15,13 +16,19 @@ type MainScreenProps = {
   cities: typeof DEFAULT_CITIES;
 };
 
-export default function MainScreen({ offersList, city, cities, renderMap, renderOffersList }: MainScreenProps & MapHocProps): JSX.Element {
+export default function MainScreen({ offersList, city, cities }: MainScreenProps): JSX.Element {
 
   const [activeSortType, setActiveSortType] = useState(SortType.Popular);
 
   const locationOffers = offersList.filter((offer) => offer.city.name === city);
   const sortedOffers = getSortedOffers(activeSortType, [...locationOffers]);
   const currentCity = sortedOffers[0].city;
+
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+
+  const handleCardHover = (id: number | null): void => {
+    setActiveCardId(id);
+  };
 
   // useCallback возвращает мемоизированный колбэк
   // useCallback создан специально для случаев, когда требуется передать колбэк дочерним оптимизированным компонентам, чтобы не приходилось только ради этого определять функцию сравнения изменения пропсов.
@@ -55,10 +62,10 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
                 activeSortType={activeSortType}
                 onChangeSortType={handleSortType}
               />
-              {renderOffersList(sortedOffers, PlaceType.Cities)}
+              < PlacesList offers={sortedOffers} placeType={PlaceType.Cities} onHoverCard={handleCardHover} />
             </section>
             <div className="cities__right-section">
-              {renderMap(locationOffers, currentCity, MapType.Cities)}
+              < Map offers={locationOffers} city={currentCity} mapType={MapType.Cities} activeCardId={activeCardId} />
             </div>
           </div>
         </div>

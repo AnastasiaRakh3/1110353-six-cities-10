@@ -9,13 +9,22 @@ import { setRatingStarWidth, isPremium } from '../../utils';
 type PlaceCardProps = {
   offer: OfferType;
   placeType: PlaceType;
-  onHoverCard: (id: number | null) => void;
+  onHoverCard?: (id: number | null) => void;
 };
 
 export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardProps): JSX.Element {
 
-  const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard(offer.id);
-  const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => onHoverCard(null);
+  const handleMouseOver = (evt: MouseEvent<HTMLElement>) => {
+    if (onHoverCard !== undefined) {
+      return onHoverCard(offer.id);
+    }
+  };
+
+  const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => {
+    if (onHoverCard !== undefined) {
+      return onHoverCard(null);
+    }
+  };
 
   return (
     <article

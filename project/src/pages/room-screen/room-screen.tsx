@@ -6,15 +6,16 @@ import Nav from '../../components/nav/nav';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Reviews from '../../components/reviews/reviews';
 import Loading from '../../components/loading/loading';
+import Map from '../../components/map/map';
+import NearPlaces from '../../components/near-places/near-places';
 import { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding } from '../../utils';
 import { MapType, PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen } from '../../const';
-import { MapHocProps } from '../../hocs/with-map';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 
-export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
+export default function RoomScreen(): JSX.Element {
 
   const activeOffer = useAppSelector(getActiveOffer) as OfferType;
   const isActiveOfferLoading = useAppSelector(getIsActiveOfferLoading);
@@ -128,8 +129,16 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
           </div>
         </section>
         <div className="container">
-          {renderMap(nearbyOffers, currentCity, MapType.Property)}
-          {renderOffersList(nearbyOffers, PlaceType.NearPlaces)}
+          < Map
+            offers={[...nearbyOffers, activeOffer]}
+            city={currentCity}
+            mapType={MapType.Property}
+            activeCardId={activeOffer.id}
+          />
+          < NearPlaces
+            offers={nearbyOffers}
+            placeType={PlaceType.NearPlaces}
+          />
         </div>
       </main>
     </div>
