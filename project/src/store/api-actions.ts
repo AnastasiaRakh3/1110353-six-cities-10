@@ -126,7 +126,6 @@ const loginAction = createAsyncThunk<string, AuthData, ThunkApiConfigType>(
       dispatch(redirectToRoute(AppRoute.Main));
       toast.success('You successfully login');
       return userName;
-
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -144,13 +143,27 @@ const logoutAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
       // удаляем токен из локал сторидж
       dropToken();
     } catch (err) {
-      // условие для типизации ошибки, иначе ругается
       if (err instanceof Error) {
         toast.error(err.message);
       }
     }
   }
 );
+
+const fetchFavoriteOffersAction = createAsyncThunk<
+  OfferType[],
+  undefined,
+  ThunkApiConfigType
+>(StateAction.Data.LoadFavorites, async (_arg, { dispatch, extra: api }) => {
+  try {
+    const { data } = await api.get(ApiRoute.Favorite);
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      toast.error(err.message);
+    }
+  }
+});
 
 export {
   fetchOffersAction,
@@ -159,4 +172,5 @@ export {
   logoutAction,
   fetchOneOfferAction,
   sendNewComment,
+  fetchFavoriteOffersAction,
 };

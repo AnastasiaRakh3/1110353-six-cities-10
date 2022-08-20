@@ -27,6 +27,7 @@ type DataProcess = {
   isOffersListLoading: boolean;
   isActiveOfferLoading: boolean;
   isNewCommentSending: boolean;
+  favoriteOffers: OfferType[],
 };
 
 type CityProcess = {

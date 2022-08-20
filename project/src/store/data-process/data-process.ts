@@ -6,6 +6,7 @@ import {
   fetchOffersAction,
   fetchOneOfferAction,
   sendNewComment,
+  fetchFavoriteOffersAction,
 } from '../api-actions';
 
 const initialState: DataProcess = {
@@ -16,6 +17,7 @@ const initialState: DataProcess = {
   isOffersListLoading: false,
   isActiveOfferLoading: false,
   isNewCommentSending: false,
+  favoriteOffers: [],
 };
 
 export const dataProcess = createSlice({
@@ -46,6 +48,9 @@ export const dataProcess = createSlice({
       .addCase(sendNewComment.fulfilled, (state, action) => {
         state.isNewCommentSending = false;
         state.comments = action.payload;
+      })
+      .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
       });
   },
 });

@@ -18,6 +18,9 @@ const getIsActiveOfferLoading = (state: State) =>
 const getIsNewCommentSending = (state: State) =>
   state[NameSpace.Data].isNewCommentSending;
 
+const getFavoriteOffers = (state: State) =>
+  state[NameSpace.Data].favoriteOffers;
+
 export {
   getOffers,
   getActiveOffer,
@@ -26,4 +29,5 @@ export {
   getIsOffersListLoading,
   getIsActiveOfferLoading,
   getIsNewCommentSending,
+  getFavoriteOffers,
 };

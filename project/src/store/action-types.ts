@@ -6,10 +6,11 @@ export const StateAction = {
     RedirectToRoute: 'user/redirectToRoute',
   },
   Data: {
-    LoadOffers: 'offer/loadOffers',
-    LoadOffer: 'offer/loadOffer',
-    LoadNearbyOffers: 'offer/loadNearbyOffers',
-    LoadComments: 'comment/loadComments',
-    SendNewComment: 'comment/sendNewComment',
+    LoadOffers: 'data/loadOffers',
+    LoadOffer: 'data/loadOffer',
+    LoadNearbyOffers: 'data/loadNearbyOffers',
+    LoadComments: 'data/loadComments',
+    LoadFavorites: 'data/loadFavorites',
+    SendNewComment: 'data/sendNewComment',
   },
 };
