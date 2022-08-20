@@ -6,7 +6,7 @@ import Nav from '../../components/nav/nav';
 import Reviews from '../../components/reviews/reviews';
 import Loading from '../../components/loading/loading';
 import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
-import { MapType, PlaceType } from '../../const';
+import { MapType, PlaceType, MAX_GALERY_LENGTH } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
@@ -35,7 +35,7 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
 
   const currentCity = activeOffer.city;
 
-  const roomImagesElements = activeOffer.images.map((img) => (
+  const roomImagesElements = activeOffer.images.slice(0, MAX_GALERY_LENGTH).map((img) => (
     <div key={img} className="property__image-wrapper">
       <img className="property__image" src={img} alt={`Room ${activeOffer.id}`} />
     </div>

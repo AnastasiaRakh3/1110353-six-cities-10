@@ -68,6 +68,7 @@ const fetchOneOfferAction = createAsyncThunk<
     return { offer, comments, nearbyOffers };
   } catch {
     dispatch(redirectToRoute(AppRoute.NotFound));
+    return { offer: {}, comments: [], nearbyOffers: [] };
   }
 });
 
