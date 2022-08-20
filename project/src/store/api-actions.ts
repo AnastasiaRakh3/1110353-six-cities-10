@@ -1,3 +1,5 @@
+// Модуль в котором опишем асинхронные действия, запросы к серверу
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { toast } from 'react-toastify';
@@ -7,21 +9,9 @@ import { OfferType } from '../types/offer';
 import { CommentType, CommentData } from '../types/comment';
 import { State, AppDispatch } from '../types/state';
 import { AuthData } from '../types/auth-data';
-import { UserData } from '../types/user-data';
 import { saveToken, dropToken } from '../services/token';
-import { ApiRoute, AuthorizationStatus, AppRoute } from '../const';
-import {
-  loadOffers,
-  setLoadOffersStatus,
-  requireAuthorization,
-  redirectToRoute,
-  loadComments,
-  loadNearbyOffers,
-  loadOffer,
-  setUserName,
-  setLoadActiveOfferStatus,
-  setSendNewCommentStatus,
-} from './actions';
+import { ApiRoute, AppRoute } from '../const';
+import { redirectToRoute } from './actions';
 
 type ThunkApiConfigType = {
   dispatch: AppDispatch;
@@ -29,81 +19,72 @@ type ThunkApiConfigType = {
   extra: AxiosInstance;
 };
 
-// Модуль в котором опишем асинхронные действия. В этих действиях будем выполнять запросы к серверу
+// createAsyncThunk() упрощает процесс выполнения асинхронных запросов - мы передаем ему тип операции и колбек создателя полезной нагрузки (payload)
 
-// createAsyncThunk() упрощает процесс выполнения асинхронных запросов - мы передаем ему тип операции и колбек создателя полезной нагрузки (payload), выполняющего реальную асинхронную логику и возвращающего промис с результатом.
-
-// createAsyncThunk() принимает три параметра: значение type, колбек payloadCreator и объект options.
+// createAsyncThunk() принимает 3 параметра: значение type, колбек payloadCreator и объект options.
 // payloadCreator() принимает два аргумента:
 // arg: простое значение, содержащее первый параметр, переданный thunk при его отправке. Это может быть полезным для отправки идентификаторов, включаемых в запрос.
-// thunkAPI: объект, содержащий все параметры, обычно передаваемый в thunk, а также дополнительные опции:например:
-// dispatch: метод dispatch хранилища Redux
+// thunkAPI: объект, содержащий все параметры, обычно передаваемый в thunk, а также дополнительные опции:например: dispatch: метод dispatch хранилища Redux
 
 // Сигнатура типов createAsyncThunk:
 // function createAsyncThunk<Returned, ThunkArg = void, ThunkApiConfig extends AsyncThunkConfig = {}>
 
 // 1й аргумент дженерика Returned - это то что будет возвращать fetchOffersAction
 // 2й аргумент дженерика ThunkArg = void - это тип аргумента(назвала _arg`), так как он не важен мы ему пишем `void, потому что не будем использовать.
-// 3й аргумент дженерика ThunkApiConfig extends AsyncThunkConfig = {} - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого ты достаешь extra назвав его api и протипизировав в дженерике как AxiosInstance
+// 3й аргумент дженерика ThunkApiConfig - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого lдостаем extra, назвав его api и протипизировав в дженерике как AxiosInstance
 
 // Для загрузки офферов
-const fetchOffersAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
-  StateAction.Offer.LoadOffers,
-  async (_arg, { dispatch, extra: api }) => {
-    try {
-      dispatch(setLoadOffersStatus(true));
-      // api добавляли при создании хранилища
-      // делаем запрос к серверу, у axios есть метод get, который равносилен методу GET, и указываем куда этот запрос нужно отправить
-      const { data } = await api.get<OfferType[]>(ApiRoute.Offers);
-      // Диспатчим действие loadOffers, передаем loadOffers данные, которые пришли от сервера, затем сработает редьсер, в нем нужный кейс (у нас StateAction.Offer.LoadOffers), и данный будут помещены в поле offers, запишутся в стор
-      dispatch(loadOffers(data));
-      dispatch(setLoadOffersStatus(false));
-    } catch (err) {
-      // условие для типизации ошибки, иначе ругается
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
+const fetchOffersAction = createAsyncThunk<
+  OfferType[],
+  undefined,
+  ThunkApiConfigType
+>(StateAction.Data.LoadOffers, async (_arg, { extra: api }) => {
+  try {
+    const { data } = await api.get(ApiRoute.Offers);
+    return data;
+  } catch (err) {
+    // условие для типизации ошибки, иначе ругается
+    if (err instanceof Error) {
+      toast.error(err.message);
     }
   }
-);
+});
 
-const fetchOneOfferAction = createAsyncThunk<void, string, ThunkApiConfigType>(
-  StateAction.Offer.LoadOffer,
-  async (id, { dispatch, extra: api }) => {
-    try {
-      dispatch(setLoadActiveOfferStatus(true));
-      const { data: offer } = await api.get<OfferType>(
-        `${ApiRoute.Offers}/${id}`
-      );
-      const { data: nearbyOffers } = await api.get<OfferType[]>(
-        `${ApiRoute.Offers}/${id}/nearby`
-      );
-      const { data: comments } = await api.get<CommentType[]>(
-        `${ApiRoute.Comments}/${id}`
-      );
-      dispatch(loadOffer(offer));
-      dispatch(loadNearbyOffers(nearbyOffers));
-      dispatch(loadComments(comments));
-      dispatch(setLoadActiveOfferStatus(false));
-    } catch {
-      dispatch(redirectToRoute(AppRoute.NotFound));
-    }
+const fetchOneOfferAction = createAsyncThunk<
+  { offer: OfferType; comments: CommentType[]; nearbyOffers: OfferType[] },
+  string,
+  ThunkApiConfigType
+>(StateAction.Data.LoadOffer, async (id, { dispatch, extra: api }) => {
+  try {
+    const { data: offer } = await api.get<OfferType>(
+      `${ApiRoute.Offers}/${id}`
+    );
+    const { data: comments } = await api.get<CommentType[]>(
+      `${ApiRoute.Comments}/${id}`
+    );
+    const { data: nearbyOffers } = await api.get<OfferType[]>(
+      `${ApiRoute.Offers}/${id}/nearby`
+    );
+    return { offer, comments, nearbyOffers };
+  } catch {
+    dispatch(redirectToRoute(AppRoute.NotFound));
   }
-);
+});
 
-const sendNewComment = createAsyncThunk<void, CommentData, ThunkApiConfigType>(
-  StateAction.Comment.SendNewComment,
-  async ({ roomId, comment, rating }, { dispatch, extra: api }) => {
+const sendNewComment = createAsyncThunk<
+  CommentType[],
+  CommentData,
+  ThunkApiConfigType
+>(
+  StateAction.Data.SendNewComment,
+  async ({ roomId, comment, rating }, { extra: api }) => {
     try {
-      setSendNewCommentStatus(true);
       const { data } = await api.post(`${ApiRoute.Comments}/${roomId}`, {
         comment,
         rating,
       });
-      dispatch(loadComments(data));
-      setSendNewCommentStatus(false);
+      return data;
     } catch (err) {
-      // условие для типизации ошибки, иначе ругается
       if (err instanceof Error) {
         toast.error(err.message);
       }
@@ -112,43 +93,15 @@ const sendNewComment = createAsyncThunk<void, CommentData, ThunkApiConfigType>(
 );
 
 // Проверки наличия авторизации
-const checkAuthAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
+const checkAuthAction = createAsyncThunk<string, undefined, ThunkApiConfigType>(
   StateAction.User.CheckAuth,
-  async (_arg, { dispatch, extra: api }) => {
+  async (_arg, { extra: api }) => {
     try {
       const {
         data: { email: userName },
       } = await api.get(ApiRoute.Login);
-
-      dispatch(setUserName(userName));
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
-  }
-);
-
-// Отправка данных для прохождения аутентификации
-const loginAction = createAsyncThunk<void, AuthData, ThunkApiConfigType>(
-  StateAction.User.Login,
-  // Присваиваем таким синтаксисом значение из поля login переменной email, так как сервер ждет объект с полями email и password
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    try {
-      // В качестве данных передаем { email, password }
-      const {
-        // сохранили токен в переменную
-        data: { token, email: userName },
-        // когда мы передаем запрос мы передаем параметр типа, у нас UserData, UserData -это тот тип объекта, который нам должен вернуть сервер. Мы это делаем для того, чтобы могли использовать преимущества TS
-      } = await api.post<UserData>(ApiRoute.Login, { email, password });
-      // сохарнили токен в хранилище
-      saveToken(token);
-      // диспатчим, что мы авторизованы
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(setUserName(userName));
-      dispatch(redirectToRoute(AppRoute.Main));
-      toast.success('You successfully login');
+      return userName;
     } catch (err) {
-      // условие для типизации ошибки, иначе ругается
       if (err instanceof Error) {
         toast.error(err.message);
       }
@@ -156,16 +109,39 @@ const loginAction = createAsyncThunk<void, AuthData, ThunkApiConfigType>(
   }
 );
 
-// Отправка запроса на выход из приложения.
+// Отправка данных для прохождения аутентификации
+const loginAction = createAsyncThunk<string, AuthData, ThunkApiConfigType>(
+  StateAction.User.Login,
+  // Таким синтаксисом присваиваем значение из поля login переменной email, так как сервер ждет объект с полями email и password
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    try {
+      // В качестве данных передаем { email, password }
+      const {
+        // Согласно тз запрос на этот путь возвращает объект, а нам нужно 2 поля: токен и имейл для имени
+        data: { token, email: userName },
+      } = await api.post(ApiRoute.Login, { email, password });
+      // сохарнили токен в хранилище
+      saveToken(token);
+      dispatch(redirectToRoute(AppRoute.Main));
+      toast.success('You successfully login');
+      return userName;
+
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    }
+  }
+);
+
+// Отправка запроса на выход из приложения
 const logoutAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
   StateAction.User.Logout,
-  async (_arg, { dispatch, extra: api }) => {
+  async (_arg, { extra: api }) => {
     try {
       await api.delete(ApiRoute.Logout);
       // удаляем токен из локал сторидж
       dropToken();
-      // диспатчим, что мы не авторизованы
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch (err) {
       // условие для типизации ошибки, иначе ругается
       if (err instanceof Error) {

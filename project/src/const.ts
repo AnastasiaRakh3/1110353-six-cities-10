@@ -2,6 +2,12 @@ type Dictionary = {
   [key: string]: string;
 };
 
+enum NameSpace {
+  User = 'User',
+  Data = 'Data',
+  City = 'City',
+}
+
 enum ApiRoute {
   Offers = '/hotels',
   Login = '/login',
@@ -75,6 +81,7 @@ const iconUrl = {
 };
 
 export {
+  NameSpace,
   AppRoute,
   ApiRoute,
   AuthorizationStatus,
