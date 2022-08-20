@@ -6,6 +6,7 @@ enum NameSpace {
   User = 'User',
   Data = 'Data',
   City = 'City',
+  Favorite = 'Favorite',
 }
 
 enum ApiRoute {

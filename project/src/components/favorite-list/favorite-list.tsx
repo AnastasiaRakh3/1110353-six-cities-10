@@ -1,30 +1,24 @@
 import FavoriteCard from '../favorite-card/favorite-card';
 import { OfferType } from '../../types/offer';
 
-type FavoriteListProps = {
-  favoriteOffers: OfferType[];
+type GroupOffer = {
+  [city: string]: OfferType[];
 };
 
-export default function FavoriteList({ favoriteOffers }: FavoriteListProps): JSX.Element {
-  const favoriteOffersCities = [...new Set(favoriteOffers.map((offer) => offer.city.name))];
+type FavoriteListProps = {
+  groupedOffers: GroupOffer[];
+};
+
+export default function FavoriteList({ groupedOffers }: FavoriteListProps): JSX.Element {
 
   return (
     <ul className="favorites__list">
-      {favoriteOffersCities.map((city): JSX.Element => (
-        <li key={city} className="favorites__locations-items">
-          <div className="favorites__locations locations locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="https://www.google.com/">
-                <span>{city}</span>
-              </a>
-            </div>
-          </div>
-          <div className="favorites__places">
-            {favoriteOffers
-              .filter((offer) => city === offer.city.name)
-              .map((offer) => <FavoriteCard key={offer.id} offer={offer} />)}
-          </div>
-        </li>
+      {groupedOffers.map(([city, group]): JSX.Element => (
+        <FavoriteCard
+          key={city}
+          city={city}
+          offers={group}
+        />
       ))}
     </ul>
   );

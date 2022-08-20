@@ -154,9 +154,24 @@ const fetchFavoriteOffersAction = createAsyncThunk<
   OfferType[],
   undefined,
   ThunkApiConfigType
->(StateAction.Data.LoadFavorites, async (_arg, { dispatch, extra: api }) => {
+>(StateAction.Data.LoadFavorites, async (_arg, { extra: api }) => {
   try {
     const { data } = await api.get(ApiRoute.Favorite);
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      toast.error(err.message);
+    }
+  }
+});
+
+const toggleFavorite = createAsyncThunk<
+  OfferType,
+  { id: number; status: number },
+  ThunkApiConfigType
+>(StateAction.Data.ToggleFavorite, async ({ id, status }, { extra: api }) => {
+  try {
+    const { data } = await api.post(`${ApiRoute.Favorite}/${id}/${status}`);
     return data;
   } catch (err) {
     if (err instanceof Error) {
@@ -173,4 +188,5 @@ export {
   fetchOneOfferAction,
   sendNewComment,
   fetchFavoriteOffersAction,
+  toggleFavorite,
 };

@@ -40,6 +40,7 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
           <FavoriteButton
             isFavorite={offer.isFavorite}
             screen={FavoriteButtonScreen.PlaceCard}
+            id={offer.id}
           />
         </div>
         <div className="place-card__rating rating">

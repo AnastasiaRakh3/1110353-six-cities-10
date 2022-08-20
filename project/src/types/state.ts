@@ -27,11 +27,22 @@ type DataProcess = {
   isOffersListLoading: boolean;
   isActiveOfferLoading: boolean;
   isNewCommentSending: boolean;
-  favoriteOffers: OfferType[],
+  favoriteOffers: OfferType[];
 };
 
 type CityProcess = {
   city: string;
 };
 
-export type { State, AppDispatch, UserProcess, DataProcess, CityProcess };
+type FavoriteProcess = {
+  currentFavoriteOffer: OfferType | null;
+};
+
+export type {
+  State,
+  AppDispatch,
+  UserProcess,
+  DataProcess,
+  CityProcess,
+  FavoriteProcess,
+};

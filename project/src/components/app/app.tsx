@@ -58,7 +58,7 @@ export default function App({ cities }: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authStatus={authorizationStatus}>
-              <FavoritesScreen offersList={offers} />
+              <FavoritesScreen />
             </PrivateRoute>
           }
         />

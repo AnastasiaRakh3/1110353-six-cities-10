@@ -11,6 +11,7 @@ export const StateAction = {
     LoadNearbyOffers: 'data/loadNearbyOffers',
     LoadComments: 'data/loadComments',
     LoadFavorites: 'data/loadFavorites',
+    ToggleFavorite: 'data/toggleFavorite',
     SendNewComment: 'data/sendNewComment',
   },
 };

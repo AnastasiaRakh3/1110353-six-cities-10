@@ -70,7 +70,11 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                 <h1 className="property__name">
                   {activeOffer.title}
                 </h1>
-                <FavoriteButton isFavorite={activeOffer.isFavorite} screen={FavoriteButtonScreen.Property} />
+                <FavoriteButton
+                  isFavorite={activeOffer.isFavorite}
+                  screen={FavoriteButtonScreen.Property}
+                  id={activeOffer.id}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
