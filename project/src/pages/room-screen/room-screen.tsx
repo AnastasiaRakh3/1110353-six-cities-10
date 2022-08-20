@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Reviews from '../../components/reviews/reviews';
 import Loading from '../../components/loading/loading';
-import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
-import { MapType, PlaceType, MAX_GALERY_LENGTH } from '../../const';
+import { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding } from '../../utils';
+import { MapType, PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
@@ -69,12 +70,7 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                 <h1 className="property__name">
                   {activeOffer.title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite(activeOffer, 'property')} button`} type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton isFavorite={activeOffer.isFavorite} screen={FavoriteButtonScreen.Property} />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

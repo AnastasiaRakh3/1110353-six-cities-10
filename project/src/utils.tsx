@@ -12,9 +12,6 @@ const isPremium = (offer: OfferType, place: string) =>
     ? <div className={`${place}__mark`}><span>Premium</span></div>
     : '';
 
-const isFavorite = (offer: OfferType, place: string) =>
-  offer.isFavorite ? `${place}__bookmark-button--active` : '';
-
 const makeFistLetterUp = (word: string): string => {
   const splitted = word.split('');
   const firstLetter = splitted[0].toUpperCase();
@@ -42,4 +39,4 @@ const getSortedOffers = (type: string, offers: OfferType[]) => {
 const isUserAuthorized = ( authStatus: AuthorizationStatus ): boolean =>
   authStatus === AuthorizationStatus.Auth;
 
-export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized };
+export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized };

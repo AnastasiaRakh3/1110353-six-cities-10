@@ -1,9 +1,10 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute, PlaceType } from '../../const';
+import FavoriteButton from '../favorite-button/favorite-button';
+import { AppRoute, PlaceType, FavoriteButtonScreen } from '../../const';
 import { OfferType } from '../../types/offer';
-import { setRatingStarWidth, isPremium, isFavorite } from '../../utils';
+import { setRatingStarWidth, isPremium } from '../../utils';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -36,12 +37,10 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavorite(offer, 'place-card')} button`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton
+            isFavorite={offer.isFavorite}
+            screen={FavoriteButtonScreen.PlaceCard}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

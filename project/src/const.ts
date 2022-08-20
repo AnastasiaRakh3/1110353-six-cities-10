@@ -43,6 +43,11 @@ enum PlaceType {
   NearPlaces = 'near-places',
 }
 
+enum FavoriteButtonScreen {
+  PlaceCard = 'place-card',
+  Property = 'property',
+}
+
 enum NewCommentLength {
   Max = 300,
   Min = 50,
@@ -91,6 +96,7 @@ export {
   STAR_WIDTH,
   MapType,
   PlaceType,
+  FavoriteButtonScreen,
   MAX_GALERY_LENGTH,
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
