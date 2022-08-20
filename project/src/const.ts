@@ -34,6 +34,7 @@ enum AuthorizationStatus {
 const MAX_RATING = 5;
 const STAR_WIDTH = 20;
 const MAX_GALERY_LENGTH = 6;
+const MAX_COMMENTS = 10;
 
 enum MapType {
   Cities = 'cities',
@@ -100,6 +101,7 @@ export {
   PlaceType,
   FavoriteButtonScreen,
   MAX_GALERY_LENGTH,
+  MAX_COMMENTS,
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
   BACKEND_URL,

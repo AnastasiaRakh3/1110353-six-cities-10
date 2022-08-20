@@ -11,7 +11,7 @@ import NearPlaces from '../../components/near-places/near-places';
 import { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding } from '../../utils';
 import { MapType, PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
+import { getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 
@@ -19,7 +19,6 @@ export default function RoomScreen(): JSX.Element {
 
   const activeOffer = useAppSelector(getActiveOffer) as OfferType;
   const isActiveOfferLoading = useAppSelector(getIsActiveOfferLoading);
-  const comments = useAppSelector(getComments);
   const nearbyOffers = useAppSelector(getNearbyOffers);
 
   const dispatch = useAppDispatch();
@@ -124,7 +123,7 @@ export default function RoomScreen(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <Reviews reviews={comments} roomId={activeOffer.id} />
+              <Reviews roomId={activeOffer.id} />
             </div>
           </div>
         </section>

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
-import { SortType, AuthorizationStatus, STAR_WIDTH } from './const';
+import { SortType, AuthorizationStatus, STAR_WIDTH, MAX_COMMENTS } from './const';
 
 const setRatingStarWidth = (element: OfferType | CommentType) =>
   `${STAR_WIDTH * Math.round(element.rating)}%`;
@@ -36,7 +36,15 @@ const getSortedOffers = (type: string, offers: OfferType[]) => {
   }
 };
 
-const isUserAuthorized = ( authStatus: AuthorizationStatus ): boolean =>
+const isUserAuthorized = (authStatus: AuthorizationStatus): boolean =>
   authStatus === AuthorizationStatus.Auth;
 
-export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized };
+const sortByDate = (commentA: CommentType, commentB: CommentType) => {
+  const timeA = dayjs(commentA.date);
+  const timeB = dayjs(commentB.date);
+  return timeB.diff(timeA);
+};
+
+const prepareComments = (comments: CommentType[]): CommentType[] => [...comments].sort(sortByDate).slice(0, MAX_COMMENTS);
+
+export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized, prepareComments };
