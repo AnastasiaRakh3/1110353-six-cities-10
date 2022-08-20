@@ -31,7 +31,7 @@ type ThunkApiConfigType = {
 
 // 1й аргумент дженерика Returned - это то что будет возвращать fetchOffersAction
 // 2й аргумент дженерика ThunkArg = void - это тип аргумента(назвала _arg`), так как он не важен мы ему пишем `void, потому что не будем использовать.
-// 3й аргумент дженерика ThunkApiConfig - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого lдостаем extra, назвав его api и протипизировав в дженерике как AxiosInstance
+// 3й аргумент дженерика ThunkApiConfig - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого достаем extra, назвав его api и протипизировав в дженерике как AxiosInstance
 
 // Для загрузки офферов
 const fetchOffersAction = createAsyncThunk<

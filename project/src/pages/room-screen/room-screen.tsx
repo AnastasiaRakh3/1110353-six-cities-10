@@ -9,7 +9,7 @@ import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEndin
 import { MapType, PlaceType } from '../../const';
 import { MapHocProps } from '../../hocs/with-map';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/selectors';
+import { getComments, getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 

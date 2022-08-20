@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getAuthorizationStatus, getUserName } from '../../store/selectors';
+import { getAuthorizationStatus, getUserName } from '../../store/user-process/selectors';
 import { logoutAction } from '../../store/api-actions';
 
 function Nav(): JSX.Element {

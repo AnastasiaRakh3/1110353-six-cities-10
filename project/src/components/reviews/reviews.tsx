@@ -4,7 +4,7 @@ import CommentForm from '../comment-form/comment-form';
 import CommentsList from '../comments-list/comments-list';
 import { CommentType } from '../../types/comment';
 import { AuthorizationStatus } from '../../const';
-import { getAuthorizationStatus } from '../../store/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { useAppSelector } from '../../hooks';
 
 type ReviewsProps = {

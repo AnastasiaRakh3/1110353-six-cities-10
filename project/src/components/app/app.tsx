@@ -11,7 +11,9 @@ import Loading from '../loading/loading';
 import { withMap } from '../../hocs/with-map';
 import { AppRoute, DEFAULT_CITIES } from '../../const';
 import { useAppSelector } from '../../hooks/index';
-import { getIsOffersListLoading, getOffers, getCity, getAuthorizationStatus } from '../../store/selectors';
+import { getIsOffersListLoading, getOffers } from '../../store/data-process/selectors';
+import { getCity } from '../../store/city-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { browserHistory } from '../../browser-history';
 
 type AppProps = {

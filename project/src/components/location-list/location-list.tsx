@@ -1,7 +1,7 @@
 import LocationItem from '../location-item/location-item';
 import { changeCity } from '../../store/city-process/city-process';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { getCity } from '../../store/selectors';
+import { getCity } from '../../store/city-process/selectors';
 import { DEFAULT_CITIES } from '../../const';
 
 type LocationListProps = {
