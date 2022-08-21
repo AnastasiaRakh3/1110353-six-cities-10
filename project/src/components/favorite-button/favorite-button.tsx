@@ -11,6 +11,7 @@ type FavoriteButtonProps = {
   screen: string;
   id: number;
 };
+
 const setFavoriteButtonClassName = (isFavorite: boolean, screen: string,): string =>
   isFavorite
     ? `${screen}__bookmark-button ${screen}__bookmark-button--active button`
