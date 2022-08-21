@@ -7,17 +7,16 @@ import Map from '../../components/map/map';
 import PlacesList from '../../components/places-list/places-list';
 import SortForm from '../../components/sort-form/sort-form';
 import PlacesEmpty from '../../components/places-empty/places-empty';
-import { OfferType } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/data-process/selectors';
+import { getCity } from '../../store/city-process/selectors';
 import { MapType, PlaceType, SortType, DEFAULT_CITIES } from '../../const';
 import { getSortedOffers } from '../../utils';
 
-type MainScreenProps = {
-  offersList: OfferType[];
-  city: string;
-  cities: typeof DEFAULT_CITIES;
-};
+export default function MainScreen(): JSX.Element {
 
-export default function MainScreen({ offersList, city, cities }: MainScreenProps): JSX.Element {
+  const offersList = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
 
   const [activeSortType, setActiveSortType] = useState(SortType.Popular);
 
@@ -51,7 +50,7 @@ export default function MainScreen({ offersList, city, cities }: MainScreenProps
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <LocationList cities={cities} />
+            <LocationList cities={DEFAULT_CITIES} />
           </section>
         </div>
         <div className="cities">
