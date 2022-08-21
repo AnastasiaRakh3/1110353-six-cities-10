@@ -1,12 +1,8 @@
 import FavoriteCard from '../favorite-card/favorite-card';
 import { OfferType } from '../../types/offer';
 
-type GroupOffer = {
-  [city: string]: OfferType[];
-};
-
 type FavoriteListProps = {
-  groupedOffers: GroupOffer[];
+  groupedOffers: [string, OfferType[]][];
 };
 
 export default function FavoriteList({ groupedOffers }: FavoriteListProps): JSX.Element {
