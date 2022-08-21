@@ -10,7 +10,7 @@ import PlacesEmpty from '../../components/places-empty/places-empty';
 import { useAppSelector } from '../../hooks';
 import { getOffers } from '../../store/data-process/selectors';
 import { getCity } from '../../store/city-process/selectors';
-import { MapType, PlaceType, SortType, DEFAULT_CITIES } from '../../const';
+import { PlaceType, SortType, DEFAULT_CITIES } from '../../const';
 import { getSortedOffers } from '../../utils';
 
 export default function MainScreen(): JSX.Element {
@@ -68,7 +68,7 @@ export default function MainScreen(): JSX.Element {
                   < PlacesList offers={sortedOffers} placeType={PlaceType.Cities} onHoverCard={handleCardHover} />
                 </section>
                 <div className="cities__right-section">
-                  < Map offers={locationOffers} city={currentCity} mapType={MapType.Cities} activeCardId={activeCardId} />
+                  < Map offers={locationOffers} city={currentCity} activeCardId={activeCardId} />
                 </div>
               </div>
               :

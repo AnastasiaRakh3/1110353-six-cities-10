@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
-import { SortType, AuthorizationStatus, STAR_WIDTH, MAX_COMMENTS } from './const';
+import { SortType, AuthorizationStatus, STAR_WIDTH, MAX_COMMENTS, MapType, AppRoute } from './const';
 
 const setRatingStarWidth = (element: OfferType | CommentType) =>
   `${STAR_WIDTH * Math.round(element.rating)}%`;
@@ -47,4 +47,11 @@ const sortByDate = (commentA: CommentType, commentB: CommentType) => {
 
 const prepareComments = (comments: CommentType[]): CommentType[] => [...comments].sort(sortByDate).slice(0, MAX_COMMENTS);
 
-export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized, prepareComments };
+const getMapType = (pathname: string): string => {
+  if (pathname.includes(AppRoute.Room)) {
+    return MapType.Property;
+  }
+  return MapType.Cities;
+};
+
+export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized, prepareComments, getMapType };

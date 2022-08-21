@@ -1,15 +1,16 @@
 import { useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Icon, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import useMap from '../../hooks/useMap';
 import { City, OfferType } from '../../types/offer';
-import { MapType, iconUrl } from '../../const';
+import { getMapType } from '../../utils';
+import { iconUrl } from '../../const';
 
 type MapProps = {
   city: City;
   offers: OfferType[];
-  mapType: MapType;
   activeCardId: number | null;
 };
 
@@ -26,12 +27,15 @@ const ACTIVE_ICON = new Icon({
   iconAnchor: [13.5, 39], // координаты кончика хвоста метки высчитываются от левого верхнего угла иконки
 });
 
-export default function Map({ city, offers, mapType, activeCardId }: MapProps): JSX.Element {
+export default function Map({ city, offers, activeCardId }: MapProps): JSX.Element {
   const { latitude, longitude, zoom } = city.location;
   // useRef инициализируем
   const mapRef = useRef(null);
   // useMap будет срабатывать только когда в компоненте useMap будут обновлены значения переменных mapRef, map и city
   const map = useMap(mapRef, city);
+
+  const { pathname } = useLocation();
+  const mapType = getMapType(pathname);
 
   useEffect(() => {
     if (map) {

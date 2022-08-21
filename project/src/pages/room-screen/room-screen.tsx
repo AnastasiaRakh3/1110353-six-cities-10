@@ -9,7 +9,7 @@ import Loading from '../../components/loading/loading';
 import Map from '../../components/map/map';
 import NearPlaces from '../../components/near-places/near-places';
 import { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding } from '../../utils';
-import { MapType, PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen } from '../../const';
+import { PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
@@ -131,7 +131,6 @@ export default function RoomScreen(): JSX.Element {
           < Map
             offers={[...nearbyOffers, activeOffer]}
             city={currentCity}
-            mapType={MapType.Property}
             activeCardId={activeOffer.id}
           />
           < NearPlaces
