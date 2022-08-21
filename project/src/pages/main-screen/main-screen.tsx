@@ -6,6 +6,7 @@ import LocationList from '../../components/location-list/location-list';
 import Map from '../../components/map/map';
 import PlacesList from '../../components/places-list/places-list';
 import SortForm from '../../components/sort-form/sort-form';
+import PlacesEmpty from '../../components/places-empty/places-empty';
 import { OfferType } from '../../types/offer';
 import { MapType, PlaceType, SortType, DEFAULT_CITIES } from '../../const';
 import { getSortedOffers } from '../../utils';
@@ -54,20 +55,26 @@ export default function MainScreen({ offersList, city, cities }: MainScreenProps
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{locationOffers.length} places to stay in {city}</b>
-              <SortForm
-                activeSortType={activeSortType}
-                onChangeSortType={handleSortType}
-              />
-              < PlacesList offers={sortedOffers} placeType={PlaceType.Cities} onHoverCard={handleCardHover} />
-            </section>
-            <div className="cities__right-section">
-              < Map offers={locationOffers} city={currentCity} mapType={MapType.Cities} activeCardId={activeCardId} />
-            </div>
-          </div>
+          {
+            locationOffers.length
+              ?
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{locationOffers.length} places to stay in {city}</b>
+                  <SortForm
+                    activeSortType={activeSortType}
+                    onChangeSortType={handleSortType}
+                  />
+                  < PlacesList offers={sortedOffers} placeType={PlaceType.Cities} onHoverCard={handleCardHover} />
+                </section>
+                <div className="cities__right-section">
+                  < Map offers={locationOffers} city={currentCity} mapType={MapType.Cities} activeCardId={activeCardId} />
+                </div>
+              </div>
+              :
+              <PlacesEmpty />
+          }
         </div>
       </main>
     </div>
