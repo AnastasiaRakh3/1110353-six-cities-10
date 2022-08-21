@@ -53,7 +53,6 @@ export const dataProcess = createSlice({
       .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
       })
-
       .addCase(toggleFavorite.fulfilled, (state, action) => {
         const offer = action.payload;
         // const {payload : offer} = action;

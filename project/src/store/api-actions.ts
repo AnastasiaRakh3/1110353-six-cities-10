@@ -56,9 +56,7 @@ const fetchOneOfferAction = createAsyncThunk<
   ThunkApiConfigType
 >(StateAction.Data.LoadOffer, async (id, { dispatch, extra: api }) => {
   try {
-    const { data: offer } = await api.get<OfferType>(
-      `${ApiRoute.Offers}/${id}`
-    );
+    const { data: offer } = await api.get(`${ApiRoute.Offers}/${id}`);
     const { data: comments } = await api.get<CommentType[]>(
       `${ApiRoute.Comments}/${id}`
     );
