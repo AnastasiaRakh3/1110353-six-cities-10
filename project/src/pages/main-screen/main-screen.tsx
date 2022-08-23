@@ -11,7 +11,14 @@ import { useAppSelector } from '../../hooks';
 import { getOffers } from '../../store/data-process/selectors';
 import { getCity } from '../../store/city-process/selectors';
 import { PlaceType, SortType, DEFAULT_CITIES } from '../../const';
+import { fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
+import { store } from '../../store';
 import { getSortedOffers } from '../../utils';
+
+// Вызов действия для загрузки офферов
+store.dispatch(fetchOffersAction());
+// Вызов действия для загрузки избранных
+store.dispatch(fetchFavoriteOffersAction());
 
 export default function MainScreen(): JSX.Element {
 

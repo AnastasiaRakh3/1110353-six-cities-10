@@ -51,12 +51,12 @@ const fetchOffersAction = createAsyncThunk<
 });
 
 const fetchOneOfferAction = createAsyncThunk<
-  { offer: OfferType; comments: CommentType[]; nearbyOffers: OfferType[] },
+  { offer: OfferType; comments: CommentType[]; nearbyOffers: OfferType[] } | undefined,
   string,
   ThunkApiConfigType
 >(StateAction.Data.LoadOffer, async (id, { dispatch, extra: api }) => {
   try {
-    const { data: offer } = await api.get(`${ApiRoute.Offers}/${id}`);
+    const { data: offer } = await api.get<OfferType>(`${ApiRoute.Offers}/${id}`);
     const { data: comments } = await api.get<CommentType[]>(
       `${ApiRoute.Comments}/${id}`
     );
@@ -66,7 +66,6 @@ const fetchOneOfferAction = createAsyncThunk<
     return { offer, comments, nearbyOffers };
   } catch {
     dispatch(redirectToRoute(AppRoute.NotFound));
-    return { offer: {}, comments: [], nearbyOffers: [] };
   }
 });
 
