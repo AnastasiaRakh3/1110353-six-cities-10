@@ -39,34 +39,23 @@ const fetchOffersAction = createAsyncThunk<
   undefined,
   ThunkApiConfigType
 >(StateAction.Data.LoadOffers, async (_arg, { extra: api }) => {
-  try {
-    const { data } = await api.get(ApiRoute.Offers);
-    return data;
-  } catch (err) {
-    // условие для типизации ошибки, иначе ругается
-    if (err instanceof Error) {
-      toast.error(err.message);
-    }
-  }
+  const { data } = await api.get(ApiRoute.Offers);
+  return data;
 });
 
 const fetchOneOfferAction = createAsyncThunk<
-  { offer: OfferType; comments: CommentType[]; nearbyOffers: OfferType[] } | undefined,
+  { offer: OfferType; comments: CommentType[]; nearbyOffers: OfferType[] },
   string,
   ThunkApiConfigType
->(StateAction.Data.LoadOffer, async (id, { dispatch, extra: api }) => {
-  try {
-    const { data: offer } = await api.get<OfferType>(`${ApiRoute.Offers}/${id}`);
-    const { data: comments } = await api.get<CommentType[]>(
-      `${ApiRoute.Comments}/${id}`
-    );
-    const { data: nearbyOffers } = await api.get<OfferType[]>(
-      `${ApiRoute.Offers}/${id}/nearby`
-    );
-    return { offer, comments, nearbyOffers };
-  } catch {
-    dispatch(redirectToRoute(AppRoute.NotFound));
-  }
+>(StateAction.Data.LoadOffer, async (id, { extra: api }) => {
+  const { data: offer } = await api.get<OfferType>(`${ApiRoute.Offers}/${id}`);
+  const { data: comments } = await api.get<CommentType[]>(
+    `${ApiRoute.Comments}/${id}`
+  );
+  const { data: nearbyOffers } = await api.get<OfferType[]>(
+    `${ApiRoute.Offers}/${id}/nearby`
+  );
+  return { offer, comments, nearbyOffers };
 });
 
 const sendNewComment = createAsyncThunk<
@@ -76,17 +65,11 @@ const sendNewComment = createAsyncThunk<
 >(
   StateAction.Data.SendNewComment,
   async ({ roomId, comment, rating }, { extra: api }) => {
-    try {
-      const { data } = await api.post(`${ApiRoute.Comments}/${roomId}`, {
-        comment,
-        rating,
-      });
-      return data;
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
-    }
+    const { data } = await api.post(`${ApiRoute.Comments}/${roomId}`, {
+      comment,
+      rating,
+    });
+    return data;
   }
 );
 
@@ -94,16 +77,10 @@ const sendNewComment = createAsyncThunk<
 const checkAuthAction = createAsyncThunk<string, undefined, ThunkApiConfigType>(
   StateAction.User.CheckAuth,
   async (_arg, { extra: api }) => {
-    try {
-      const {
-        data: { email: userName },
-      } = await api.get(ApiRoute.Login);
-      return userName;
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
-    }
+    const {
+      data: { email: userName },
+    } = await api.get(ApiRoute.Login);
+    return userName;
   }
 );
 
@@ -112,22 +89,16 @@ const loginAction = createAsyncThunk<string, AuthData, ThunkApiConfigType>(
   StateAction.User.Login,
   // Таким синтаксисом присваиваем значение из поля login переменной email, так как сервер ждет объект с полями email и password
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    try {
-      // В качестве данных передаем { email, password }
-      const {
-        // Согласно тз запрос на этот путь возвращает объект, а нам нужно 2 поля: токен и имейл для имени
-        data: { token, email: userName },
-      } = await api.post(ApiRoute.Login, { email, password });
-      // сохарнили токен в хранилище
-      saveToken(token);
-      dispatch(redirectToRoute(AppRoute.Main));
-      toast.success('You successfully login');
-      return userName;
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
-    }
+    // В качестве данных передаем { email, password }
+    const {
+      // Согласно тз запрос на этот путь возвращает объект, а нам нужно 2 поля: токен и имейл для имени
+      data: { token, email: userName },
+    } = await api.post(ApiRoute.Login, { email, password });
+    // сохарнили токен в хранилище
+    saveToken(token);
+    dispatch(redirectToRoute(AppRoute.Main));
+    toast.success('You successfully login');
+    return userName;
   }
 );
 
@@ -135,15 +106,9 @@ const loginAction = createAsyncThunk<string, AuthData, ThunkApiConfigType>(
 const logoutAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
   StateAction.User.Logout,
   async (_arg, { extra: api }) => {
-    try {
-      await api.delete(ApiRoute.Logout);
-      // удаляем токен из локал сторидж
-      dropToken();
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
-    }
+    await api.delete(ApiRoute.Logout);
+    // удаляем токен из локал сторидж
+    dropToken();
   }
 );
 
@@ -152,14 +117,8 @@ const fetchFavoriteOffersAction = createAsyncThunk<
   undefined,
   ThunkApiConfigType
 >(StateAction.Data.LoadFavorites, async (_arg, { extra: api }) => {
-  try {
-    const { data } = await api.get(ApiRoute.Favorite);
-    return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      toast.error(err.message);
-    }
-  }
+  const { data } = await api.get(ApiRoute.Favorite);
+  return data;
 });
 
 const toggleFavorite = createAsyncThunk<
@@ -167,14 +126,8 @@ const toggleFavorite = createAsyncThunk<
   { id: number; status: number },
   ThunkApiConfigType
 >(StateAction.Data.ToggleFavorite, async ({ id, status }, { extra: api }) => {
-  try {
-    const { data } = await api.post(`${ApiRoute.Favorite}/${id}/${status}`);
-    return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      toast.error(err.message);
-    }
-  }
+  const { data } = await api.post(`${ApiRoute.Favorite}/${id}/${status}`);
+  return data;
 });
 
 export {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
@@ -9,9 +9,9 @@ import Loading from '../../components/loading/loading';
 import Map from '../../components/map/map';
 import NearPlaces from '../../components/near-places/near-places';
 import { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding } from '../../utils';
-import { PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen } from '../../const';
+import { PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen, AppRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getNearbyOffers, getIsActiveOfferLoading, getActiveOffer } from '../../store/data-process/selectors';
+import { getNearbyOffers, getIsActiveOfferLoading, getActiveOffer, getIsActiveOfferError } from '../../store/data-process/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 
@@ -19,7 +19,14 @@ export default function RoomScreen(): JSX.Element {
 
   const activeOffer = useAppSelector(getActiveOffer) as OfferType;
   const isActiveOfferLoading = useAppSelector(getIsActiveOfferLoading);
+  const isActiveOfferError = useAppSelector(getIsActiveOfferError);
   const nearbyOffers = useAppSelector(getNearbyOffers);
+
+  const navigate = useNavigate();
+
+  if (isActiveOfferError) {
+    navigate(AppRoute.NotFound);
+  }
 
   const dispatch = useAppDispatch();
 

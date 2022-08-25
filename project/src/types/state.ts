@@ -26,6 +26,7 @@ type DataProcess = {
   nearbyOffers: OfferType[];
   isOffersListLoading: boolean;
   isActiveOfferLoading: boolean;
+  isActiveOfferError: boolean;
   isNewCommentSending: boolean;
   favoriteOffers: OfferType[];
 };

@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 type LocationItemProps = {
   city: string;
   selectedCity: string;
@@ -10,12 +13,12 @@ export default function LocationItem({ city, selectedCity, onSelectCity }: Locat
 
   return (
     <li className="locations__item" onClick={() => onSelectCity(city)}>
-      <a
+      <Link
         className={`locations__item-link tabs__item ${isSelected}`}
-        href="?#"
+        to={AppRoute.Main}
       >
         <span>{city}</span>
-      </a>
+      </Link>
     </li>
   );
 }

@@ -17,6 +17,7 @@ const initialState: DataProcess = {
   nearbyOffers: [],
   isOffersListLoading: false,
   isActiveOfferLoading: false,
+  isActiveOfferError: false,
   isNewCommentSending: false,
   favoriteOffers: [],
 };
@@ -36,12 +37,16 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchOneOfferAction.pending, (state) => {
         state.isActiveOfferLoading = true;
+        state.isActiveOfferError = false;
       })
       .addCase(fetchOneOfferAction.fulfilled, (state, action) => {
         state.isActiveOfferLoading = false;
         state.activeOffer = action.payload.offer;
         state.comments = action.payload.comments;
         state.nearbyOffers = action.payload.nearbyOffers;
+      })
+      .addCase(fetchOneOfferAction.rejected, (state) => {
+        state.isActiveOfferError = true;
       })
       .addCase(sendNewComment.pending, (state) => {
         state.isNewCommentSending = true;
