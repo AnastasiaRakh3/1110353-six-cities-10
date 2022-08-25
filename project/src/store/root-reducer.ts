@@ -7,7 +7,6 @@ import { cityProcess } from './city-process/city-process';
 
 // Объединим слайсы в общий редьюсер
 // Затем подключим его при инициализации хранилища
-
 export const rootReducer = combineReducers({
   [NameSpace.User]: userProcess.reducer,
   [NameSpace.Data]: dataProcess.reducer,
