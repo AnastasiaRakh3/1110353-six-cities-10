@@ -1,21 +1,29 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import LocationList from '../../components/location-list/location-list';
+import Map from '../../components/map/map';
+import PlacesList from '../../components/places-list/places-list';
 import SortForm from '../../components/sort-form/sort-form';
-import { OfferType } from '../../types/offer';
-import { MapType, PlaceType, SortType, DEFAULT_CITIES } from '../../const';
+import PlacesEmpty from '../../components/places-empty/places-empty';
+import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/data-process/selectors';
+import { getCity } from '../../store/city-process/selectors';
+import { PlaceType, SortType, DEFAULT_CITIES } from '../../const';
+import { fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
+import { store } from '../../store';
 import { getSortedOffers } from '../../utils';
-import { MapHocProps } from '../../hocs/with-map';
 
-type MainScreenProps = {
-  offersList: OfferType[];
-  city: string;
-  cities: typeof DEFAULT_CITIES;
-};
+// Вызов действия для загрузки офферов
+store.dispatch(fetchOffersAction());
+// Вызов действия для загрузки избранных
+store.dispatch(fetchFavoriteOffersAction());
 
-export default function MainScreen({ offersList, city, cities, renderMap, renderOffersList }: MainScreenProps & MapHocProps): JSX.Element {
+export default function MainScreen(): JSX.Element {
+
+  const offersList = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
 
   const [activeSortType, setActiveSortType] = useState(SortType.Popular);
 
@@ -23,9 +31,17 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
   const sortedOffers = getSortedOffers(activeSortType, [...locationOffers]);
   const currentCity = sortedOffers[0].city;
 
-  const handleSortType = (type: string) => {
-    setActiveSortType(type);
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+
+  const handleCardHover = (id: number | null): void => {
+    setActiveCardId(id);
   };
+
+  // useCallback возвращает мемоизированный колбэк
+  // useCallback создан специально для случаев, когда требуется передать колбэк дочерним оптимизированным компонентам, чтобы не приходилось только ради этого определять функцию сравнения изменения пропсов.
+  const handleSortType = useCallback((type: string) => {
+    setActiveSortType(type);
+  }, []);
 
   return (
     <div className="page page--gray page--main">
@@ -41,21 +57,30 @@ export default function MainScreen({ offersList, city, cities, renderMap, render
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <LocationList cities={cities} />
+            <LocationList cities={DEFAULT_CITIES} />
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{locationOffers.length} places to stay in {city}</b>
-              <SortForm onChangeSortType={handleSortType} />
-              {renderOffersList(sortedOffers, PlaceType.Cities)}
-            </section>
-            <div className="cities__right-section">
-              {renderMap(locationOffers, currentCity, MapType.Cities)}
-            </div>
-          </div>
+          {
+            locationOffers.length
+              ?
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{locationOffers.length} places to stay in {city}</b>
+                  <SortForm
+                    activeSortType={activeSortType}
+                    onChangeSortType={handleSortType}
+                  />
+                  < PlacesList offers={sortedOffers} placeType={PlaceType.Cities} onHoverCard={handleCardHover} />
+                </section>
+                <div className="cities__right-section">
+                  < Map offers={locationOffers} city={currentCity} activeCardId={activeCardId} />
+                </div>
+              </div>
+              :
+              <PlacesEmpty />
+          }
         </div>
       </main>
     </div>

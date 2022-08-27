@@ -1,10 +1,10 @@
-import { reducer } from '../reducer';
+import { rootReducer } from '../root-reducer';
 import { Middleware } from '@reduxjs/toolkit';
 
 import { browserHistory } from '../../browser-history';
 import { StateAction } from '../action-types';
 
-type Reducer = ReturnType<typeof reducer>;
+type Reducer = ReturnType<typeof rootReducer>;
 
 // Синтаксис для создания своего Middleware
 // Наша функция должна возвращать другую функцию, а та должна возвращать ещё одну функцию. Через параметры этих функций мы сможем получить доступ к хранилищу, действию и возможность диспатчнуть действие.

@@ -5,9 +5,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/app/app';
-import { DEFAULT_CITIES } from './const';
 import { store } from './store';
-import { checkAuthAction, fetchOffersAction } from './store/api-actions';
+import { checkAuthAction } from './store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -15,8 +14,6 @@ const root = ReactDOM.createRoot(
 
 // проверка на наличие авторизации
 store.dispatch(checkAuthAction());
-// Вызов действия для загрузки офферов
-store.dispatch(fetchOffersAction());
 
 // Нужно обернуть в Provider все приложение
 // Через props в Provider передали ссылку на созданное хранилище
@@ -25,9 +22,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <App
-        cities={DEFAULT_CITIES}
-      />
+      <App />
     </Provider>
   </React.StrictMode>,
 );

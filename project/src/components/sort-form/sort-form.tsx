@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { SortType } from '../../const';
 
 type SortFormProps = {
+  activeSortType: string;
   onChangeSortType: (sortType: string) => void,
 };
 
-export default function SortForm({ onChangeSortType }: SortFormProps): JSX.Element {
+function SortForm({ activeSortType, onChangeSortType }: SortFormProps): JSX.Element {
 
-  const [activeSortType, setActiveSortType] = useState(SortType.Popular);
   const [isOpened, setIsOpened] = useState(false);
 
   const handleSelectSortType = (type: string) => {
-    setActiveSortType(type);
     onChangeSortType(type);
     setIsOpened(false);
   };
@@ -43,3 +42,6 @@ export default function SortForm({ onChangeSortType }: SortFormProps): JSX.Eleme
     </form>
   );
 }
+
+// React.memo — это компонент высшего порядка (HOC). Он позволяет мемоизировать результат, тем самым избежать повторного рендеринга. Идея проста: если значения пропсов не изменились, то нет смысла рендерить компонент заново.
+export default memo(SortForm);

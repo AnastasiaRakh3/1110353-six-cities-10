@@ -1,22 +1,28 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Reviews from '../../components/reviews/reviews';
 import Loading from '../../components/loading/loading';
-import { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding } from '../../utils';
-import { MapType, PlaceType } from '../../const';
-import { MapHocProps } from '../../hocs/with-map';
+import Map from '../../components/map/map';
+import NearPlaces from '../../components/near-places/near-places';
+import { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding } from '../../utils';
+import { PlaceType, MAX_GALERY_LENGTH, FavoriteButtonScreen, AppRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { getNearbyOffers, getIsActiveOfferLoading, getActiveOffer, getIsActiveOfferError } from '../../store/data-process/selectors';
 import { fetchOneOfferAction } from '../../store/api-actions';
 import { OfferType } from '../../types/offer';
 
-export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps): JSX.Element {
+export default function RoomScreen(): JSX.Element {
 
-  const { comments, nearbyOffers, isActiveOfferLoading } = useAppSelector((state) => state);
-  const activeOffer = useAppSelector((state) => state.activeOffer) as OfferType;
+  const activeOffer = useAppSelector(getActiveOffer) as OfferType;
+  const isActiveOfferLoading = useAppSelector(getIsActiveOfferLoading);
+  const isActiveOfferError = useAppSelector(getIsActiveOfferError);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { id } = useParams();
@@ -25,6 +31,10 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
     dispatch(fetchOneOfferAction(id as string));
   }, [dispatch, id]);
 
+  if (isActiveOfferError) {
+    navigate(AppRoute.NotFound);
+  }
+
   // activeOffer === null иначе ошибка что не читаются свойства activeOffer
   if (isActiveOfferLoading || activeOffer === null) {
     return <Loading />;
@@ -32,7 +42,7 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
 
   const currentCity = activeOffer.city;
 
-  const roomImagesElements = activeOffer.images.map((img) => (
+  const roomImagesElements = activeOffer.images.slice(0, MAX_GALERY_LENGTH).map((img) => (
     <div key={img} className="property__image-wrapper">
       <img className="property__image" src={img} alt={`Room ${activeOffer.id}`} />
     </div>
@@ -66,12 +76,11 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                 <h1 className="property__name">
                   {activeOffer.title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite(activeOffer, 'property')} button`} type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton
+                  isFavorite={activeOffer.isFavorite}
+                  screen={FavoriteButtonScreen.Property}
+                  id={activeOffer.id}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -120,13 +129,20 @@ export default function RoomScreen({ renderMap, renderOffersList }: MapHocProps)
                   </p>
                 </div>
               </div>
-              <Reviews reviews={comments} roomId={activeOffer.id} />
+              <Reviews roomId={activeOffer.id} />
             </div>
           </div>
         </section>
         <div className="container">
-          {renderMap(nearbyOffers, currentCity, MapType.Property)}
-          {renderOffersList(nearbyOffers, PlaceType.NearPlaces)}
+          < Map
+            offers={[...nearbyOffers, activeOffer]}
+            city={currentCity}
+            activeCardId={activeOffer.id}
+          />
+          < NearPlaces
+            offers={nearbyOffers}
+            placeType={PlaceType.NearPlaces}
+          />
         </div>
       </main>
     </div>

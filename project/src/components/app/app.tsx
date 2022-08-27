@@ -8,22 +8,15 @@ import PrivateRoute from '../private-route/private-route';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import Loading from '../loading/loading';
-import { withMap } from '../../hocs/with-map';
-import { AppRoute, DEFAULT_CITIES } from '../../const';
+import RestrictRoute from '../restrict-route/restrict-route';
+import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/index';
+import { getIsOffersListLoading } from '../../store/data-process/selectors';
 import { browserHistory } from '../../browser-history';
 
-type AppProps = {
-  cities: typeof DEFAULT_CITIES;
-};
+export default function App(): JSX.Element {
 
-const MainScreenWithMap = withMap(MainScreen);
-const RoomScreenWithMap = withMap(RoomScreen);
-
-export default function App({ cities }: AppProps): JSX.Element {
-
-  // Определяем city, чтобы на странице MainScreen отфильтровать предложения этого города
-  const { isOffersListLoading, offers, city, authorizationStatus } = useAppSelector((state) => state);
+  const isOffersListLoading = useAppSelector(getIsOffersListLoading);
 
   if (isOffersListLoading) {
     return (
@@ -36,29 +29,27 @@ export default function App({ cities }: AppProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={
-            <MainScreenWithMap
-              offersList={offers}
-              city={city}
-              cities={cities}
-            />
-          }
+          element={<MainScreen />}
         />
         <Route
           path={AppRoute.Login}
-          element={<LoginScreen />}
+          element={
+            <RestrictRoute>
+              <LoginScreen />
+            </RestrictRoute>
+          }
         />
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authStatus={authorizationStatus}>
-              <FavoritesScreen offersList={offers} />
+            <PrivateRoute>
+              <FavoritesScreen />
             </PrivateRoute>
           }
         />
         <Route
           path={`${AppRoute.Room}/:id`}
-          element={<RoomScreenWithMap />}
+          element={<RoomScreen />}
         />
         <Route
           path={AppRoute.NotFound}

@@ -1,13 +1,17 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { getFavoriteOffers } from '../../store/data-process/selectors';
+import { getAuthorizationStatus, getUserName } from '../../store/user-process/selectors';
 
-export default function Nav(): JSX.Element {
+function Nav(): JSX.Element {
 
-  const { authorizationStatus, userName } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userName = useAppSelector(getUserName);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   const dispatch = useAppDispatch();
 
@@ -26,7 +30,7 @@ export default function Nav(): JSX.Element {
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                 </div>
                 <span className="header__user-name user__name">{userName}</span>
-                <span className="header__favorite-count">3</span>
+                <span className="header__favorite-count">{favoriteOffers.length}</span>
               </Link>
             </li>
             <li className="header__nav-item">
@@ -49,3 +53,5 @@ export default function Nav(): JSX.Element {
     </nav>
   );
 }
+
+export default memo(Nav);

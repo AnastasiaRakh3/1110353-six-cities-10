@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { reducer } from './reducer';
+import { rootReducer } from './root-reducer';
 import { createAPI } from '../services/api';
 import { redirect } from './middlewares/redirect';
 
@@ -21,7 +21,7 @@ export const api = createAPI();
 // Аргументом для `thunk` передадим сконфигурированный экземпляр `axios`, чтобы была возможность обратиться к нему из действия.
 
 export const store = configureStore({
-  reducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       // Санки позволяют нам писать в виде дейсвий, какие то функции, и в них уще писать нужный код

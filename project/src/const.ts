@@ -2,11 +2,19 @@ type Dictionary = {
   [key: string]: string;
 };
 
+enum NameSpace {
+  User = 'User',
+  Data = 'Data',
+  City = 'City',
+  Favorite = 'Favorite',
+}
+
 enum ApiRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Favorite = '/favorite',
 }
 
 enum AppRoute {
@@ -23,9 +31,6 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const MAX_RATING = 5;
-const STAR_WIDTH = 20;
-
 enum MapType {
   Cities = 'cities',
   Property = 'property',
@@ -36,10 +41,20 @@ enum PlaceType {
   NearPlaces = 'near-places',
 }
 
+enum FavoriteButtonScreen {
+  PlaceCard = 'place-card',
+  Property = 'property',
+}
+
 enum NewCommentLength {
   Max = 300,
   Min = 50,
 }
+
+const MAX_RATING = 5;
+const STAR_WIDTH = 20;
+const MAX_GALERY_LENGTH = 6;
+const MAX_COMMENTS = 10;
 
 const PLACES_LIST_CLASSES: Dictionary = {
   'cities': 'cities__places-list tabs__content',
@@ -75,14 +90,18 @@ const iconUrl = {
 };
 
 export {
+  NameSpace,
   AppRoute,
   ApiRoute,
   AuthorizationStatus,
-  MAX_RATING,
   NewCommentLength,
-  STAR_WIDTH,
   MapType,
   PlaceType,
+  FavoriteButtonScreen,
+  MAX_RATING,
+  STAR_WIDTH,
+  MAX_GALERY_LENGTH,
+  MAX_COMMENTS,
   PLACES_LIST_CLASSES,
   DEFAULT_CITY_NAME,
   BACKEND_URL,

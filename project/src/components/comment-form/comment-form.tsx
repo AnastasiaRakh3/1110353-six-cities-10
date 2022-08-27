@@ -2,6 +2,7 @@ import { useState, ChangeEvent, Fragment, FormEvent } from 'react';
 
 import { NewCommentLength, MAX_RATING } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getIsNewCommentSending } from '../../store/data-process/selectors';
 import { sendNewComment } from '../../store/api-actions';
 
 type ratingTitleType = {
@@ -30,7 +31,7 @@ const NOT_ACTIVE_STAR = '#c7c7c7';
 export default function CommentForm({ roomId }: ReviewFormProps): JSX.Element {
 
   const dispatch = useAppDispatch();
-  const { isNewCommentSending } = useAppSelector((state) => state);
+  const isNewCommentSending = useAppSelector(getIsNewCommentSending);
 
   const [newComment, setNewComment] = useState<NewReview>({ rating: 0, comment: '' });
 

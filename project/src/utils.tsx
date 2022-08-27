@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
-import { SortType, AuthorizationStatus, STAR_WIDTH } from './const';
+import { SortType, AuthorizationStatus, STAR_WIDTH, MAX_COMMENTS, MapType, AppRoute } from './const';
 
 const setRatingStarWidth = (element: OfferType | CommentType) =>
   `${STAR_WIDTH * Math.round(element.rating)}%`;
@@ -11,9 +11,6 @@ const isPremium = (offer: OfferType, place: string) =>
   offer.isPremium
     ? <div className={`${place}__mark`}><span>Premium</span></div>
     : '';
-
-const isFavorite = (offer: OfferType, place: string) =>
-  offer.isFavorite ? `${place}__bookmark-button--active` : '';
 
 const makeFistLetterUp = (word: string): string => {
   const splitted = word.split('');
@@ -39,7 +36,22 @@ const getSortedOffers = (type: string, offers: OfferType[]) => {
   }
 };
 
-const isUserAuthorized = ( authStatus: AuthorizationStatus ): boolean =>
+const isUserAuthorized = (authStatus: AuthorizationStatus): boolean =>
   authStatus === AuthorizationStatus.Auth;
 
-export { setRatingStarWidth, isPremium, isFavorite, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized };
+const sortByDate = (commentA: CommentType, commentB: CommentType) => {
+  const timeA = dayjs(commentA.date);
+  const timeB = dayjs(commentB.date);
+  return timeB.diff(timeA);
+};
+
+const prepareComments = (comments: CommentType[]): CommentType[] => [...comments].sort(sortByDate).slice(0, MAX_COMMENTS);
+
+const getMapType = (pathname: string): string => {
+  if (pathname.includes(AppRoute.Room)) {
+    return MapType.Property;
+  }
+  return MapType.Cities;
+};
+
+export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized, prepareComments, getMapType };
