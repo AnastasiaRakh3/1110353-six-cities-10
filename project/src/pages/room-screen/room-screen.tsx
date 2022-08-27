@@ -23,11 +23,6 @@ export default function RoomScreen(): JSX.Element {
   const nearbyOffers = useAppSelector(getNearbyOffers);
 
   const navigate = useNavigate();
-
-  if (isActiveOfferError) {
-    navigate(AppRoute.NotFound);
-  }
-
   const dispatch = useAppDispatch();
 
   const { id } = useParams();
@@ -35,6 +30,10 @@ export default function RoomScreen(): JSX.Element {
   useEffect(() => {
     dispatch(fetchOneOfferAction(id as string));
   }, [dispatch, id]);
+
+  if (isActiveOfferError) {
+    navigate(AppRoute.NotFound);
+  }
 
   // activeOffer === null иначе ошибка что не читаются свойства activeOffer
   if (isActiveOfferLoading || activeOffer === null) {

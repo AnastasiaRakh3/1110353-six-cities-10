@@ -13,8 +13,9 @@ import { getToken } from './token';
 // Перечисляем код, который будут говорить, что у нас произошла ошибка
 const errorStatusCodeSet = new Set([
   // названия в библиотеке StatusCodes
-  StatusCodes.BAD_REQUEST, // 400
-  StatusCodes.UNAUTHORIZED, // 401
+  StatusCodes.BAD_REQUEST, // 400  напрямую связан с клиентом (браузером, к примеру) и намекает на то, что отправленный запрос со стороны пользователя приводит к сбою еще до того, как его обработает сервер
+  // Уберем UNAUTHORIZED, так как тоаст выходит дважды и по сути никакой роли не играет
+  // StatusCodes.UNAUTHORIZED, // 401
   StatusCodes.NOT_FOUND, // 404 - когда вводим адрес url которого у нас нет
 ]);
 
@@ -61,8 +62,8 @@ export const createAPI = (): AxiosInstance => {
     (error: AxiosError) => {
       // Если у нас есть ошибка и если нужно показать инфу об этой ошибке
       if (error.response && shouldDisplayError(error.response)) {
-        // Почему срабатывает только на не авторизованного пользователя?
-        toast.warn(error.response.data.error);
+        // error.response.data.error будет undefined у 404, поэтому обработаем ошибку отдельно для случая не нахождении id
+        toast.error(error.response.data.error);
       }
       // эту ошибку опрокидываем, чтобы можно было ее поймать и нужном месте обработать
       throw error;

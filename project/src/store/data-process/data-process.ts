@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import { DataProcess } from '../../types/state';
 import { NameSpace } from '../../const';
@@ -47,6 +48,7 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchOneOfferAction.rejected, (state) => {
         state.isActiveOfferError = true;
+        toast.error('Hotel ID does not exist');
       })
       .addCase(sendNewComment.pending, (state) => {
         state.isNewCommentSending = true;
