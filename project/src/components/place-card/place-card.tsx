@@ -20,9 +20,6 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
     }
   };
 
-  // или запись
-  // const handleMouseOver = (evt: MouseEvent<HTMLElement>) => onHoverCard?.(offer.id);
-
   const handleMouseLeave = (evt: MouseEvent<HTMLElement>) => {
     if (onHoverCard !== undefined) {
       onHoverCard(null);
@@ -69,4 +66,3 @@ export default function PlaceCard({ offer, placeType, onHoverCard }: PlaceCardPr
     </article>
   );
 }
-

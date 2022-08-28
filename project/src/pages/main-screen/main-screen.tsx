@@ -13,11 +13,10 @@ import { getCity } from '../../store/city-process/selectors';
 import { PlaceType, SortType, DEFAULT_CITIES } from '../../const';
 import { fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { OfferType } from '../../types/offer';
 import { getSortedOffers } from '../../utils';
 
-// Вызов действия для загрузки офферов
 store.dispatch(fetchOffersAction());
-// Вызов действия для загрузки избранных
 store.dispatch(fetchFavoriteOffersAction());
 
 export default function MainScreen(): JSX.Element {
@@ -27,7 +26,7 @@ export default function MainScreen(): JSX.Element {
 
   const [activeSortType, setActiveSortType] = useState(SortType.Popular);
 
-  const locationOffers = offersList.filter((offer) => offer.city.name === city);
+  const locationOffers = offersList.filter((offer: OfferType) => offer.city.name === city);
   const sortedOffers = getSortedOffers(activeSortType, [...locationOffers]);
   const currentCity = sortedOffers[0].city;
 
@@ -37,8 +36,6 @@ export default function MainScreen(): JSX.Element {
     setActiveCardId(id);
   };
 
-  // useCallback возвращает мемоизированный колбэк
-  // useCallback создан специально для случаев, когда требуется передать колбэк дочерним оптимизированным компонентам, чтобы не приходилось только ради этого определять функцию сравнения изменения пропсов.
   const handleSortType = useCallback((type: string) => {
     setActiveSortType(type);
   }, []);

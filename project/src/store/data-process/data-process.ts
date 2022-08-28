@@ -62,35 +62,27 @@ export const dataProcess = createSlice({
       })
       .addCase(toggleFavorite.fulfilled, (state, action) => {
         const offer = action.payload;
-        // const {payload : offer} = action;
+        const currentOffer = state.offers.find((item) => item.id === offer.id);
+        const currentNearbyOffer = state.nearbyOffers.find(
+          (item) => item.id === offer.id
+        );
 
-        // Проверка на то, добавился ли офер в избранное
         if (offer.isFavorite) {
           state.favoriteOffers.push(offer);
         } else {
-          // если нет, то обновляем снова массив избранных, убирая наш офер
           state.favoriteOffers = state.favoriteOffers.filter(
             (item) => item.id !== offer.id
           );
         }
 
-        // Находим в хранилище массив со всеми предложениями и выбираем тот, у кого кликаем на кнопку
-        const currentOffer = state.offers.find((item) => item.id === offer.id);
-        // Необходимая проверка, что currentOffer не undefined, иначе ругается
         if (currentOffer) {
-          // Изменяем поле isFavorite на обратное
           currentOffer.isFavorite = !currentOffer.isFavorite;
         }
 
-        // Находим в хранилище массив с предложениями поблизости и выбираем тот, у кого кликаем на кнопку
-        const currentNearbyOffer = state.nearbyOffers.find(
-          (item) => item.id === offer.id
-        );
         if (currentNearbyOffer) {
           currentNearbyOffer.isFavorite = !currentNearbyOffer.isFavorite;
         }
 
-        // Изменяем поле isFavorite на обратное у активного офера(который на room-screen)
         if (offer.id === state.activeOffer?.id) {
           state.activeOffer.isFavorite = !state.activeOffer?.isFavorite;
         }

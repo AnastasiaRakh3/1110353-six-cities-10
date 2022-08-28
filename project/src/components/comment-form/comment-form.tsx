@@ -32,7 +32,6 @@ export default function CommentForm({ roomId }: ReviewFormProps): JSX.Element {
 
   const dispatch = useAppDispatch();
   const isNewCommentSending = useAppSelector(getIsNewCommentSending);
-
   const [newComment, setNewComment] = useState<NewReview>({ rating: 0, comment: '' });
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>): void => setNewComment({ ...newComment, rating: Number(evt.target.value) });
@@ -92,20 +91,17 @@ export default function CommentForm({ roomId }: ReviewFormProps): JSX.Element {
           })
         }
       </div>
-
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={newComment.comment}
-        // Остановит набор коммента
         maxLength={NewCommentLength.Max}
         onChange={handleTextChange}
         disabled={isNewCommentSending}
       >
       </textarea>
-
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}

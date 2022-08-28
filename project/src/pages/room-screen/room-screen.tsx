@@ -35,7 +35,6 @@ export default function RoomScreen(): JSX.Element {
     navigate(AppRoute.NotFound);
   }
 
-  // activeOffer === null иначе ошибка что не читаются свойства activeOffer
   if (isActiveOfferLoading || activeOffer === null) {
     return <Loading />;
   }

@@ -1,5 +1,3 @@
-// Модуль в котором опишем асинхронные действия, запросы к серверу
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { toast } from 'react-toastify';
@@ -19,21 +17,6 @@ type ThunkApiConfigType = {
   extra: AxiosInstance;
 };
 
-// createAsyncThunk() упрощает процесс выполнения асинхронных запросов - мы передаем ему тип операции и колбек создателя полезной нагрузки (payload)
-
-// createAsyncThunk() принимает 3 параметра: значение type, колбек payloadCreator и объект options.
-// payloadCreator() принимает два аргумента:
-// arg: простое значение, содержащее первый параметр, переданный thunk при его отправке. Это может быть полезным для отправки идентификаторов, включаемых в запрос.
-// thunkAPI: объект, содержащий все параметры, обычно передаваемый в thunk, а также дополнительные опции:например: dispatch: метод dispatch хранилища Redux
-
-// Сигнатура типов createAsyncThunk:
-// function createAsyncThunk<Returned, ThunkArg = void, ThunkApiConfig extends AsyncThunkConfig = {}>
-
-// 1й аргумент дженерика Returned - это то что будет возвращать fetchOffersAction
-// 2й аргумент дженерика ThunkArg = void - это тип аргумента(назвала _arg`), так как он не важен мы ему пишем `void, потому что не будем использовать.
-// 3й аргумент дженерика ThunkApiConfig - это тип конфига, который лежит вторым аргументом в payloadCreator тоесть это объект из которого достаем extra, назвав его api и протипизировав в дженерике как AxiosInstance
-
-// Для загрузки офферов
 const fetchOffersAction = createAsyncThunk<
   OfferType[],
   undefined,
@@ -73,7 +56,6 @@ const sendNewComment = createAsyncThunk<
   }
 );
 
-// Проверки наличия авторизации
 const checkAuthAction = createAsyncThunk<string, undefined, ThunkApiConfigType>(
   StateAction.User.CheckAuth,
   async (_arg, { extra: api }) => {
@@ -84,17 +66,12 @@ const checkAuthAction = createAsyncThunk<string, undefined, ThunkApiConfigType>(
   }
 );
 
-// Отправка данных для прохождения аутентификации
 const loginAction = createAsyncThunk<string, AuthData, ThunkApiConfigType>(
   StateAction.User.Login,
-  // Таким синтаксисом присваиваем значение из поля login переменной email, так как сервер ждет объект с полями email и password
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    // В качестве данных передаем { email, password }
     const {
-      // Согласно тз запрос на этот путь возвращает объект, а нам нужно 2 поля: токен и имейл для имени
       data: { token, email: userName },
     } = await api.post(ApiRoute.Login, { email, password });
-    // сохарнили токен в хранилище
     saveToken(token);
     dispatch(redirectToRoute(AppRoute.Main));
     toast.success('You successfully login');
@@ -102,12 +79,10 @@ const loginAction = createAsyncThunk<string, AuthData, ThunkApiConfigType>(
   }
 );
 
-// Отправка запроса на выход из приложения
 const logoutAction = createAsyncThunk<void, undefined, ThunkApiConfigType>(
   StateAction.User.Logout,
   async (_arg, { extra: api }) => {
     await api.delete(ApiRoute.Logout);
-    // удаляем токен из локал сторидж
     dropToken();
   }
 );

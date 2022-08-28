@@ -12,11 +12,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-// проверка на наличие авторизации
 store.dispatch(checkAuthAction());
-
-// Нужно обернуть в Provider все приложение
-// Через props в Provider передали ссылку на созданное хранилище
 
 root.render(
   <React.StrictMode>

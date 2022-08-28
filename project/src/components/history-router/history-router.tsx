@@ -1,6 +1,6 @@
-import { BrowserHistory } from 'history';
-import { Router } from 'react-router-dom';
 import { useLayoutEffect, useState } from 'react';
+import { Router } from 'react-router-dom';
+import { BrowserHistory } from 'history';
 
 type HistoryRouterProps = {
   history: BrowserHistory;
@@ -15,20 +15,9 @@ function HistoryRouter({ history, basename, children }: HistoryRouterProps): JSX
     location: history.location,
   });
 
-  // Как и хук useEffect, хук useLayoutEffect позволяет выполнять дополнительные эффекты, такие как вызовы API, настройку подписок и манипулирование DOM вручную в функциональном компоненте.
-  // useLayoutEffect(callback, [dependencies])
-  // Главное же отличие заключается в том, что useLayoutEffect вызывается синхронно, после всех изменений в DOM.
-  // Хук useLayoutEffect можно использовать в случаях, когда необходимо произвести какие-то вычисления либо замеры в реальном DOM или провести синхронно мутацию (изменения).
-
-  // Можем прослушивать изменения в текущем местоположении, используя history.listen:
   useLayoutEffect(() => history.listen(setState), [history]);
 
   return (
-  // Для того чтобы можно было использовать историю в роутере нам понадобиться <Router/>
-  // Router будет храниться вся логика нашего роутинга
-
-  // basename: string - базовый URL для всех локаций
-  // location: object - объект локации вида { pathname, search, hash, state }
     <Router
       basename={basename}
       location={state.location}

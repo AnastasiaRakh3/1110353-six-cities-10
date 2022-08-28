@@ -27,13 +27,12 @@ export default function FavoritesScreen(): JSX.Element {
         groups[city].push(offer);
       }
     });
-    // {Paris: Array(4), Hamburg: Array(2), Brussels: Array(1)}
+
     return groups;
   };
 
 
   const groupedFavoriteOffersList = Object.entries(groupFavoriteOffers());
-  // [Array(['Paris', Array(4)]), Array(['Hamburg', Array(2)]), Array(['Brussels', Array(1)])]
 
   const favoritesTitle = favoriteOffers.length ? 'Saved listing' : 'Favorites (empty)';
   const favoritesAddedBlock = favoriteOffers.length ? <FavoriteList groupedOffers={groupedFavoriteOffersList} /> : (
