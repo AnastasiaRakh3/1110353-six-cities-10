@@ -25,11 +25,6 @@ export const userProcess = createSlice({
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
-      // Метод addCase
-      // 1й параметр - тип события
-      // 2й параметр - обработчик события loginAction, который принимает state и action
-      // action - { type : "loginAction", payload : {userName : "..."}}, а в payload объект, который мы передаем при отправки формы авторизации, и записываем имейл в поле userName у состояния
-      // "мутируем" объект состояния, перезаписывая его поле `userName`
       .addCase(loginAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.userName = action.payload;

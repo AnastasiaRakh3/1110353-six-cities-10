@@ -42,5 +42,4 @@ export default function Comment({ review }: CommentProps): JSX.Element {
       </div>
     </li>
   );
-
 }

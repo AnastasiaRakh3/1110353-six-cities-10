@@ -43,5 +43,4 @@ function SortForm({ activeSortType, onChangeSortType }: SortFormProps): JSX.Elem
   );
 }
 
-// React.memo — это компонент высшего порядка (HOC). Он позволяет мемоизировать результат, тем самым избежать повторного рендеринга. Идея проста: если значения пропсов не изменились, то нет смысла рендерить компонент заново.
 export default memo(SortForm);

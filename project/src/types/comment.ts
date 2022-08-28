@@ -6,7 +6,6 @@ type User = {
 };
 
 export type CommentType = {
-  idOffer: number;
   comment: string;
   date: string;
   id: number;
