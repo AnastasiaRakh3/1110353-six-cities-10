@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { OfferType } from './types/offer';
 import { CommentType } from './types/comment';
-import { SortType, AuthorizationStatus, STAR_WIDTH, MAX_COMMENTS, MapType, AppRoute } from './const';
+import { SortType, STAR_WIDTH, MAX_COMMENTS, MapType, AppRoute } from './const';
 
 const setRatingStarWidth = (element: OfferType | CommentType) =>
   `${STAR_WIDTH * Math.round(element.rating)}%`;
@@ -36,9 +36,6 @@ const getSortedOffers = (type: string, offers: OfferType[]) => {
   }
 };
 
-const isUserAuthorized = (authStatus: AuthorizationStatus): boolean =>
-  authStatus === AuthorizationStatus.Auth;
-
 const sortByDate = (commentA: CommentType, commentB: CommentType) => {
   const timeA = dayjs(commentA.date);
   const timeB = dayjs(commentB.date);
@@ -54,4 +51,4 @@ const getMapType = (pathname: string): string => {
   return MapType.Cities;
 };
 
-export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, isUserAuthorized, prepareComments, getMapType };
+export { setRatingStarWidth, isPremium, makeFistLetterUp, checkEnding, humanizeCommentDate, getSortedOffers, prepareComments, getMapType };

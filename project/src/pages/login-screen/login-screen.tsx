@@ -1,31 +1,36 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { FormEvent, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 import Logo from '../../components/logo/logo';
 import { useAppDispatch } from '../../hooks/index';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
 
+const validatePassword = ( password: string ): boolean =>
+  (/[a-zA-Z]+[1-90]+|[1-90]+[a-zA-Z]+/).test(password);
+
 export default function LoginScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
-
-  const [authData, setAuthData] = useState<AuthData>({ login: '', password: '' });
-
-  const handleLoginChange = (evt: ChangeEvent<HTMLInputElement>): void => {
-    evt.preventDefault();
-    setAuthData({ ...authData, login: evt.target.value });
-  };
-
-  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>): void => {
-    evt.preventDefault();
-    setAuthData({ ...authData, password: evt.target.value });
-  };
+  const loginRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    if (authData.login !== '' && authData.password !== '') {
-      dispatch(loginAction(authData));
+
+    if (loginRef.current !== null && passwordRef.current !== null) {
+
+      if (validatePassword(passwordRef.current.value)) {
+        const authData: AuthData = {
+          login: loginRef.current.value,
+          password: passwordRef.current.value
+        };
+        dispatch(loginAction(authData));
+      } else {
+        toast.warning('Incorrect password');
+      }
     }
+
   };
 
   return (
@@ -55,8 +60,7 @@ export default function LoginScreen(): JSX.Element {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  value={authData.login}
-                  onChange={handleLoginChange}
+                  ref={loginRef}
                   required
                 />
               </div>
@@ -67,8 +71,7 @@ export default function LoginScreen(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  value={authData.password}
-                  onChange={handlePasswordChange}
+                  ref={passwordRef}
                   required
                 />
               </div>
